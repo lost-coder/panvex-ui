@@ -1,0 +1,12 @@
+src/
+.storybook/
+storybook-static/
+*.stories.tsx
+tsconfig.json
+tsconfig.build.json
+vite.config.ts
+postcss.config.js
+tailwind.config.ts
+.gitignore
+.npmignore
+index.html

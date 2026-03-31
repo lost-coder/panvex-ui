@@ -1,0 +1,55 @@
+import { cn } from "@/lib/utils";
+
+export interface ProgressBarProps {
+  value: number;
+  max?: number;
+  label?: string;
+  showValue?: boolean;
+  size?: "sm" | "md";
+  className?: string;
+}
+
+function getColor(pct: number): string {
+  if (pct >= 90) return "bg-status-error";
+  if (pct >= 70) return "bg-status-warn";
+  return "bg-status-ok";
+}
+
+export function ProgressBar({
+  value,
+  max = 100,
+  label,
+  showValue = true,
+  size = "md",
+  className,
+}: ProgressBarProps) {
+  const pct = Math.min(100, Math.max(0, (value / max) * 100));
+
+  return (
+    <div className={cn("flex flex-col gap-1", className)}>
+      {(label || showValue) && (
+        <div className="flex items-baseline justify-between">
+          {label && (
+            <span className="text-[11px] text-fg-muted uppercase tracking-wider">
+              {label}
+            </span>
+          )}
+          {showValue && (
+            <span className="text-xs font-mono text-fg">{pct.toFixed(1)}%</span>
+          )}
+        </div>
+      )}
+      <div
+        className={cn(
+          "w-full rounded-full bg-fg-faint overflow-hidden",
+          size === "sm" ? "h-1.5" : "h-2.5",
+        )}
+      >
+        <div
+          className={cn("h-full rounded-full transition-all duration-500", getColor(pct))}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
