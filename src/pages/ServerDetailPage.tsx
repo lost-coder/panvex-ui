@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
@@ -79,6 +80,38 @@ function coverageColor(pct: number): string {
   return "text-status-ok";
 }
 
+// ─── Local UI helpers ─────────────────────────────────────────────────────────
+
+function FieldLabel({ children }: { children: React.ReactNode }) {
+  return <span className="text-[11px] text-fg-muted uppercase tracking-wider font-medium leading-none">{children}</span>;
+}
+
+function MonoValue({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <span className={cn("font-mono text-xs text-fg", className)}>{children}</span>;
+}
+
+function StatCard({ label, value, className }: { label: string; value: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("rounded-xs bg-bg-card p-3 flex flex-col gap-0.5", className)}>
+      <span className="text-lg font-mono font-semibold text-fg leading-none">{value}</span>
+      <FieldLabel>{label}</FieldLabel>
+    </div>
+  );
+}
+
+function KvGrid({ rows, className }: { rows: Array<{ label: string; value: React.ReactNode }>; className?: string }) {
+  return (
+    <div className={cn("grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm", className)}>
+      {rows.map(({ label, value }) => (
+        <React.Fragment key={label}>
+          <span className="text-fg-muted">{label}</span>
+          <span className="font-mono text-xs text-fg">{value}</span>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
 // ─── Tab content components ───────────────────────────────────────────────────
 
 function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] }) {
@@ -92,21 +125,21 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
       key: "username",
       header: "Username",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{row.username}</span>
+        <MonoValue>{row.username}</MonoValue>
       ),
     },
     {
       key: "connections",
       header: "Connections",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{row.connections}</span>
+        <MonoValue>{row.connections}</MonoValue>
       ),
     },
     {
       key: "traffic",
       header: "Traffic",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{formatBytes(row.octets)}</span>
+        <MonoValue>{formatBytes(row.octets)}</MonoValue>
       ),
     },
   ];
@@ -116,21 +149,21 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
       key: "username",
       header: "Username",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{row.username}</span>
+        <MonoValue>{row.username}</MonoValue>
       ),
     },
     {
       key: "traffic",
       header: "Traffic",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{formatBytes(row.octets)}</span>
+        <MonoValue>{formatBytes(row.octets)}</MonoValue>
       ),
     },
     {
       key: "connections",
       header: "Connections",
       render: (row: { username: string; connections: number; octets: number }) => (
-        <span className="font-mono text-xs">{row.connections}</span>
+        <MonoValue>{row.connections}</MonoValue>
       ),
     },
   ];
@@ -140,12 +173,8 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
       {/* Routing split */}
       <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-3">
         <div className="flex items-baseline justify-between">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">
-            Total: {total.toLocaleString()}
-          </span>
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">
-            Active Users: {connections.activeUsers.toLocaleString()}
-          </span>
+          <FieldLabel>Total: {total.toLocaleString()}</FieldLabel>
+          <FieldLabel>Active Users: {connections.activeUsers.toLocaleString()}</FieldLabel>
         </div>
         <ProgressBar
           value={mePct}
@@ -188,12 +217,12 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
 
       {/* Lifetime stats */}
       <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-2">
-        <span className="text-[11px] text-fg-muted uppercase tracking-wider">Lifetime Stats</span>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <FieldLabel>Lifetime Stats</FieldLabel>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
           <span className="text-fg-muted">Total connections</span>
-          <span className="font-mono text-fg">{summary.connectionsTotal.toLocaleString()}</span>
+          <MonoValue>{summary.connectionsTotal.toLocaleString()}</MonoValue>
           <span className="text-fg-muted">Bad connections</span>
-          <span className="font-mono text-fg">
+          <span className="font-mono text-xs text-fg">
             {summary.connectionsBadTotal.toLocaleString()}
             {summary.connectionsTotal > 0 && (
               <span className="text-fg-muted ml-1">
@@ -202,9 +231,9 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
             )}
           </span>
           <span className="text-fg-muted">Handshake timeouts</span>
-          <span className="font-mono text-fg">{summary.handshakeTimeoutsTotal.toLocaleString()}</span>
+          <MonoValue>{summary.handshakeTimeoutsTotal.toLocaleString()}</MonoValue>
           <span className="text-fg-muted">Configured users</span>
-          <span className="font-mono text-fg">{summary.configuredUsers.toLocaleString()}</span>
+          <MonoValue>{summary.configuredUsers.toLocaleString()}</MonoValue>
         </div>
       </div>
     </div>
@@ -227,21 +256,21 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       key: "writerId",
       header: "Writer ID",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs">{row.writerId}</span>
+        <MonoValue>{row.writerId}</MonoValue>
       ),
     },
     {
       key: "dc",
       header: "DC",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs">{row.dc != null ? `DC${row.dc}` : "—"}</span>
+        <MonoValue>{row.dc != null ? `DC${row.dc}` : "—"}</MonoValue>
       ),
     },
     {
       key: "endpoint",
       header: "Endpoint",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs truncate">{row.endpoint}</span>
+        <MonoValue className="truncate">{row.endpoint}</MonoValue>
       ),
     },
     {
@@ -258,25 +287,25 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       key: "rtt",
       header: "RTT",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs">
+        <MonoValue>
           {row.rttEmaMs != null ? `${row.rttEmaMs}ms` : "—"}
-        </span>
+        </MonoValue>
       ),
     },
     {
       key: "clients",
       header: "Clients",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs">{row.boundClients}</span>
+        <MonoValue>{row.boundClients}</MonoValue>
       ),
     },
     {
       key: "idle",
       header: "Idle",
       render: (row: ServerMeWriterData) => (
-        <span className="font-mono text-xs">
+        <MonoValue>
           {row.idleForSecs != null ? `${row.idleForSecs}s` : "—"}
-        </span>
+        </MonoValue>
       ),
     },
   ];
@@ -300,7 +329,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
           ].map(({ label, value, color }) => (
             <div key={label} className="rounded-xs bg-bg-card p-3 flex flex-col gap-0.5">
               <span className={`text-lg font-mono font-semibold leading-none ${color ?? "text-fg"}`}>{value}</span>
-              <span className="text-[11px] text-fg-muted uppercase tracking-wider leading-none">{label}</span>
+              <FieldLabel>{label}</FieldLabel>
             </div>
           ))}
         </div>
@@ -310,7 +339,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       <div className="grid grid-cols-3 gap-2">
         {/* Generations */}
         <div className="rounded-xs bg-bg-card p-3 flex flex-col gap-2">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">Generations</span>
+          <FieldLabel>Generations</FieldLabel>
           <div className="flex flex-col gap-1 text-sm">
             <div className="flex justify-between">
               <span className="text-fg-muted">Active</span>
@@ -347,7 +376,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
 
         {/* Contour */}
         <div className="rounded-xs bg-bg-card p-3 flex flex-col gap-2">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">Contour</span>
+          <FieldLabel>Contour</FieldLabel>
           <div className="flex flex-col gap-1 text-sm">
             <div className="flex justify-between">
               <span className="text-fg-muted">Active</span>
@@ -366,7 +395,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
 
         {/* Writers Health */}
         <div className="rounded-xs bg-bg-card p-3 flex flex-col gap-2">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">Writers Health</span>
+          <FieldLabel>Writers Health</FieldLabel>
           <div className="flex flex-col gap-1 text-sm">
             <div className="flex justify-between">
               <span className="text-fg-muted">Healthy</span>
@@ -388,19 +417,19 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
 
       {/* Refill */}
       <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-2">
-        <span className="text-[11px] text-fg-muted uppercase tracking-wider">Refill</span>
+        <FieldLabel>Refill</FieldLabel>
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-0.5">
             <span className="text-2xl font-mono font-semibold text-fg leading-none">
               {mePool.refill.inflightEndpoints}
             </span>
-            <span className="text-[11px] text-fg-muted uppercase tracking-wider">Inflight Endpoints</span>
+            <FieldLabel>Inflight Endpoints</FieldLabel>
           </div>
           <div className="flex flex-col gap-0.5">
             <span className="text-2xl font-mono font-semibold text-fg leading-none">
               {mePool.refill.inflightDcs}
             </span>
-            <span className="text-[11px] text-fg-muted uppercase tracking-wider">Inflight DC</span>
+            <FieldLabel>Inflight DC</FieldLabel>
           </div>
         </div>
         {mePool.refill.byDc.length > 0 && (
@@ -452,7 +481,7 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
       key: "address",
       header: "Address",
       render: (row: ServerUpstreamData) => (
-        <span className="font-mono text-xs">{row.address}</span>
+        <MonoValue>{row.address}</MonoValue>
       ),
     },
     {
@@ -477,11 +506,11 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
       key: "latency",
       header: "Latency",
       render: (row: ServerUpstreamData) => (
-        <span className="font-mono text-xs">
+        <MonoValue>
           {row.effectiveLatencyMs != null && row.effectiveLatencyMs > 0
             ? `${row.effectiveLatencyMs}ms`
             : "—"}
-        </span>
+        </MonoValue>
       ),
     },
     {
@@ -526,7 +555,7 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
             onClick={() => setShowZeroCounters((v) => !v)}
             className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-bg-card-hover transition-colors"
           >
-            <span className="text-[11px] text-fg-muted uppercase tracking-wider">Connect Statistics</span>
+            <FieldLabel>Connect Statistics</FieldLabel>
             <span className="text-fg-muted text-xs select-none">{showZeroCounters ? "▾" : "›"}</span>
           </button>
           {showZeroCounters && (
@@ -575,7 +604,7 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
       {/* Self-test checklist */}
       {selftest?.enabled && (
         <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-3">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">Self-Test</span>
+          <FieldLabel>Self-Test</FieldLabel>
           <div className="flex flex-col gap-2 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-fg-muted">KDF</span>
@@ -665,24 +694,24 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
       {/* ME Quality counters */}
       {meQuality?.enabled && (
         <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-2">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">ME Quality</span>
-          <div className="grid grid-cols-2 gap-2 text-sm">
+          <FieldLabel>ME Quality</FieldLabel>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
             <span className="text-fg-muted">KDF Drift</span>
-            <span className="font-mono text-fg">{meQuality.counters.kdfDriftTotal}</span>
+            <MonoValue>{meQuality.counters.kdfDriftTotal}</MonoValue>
             <span className="text-fg-muted">KDF Port-only Drift</span>
-            <span className="font-mono text-fg">{meQuality.counters.kdfPortOnlyDriftTotal}</span>
+            <MonoValue>{meQuality.counters.kdfPortOnlyDriftTotal}</MonoValue>
             <span className="text-fg-muted">Route Drops: no_conn</span>
             <span className={`font-mono ${meQuality.counters.routeDropNoConn > 0 ? "text-status-warn" : "text-fg"}`}>
               {meQuality.counters.routeDropNoConn}
             </span>
             <span className="text-fg-muted">Route Drops: channel_closed</span>
-            <span className="font-mono text-fg">{meQuality.counters.routeDropChannelClosed}</span>
+            <MonoValue>{meQuality.counters.routeDropChannelClosed}</MonoValue>
             <span className="text-fg-muted">Route Drops: queue_full</span>
-            <span className="font-mono text-fg">{meQuality.counters.routeDropQueueFull}</span>
+            <MonoValue>{meQuality.counters.routeDropQueueFull}</MonoValue>
             <span className="text-fg-muted">Reconnect attempts</span>
-            <span className="font-mono text-fg">{meQuality.counters.reconnectAttemptTotal}</span>
+            <MonoValue>{meQuality.counters.reconnectAttemptTotal}</MonoValue>
             <span className="text-fg-muted">Reconnect success</span>
-            <span className="font-mono text-fg">
+            <span className="font-mono text-xs text-fg">
               {meQuality.counters.reconnectSuccessTotal}
               {meQuality.counters.reconnectAttemptTotal > 0 && (
                 <span className="text-fg-muted ml-1">
@@ -697,36 +726,36 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
       {/* NAT / STUN */}
       {natStun?.enabled && (
         <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-2">
-          <span className="text-[11px] text-fg-muted uppercase tracking-wider">NAT / STUN</span>
-          <div className="grid grid-cols-2 gap-2 text-sm">
+          <FieldLabel>NAT / STUN</FieldLabel>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
             <span className="text-fg-muted">NAT Probe</span>
             <Badge variant={natStun.natProbeEnabled ? "ok" : "default"}>
               {natStun.natProbeEnabled ? "Enabled" : "Disabled"}
             </Badge>
             <span className="text-fg-muted">Live STUNs</span>
-            <span className="font-mono text-fg">
+            <MonoValue>
               {natStun.liveStunTotal}/{natStun.configuredStunTotal}
-            </span>
+            </MonoValue>
             <span className="text-fg-muted">Public v4</span>
-            <span className="font-mono text-xs text-fg">
+            <MonoValue>
               {natStun.reflectionV4
                 ? `${natStun.reflectionV4.addr} (${Math.round(natStun.reflectionV4.ageSecs / 60)}min ago)`
                 : "—"}
-            </span>
+            </MonoValue>
             <span className="text-fg-muted">Public v6</span>
-            <span className="font-mono text-xs text-fg">
+            <MonoValue>
               {natStun.reflectionV6
                 ? `${natStun.reflectionV6.addr} (${Math.round(natStun.reflectionV6.ageSecs / 60)}min ago)`
                 : "—"}
-            </span>
+            </MonoValue>
           </div>
           {natStun.configuredServers.length > 0 && (
             <div className="flex flex-col gap-1 mt-1">
-              <span className="text-[11px] text-fg-muted uppercase tracking-wider">Configured Servers</span>
+              <FieldLabel>Configured Servers</FieldLabel>
               <div className="flex flex-wrap gap-1">
                 {natStun.configuredServers.map((addr) => (
                   <Badge key={addr} variant="default">
-                    <span className="font-mono text-xs">{addr}</span>
+                    <MonoValue>{addr}</MonoValue>
                   </Badge>
                 ))}
               </div>
@@ -763,30 +792,30 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
 
       {/* System Info */}
       <div className="rounded-xs bg-bg-card p-4 flex flex-col gap-2">
-        <span className="text-[11px] text-fg-muted uppercase tracking-wider">System Info</span>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <FieldLabel>System Info</FieldLabel>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
           <span className="text-fg-muted">Version</span>
-          <span className="font-mono text-fg">{systemInfo.version}</span>
+          <MonoValue>{systemInfo.version}</MonoValue>
           <span className="text-fg-muted">Arch / OS</span>
-          <span className="font-mono text-fg">{systemInfo.targetArch} / {systemInfo.targetOs}</span>
+          <MonoValue>{systemInfo.targetArch} / {systemInfo.targetOs}</MonoValue>
           <span className="text-fg-muted">Build</span>
-          <span className="font-mono text-fg">{systemInfo.buildProfile}</span>
+          <MonoValue>{systemInfo.buildProfile}</MonoValue>
           {systemInfo.gitCommit && (
             <>
               <span className="text-fg-muted">Git commit</span>
-              <span className="font-mono text-xs text-fg">{systemInfo.gitCommit.slice(0, 8)}</span>
+              <MonoValue>{systemInfo.gitCommit.slice(0, 8)}</MonoValue>
             </>
           )}
           {systemInfo.buildTimeUtc && (
             <>
               <span className="text-fg-muted">Build time</span>
-              <span className="font-mono text-xs text-fg">{systemInfo.buildTimeUtc}</span>
+              <MonoValue>{systemInfo.buildTimeUtc}</MonoValue>
             </>
           )}
           <span className="text-fg-muted">Config path</span>
-          <span className="font-mono text-xs text-fg truncate">{systemInfo.configPath}</span>
+          <MonoValue className="truncate">{systemInfo.configPath}</MonoValue>
           <span className="text-fg-muted">Config reloads</span>
-          <span className="font-mono text-fg">
+          <span className="font-mono text-xs text-fg">
             {systemInfo.configReloadCount}
             {systemInfo.lastConfigReloadEpochSecs && (
               <span className="text-fg-muted ml-1">
@@ -859,13 +888,13 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
         <thead>
           <tr className="border-b border-border bg-bg-card">
             <th className="w-8 px-2 py-2" />
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">DC</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">Available%</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">Writers</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">Coverage%</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">Fresh%</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">RTT</th>
-            <th className="px-3 py-2 text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium">Load</th>
+            <th className="px-3 py-2 text-left"><FieldLabel>DC</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>Available%</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>Writers</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>Coverage%</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>Fresh%</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>RTT</FieldLabel></th>
+            <th className="px-3 py-2 text-left"><FieldLabel>Load</FieldLabel></th>
           </tr>
         </thead>
         <tbody>
@@ -888,30 +917,30 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                   <span className="font-mono text-xs font-semibold">DC{row.dc}</span>
                 </td>
                 <td className="px-3 py-2">
-                  <span className={`font-mono text-xs ${row.availablePct < 100 ? "text-status-warn" : ""}`}>
+                  <MonoValue className={row.availablePct < 100 ? "text-status-warn" : undefined}>
                     {row.availablePct}%
-                  </span>
+                  </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <span className="font-mono text-xs">{row.aliveWriters}/{row.requiredWriters}</span>
+                  <MonoValue>{row.aliveWriters}/{row.requiredWriters}</MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <span className={`font-mono text-xs font-semibold ${coverageColor(row.coveragePct)}`}>
+                  <MonoValue className={`font-semibold ${coverageColor(row.coveragePct)}`}>
                     {row.coveragePct}%
-                  </span>
+                  </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <span className="font-mono text-xs text-fg-muted">
+                  <MonoValue className="text-fg-muted">
                     {row.freshAlivePct != null ? `${row.freshAlivePct}%` : "—"}
-                  </span>
+                  </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <span className={`font-mono text-xs ${(row.rttMs ?? 0) > 300 ? "text-status-error" : (row.rttMs ?? 0) > 100 ? "text-status-warn" : ""}`}>
+                  <MonoValue className={(row.rttMs ?? 0) > 300 ? "text-status-error" : (row.rttMs ?? 0) > 100 ? "text-status-warn" : undefined}>
                     {row.rttMs != null ? `${row.rttMs}ms` : "—"}
-                  </span>
+                  </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <span className="font-mono text-xs">{row.load}</span>
+                  <MonoValue>{row.load}</MonoValue>
                 </td>
               </tr>
               {expandedDc === row.dc && (
@@ -930,7 +959,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                         </div>
                         <div className="flex flex-col gap-0.5">
                           <span className="text-[10px] text-fg-muted uppercase tracking-wider">Endpoints</span>
-                          <span className="font-mono text-fg">{row.availableEndpoints}/{row.endpoints.length} available</span>
+                          <MonoValue>{row.availableEndpoints}/{row.endpoints.length} available</MonoValue>
                         </div>
                       </div>
                       {/* Endpoint writers */}
@@ -942,7 +971,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                           ) : (
                             row.endpointWriters.map((ew) => (
                               <div key={ew.endpoint} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-xs bg-bg-card border border-border">
-                                <span className="font-mono text-xs text-fg truncate">{ew.endpoint}</span>
+                                <MonoValue className="truncate">{ew.endpoint}</MonoValue>
                                 <span className={`font-mono text-xs shrink-0 ${ew.activeWriters === 0 ? "text-status-warn" : "text-fg-muted"}`}>
                                   {ew.activeWriters} {ew.activeWriters === 1 ? "writer" : "writers"}
                                   {ew.activeWriters === 0 && " ⚠"}
@@ -1160,7 +1189,7 @@ export function ServerDetailPage({ server, onBack, onReload }: ServerDetailPageP
               </SheetHeader>
               <SheetBody>
                 <div className="flex flex-col gap-4">
-                  <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                     <span className="text-fg-muted">Coverage</span>
                     <span className={`font-mono font-semibold ${coverageColor(selectedDc.coveragePct)}`}>
                       {selectedDc.coveragePct}%
@@ -1188,14 +1217,14 @@ export function ServerDetailPage({ server, onBack, onReload }: ServerDetailPageP
 
                   {selectedDc.endpointWriters.length > 0 && (
                     <div className="flex flex-col gap-2">
-                      <span className="text-[11px] text-fg-muted uppercase tracking-wider font-medium">Endpoints & Writers</span>
+                      <FieldLabel>Endpoints & Writers</FieldLabel>
                       {selectedDc.endpointWriters.map((ew) => (
                         <div key={ew.endpoint} className="flex items-center gap-2 text-sm">
-                          <span className="font-mono text-fg">{ew.endpoint}</span>
+                          <MonoValue>{ew.endpoint}</MonoValue>
                           <span className="text-fg-muted">→</span>
-                          <span className="font-mono text-fg">
+                          <MonoValue>
                             {ew.activeWriters} active writer{ew.activeWriters !== 1 ? "s" : ""}
-                          </span>
+                          </MonoValue>
                         </div>
                       ))}
                     </div>
