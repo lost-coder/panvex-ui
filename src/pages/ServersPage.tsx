@@ -1,15 +1,38 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/layout/PageHeader";
-import { ViewModeToggle } from "@/compositions/ViewModeToggle";
-import { SearchFilter } from "@/compositions/SearchFilter";
+import { TableView } from "@/compositions/TableView";
 import { NodeSummaryCard } from "@/components/NodeSummaryCard";
+import { NodeCard } from "@/components/NodeCard";
 import { StatusDot } from "@/primitives/StatusDot";
-import { TrafficCell } from "@/primitives/TrafficCell";
+import { DataTable } from "@/components/DataTable";
 import type { ServersPageProps, ServerListItem, ViewMode } from "@/types/pages";
+
+function TrafficCell({ bytes }: { bytes: number }) {
+  return <span className="text-sm font-mono text-fg-muted">{Math.round(bytes / 1024 / 1024 / 1024)} GB</span>;
+}
+
+function DcMatrixCell({ dcs }: { dcs: ServerListItem["dcs"] }) {
+  if (!dcs || dcs.length === 0) return <span className="text-xs text-fg-muted">N/A</span>;
+  return (
+    <div className="grid grid-cols-6 gap-1 w-fit">
+      {dcs.slice(0, 12).map((dc, i) => (
+        <div
+          key={i}
+          className={cn(
+            "w-2.5 h-2.5 rounded-full",
+            dc.status === "error" ? "bg-status-error" : dc.status === "warn" ? "bg-status-warn" : "bg-status-ok opacity-80"
+          )}
+          title={`DC ${dc.dc}: ${dc.rttMs ? dc.rttMs + "ms" : "offline"}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[]; onServerClick?: (id: string) => void }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       {servers.map((s) => (
         <div key={s.id} onClick={() => onServerClick?.(s.id)} className="cursor-pointer">
           <NodeSummaryCard
@@ -19,7 +42,7 @@ function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[];
             trafficBytes={s.trafficBytes}
             cpuPct={s.cpuPct}
             memPct={s.memPct}
-            dcs={[]}
+            dcs={s.dcs || []}
           />
         </div>
       ))}
@@ -27,21 +50,125 @@ function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[];
   );
 }
 
-function ServerListView({ servers, onServerClick }: { servers: ServerListItem[]; onServerClick?: (id: string) => void }) {
+function ServerListView({ servers, onServerClick, visibleColumns }: {
+  servers: ServerListItem[];
+  onServerClick?: (id: string) => void;
+  visibleColumns: Record<string, boolean>;
+}) {
+  const allColumns = [
+    {
+      key: "server",
+      header: "Server",
+      render: (s: ServerListItem) => (
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <div className="flex items-center gap-2">
+            <StatusDot status={s.status} />
+            <span className="text-sm font-medium text-fg truncate">{s.name}</span>
+          </div>
+          {(s as any).ip && (
+            <span className="pl-[14px] text-[10px] text-fg-muted font-mono">{(s as any).ip}</span>
+          )}
+        </div>
+      ),
+      sortable: true,
+      className: "w-[30%]",
+    },
+    {
+      key: "dcs",
+      header: "DCs",
+      render: (s: ServerListItem) => <DcMatrixCell dcs={s.dcs} />,
+      className: "hidden xl:table-cell w-[68px]",
+    },
+    {
+      key: "users",
+      header: "Users",
+      render: (s: ServerListItem) => (
+        <div className="flex items-baseline gap-1 font-mono whitespace-nowrap justify-center">
+          <span className="text-sm text-fg">{(s.usersOnline ?? s.connections).toLocaleString()}</span>
+          <span className="text-xs text-fg-muted">/{(s.usersTotal ?? s.connections * 2).toLocaleString()}</span>
+        </div>
+      ),
+      sortable: true,
+      className: "hidden sm:table-cell text-center w-[110px]",
+    },
+    {
+      key: "traffic",
+      header: "Traffic",
+      render: (s: ServerListItem) => (
+        <div className="flex justify-center"><TrafficCell bytes={s.trafficBytes} /></div>
+      ),
+      sortable: true,
+      className: "hidden md:table-cell text-center w-[80px]",
+    },
+    {
+      key: "uptime",
+      header: "Uptime",
+      render: (s: ServerListItem) => {
+        const days = Math.floor(s.uptimeSeconds / 86400);
+        const hours = Math.floor((s.uptimeSeconds % 86400) / 3600);
+        return (
+          <div className="flex justify-center">
+            <span className="text-xs font-mono text-fg-muted whitespace-nowrap">{days}d {hours}h</span>
+          </div>
+        );
+      },
+      sortable: true,
+      className: "hidden lg:table-cell text-center w-[70px]",
+    },
+    {
+      key: "load",
+      header: "Load",
+      render: (s: ServerListItem) => (
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono leading-none">
+            <span className="w-7 text-fg-muted shrink-0">CPU</span>
+            <div className="h-1.5 flex-1 bg-border rounded-full overflow-hidden">
+              <div className="h-full bg-fg rounded-full" style={{ width: `${s.cpuPct}%` }} />
+            </div>
+            <span className="text-fg-muted w-7 text-right shrink-0">{s.cpuPct}%</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-[10px] font-mono leading-none">
+            <span className="w-7 text-fg-muted shrink-0">MEM</span>
+            <div className="h-1.5 flex-1 bg-border rounded-full overflow-hidden">
+              <div className="h-full bg-fg-muted rounded-full" style={{ width: `${s.memPct}%` }} />
+            </div>
+            <span className="text-fg-muted w-7 text-right shrink-0">{s.memPct}%</span>
+          </div>
+        </div>
+      ),
+      className: "hidden lg:table-cell w-[140px]",
+    },
+  ];
+
+  const columns = allColumns.filter(c => c.key === "server" || visibleColumns[c.key] !== false);
+
   return (
-    <div className="flex flex-col gap-0.5">
-      {servers.map((s) => (
-        <button
-          key={s.id}
-          onClick={() => onServerClick?.(s.id)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xs bg-bg-card border border-border hover:border-accent transition-colors text-left w-full"
-        >
-          <StatusDot status={s.status} />
-          <span className="text-sm font-medium text-fg flex-1 min-w-0 truncate">{s.name}</span>
-          <span className="text-xs text-fg-muted font-mono">{s.connections} conn</span>
-          <TrafficCell bytes={s.trafficBytes} />
-        </button>
-      ))}
+    <div className="bg-bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+      {/* Мобильный вид: NodeCard список */}
+      <div className="md:hidden flex flex-col gap-2 p-4 bg-bg">
+        {servers.map((s) => (
+          <NodeCard
+            key={s.id}
+            name={s.name}
+            status={s.status}
+            health={100}
+            cpu={s.cpuPct}
+            mem={s.memPct}
+            clients={s.connections}
+            region="Global"
+            onClick={() => onServerClick?.(s.id)}
+          />
+        ))}
+      </div>
+      {/* Десктоп: DataTable */}
+      <div className="hidden md:block">
+        <DataTable
+          columns={columns}
+          data={servers}
+          keyExtractor={(s) => s.id}
+          onRowClick={(s) => onServerClick?.(s.id)}
+        />
+      </div>
     </div>
   );
 }
@@ -49,27 +176,103 @@ function ServerListView({ servers, onServerClick }: { servers: ServerListItem[];
 export function ServersPage({
   servers,
   viewMode,
-  autoThreshold,
+  autoThreshold = 6,
   onViewModeChange,
   onServerClick,
 }: ServersPageProps) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [groupFilter, setGroupFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({
+    dcs: true,
+    users: true,
+    traffic: true,
+    uptime: true,
+    load: true,
+  });
+  const pageSize = 20;
+
   const effectiveMode: ViewMode = viewMode ?? (servers.length <= autoThreshold ? "cards" : "list");
+
+  // Filtering
+  const filtered = servers.filter((s) => {
+    const matchSearch = !search || s.name.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === "all" || s.status === statusFilter;
+    const matchGroup = groupFilter === "all" || s.fleetGroupId === groupFilter;
+    return matchSearch && matchStatus && matchGroup;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const paginated = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
     <>
-      <PageHeader title="Servers" subtitle={`${servers.length} nodes`} />
+      <PageHeader title="Servers" subtitle={`${servers.length} active nodes`} />
       <div className="px-4 md:px-8 pb-8">
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <SearchFilter placeholder="Filter servers..." className="flex-1 max-w-xs" />
-          <ViewModeToggle mode={effectiveMode} onChange={(m) => onViewModeChange?.(m)} />
-        </div>
-
-        {effectiveMode === "cards" ? (
-          <ServerCardView servers={servers} onServerClick={onServerClick} />
-        ) : (
-          <ServerListView servers={servers} onServerClick={onServerClick} />
-        )}
+        <TableView
+          search={search}
+          onSearchChange={(v) => { setSearch(v); setCurrentPage(1); }}
+          searchPlaceholder="Search by name or IP..."
+          filters={[
+            {
+              key: "status",
+              value: statusFilter,
+              onChange: (v) => { setStatusFilter(v); setCurrentPage(1); },
+              options: [
+                { value: "all", label: "All Statuses" },
+                { value: "ok", label: "Online" },
+                { value: "warn", label: "Warning" },
+                { value: "error", label: "Error" },
+              ],
+              placeholder: "Status",
+            },
+            {
+              key: "group",
+              value: groupFilter,
+              onChange: (v) => { setGroupFilter(v); setCurrentPage(1); },
+              options: [
+                { value: "all", label: "All Groups" },
+                { value: "eu", label: "Europe" },
+                { value: "us", label: "America" },
+                { value: "ap", label: "Asia Pacific" },
+              ],
+              placeholder: "Group",
+            },
+          ]}
+          viewMode={effectiveMode}
+          onViewModeChange={onViewModeChange}
+          availableColumns={[
+            { key: "dcs", label: "DC Matrix" },
+            { key: "users", label: "Users" },
+            { key: "traffic", label: "Traffic" },
+            { key: "uptime", label: "Uptime" },
+            { key: "load", label: "Load" },
+          ]}
+          columnVisibility={columnVisibility}
+          onColumnVisibilityChange={(key, visible) =>
+            setColumnVisibility(prev => ({ ...prev, [key]: visible }))
+          }
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={filtered.length}
+          pageSize={pageSize}
+          onPageChange={setCurrentPage}
+        >
+          {/* На мобильных всегда список */}
+          <div className="block md:hidden">
+            <ServerListView servers={paginated} onServerClick={onServerClick} visibleColumns={columnVisibility} />
+          </div>
+          <div className="hidden md:block">
+            {effectiveMode === "cards" ? (
+              <ServerCardView servers={paginated} onServerClick={onServerClick} />
+            ) : (
+              <ServerListView servers={paginated} onServerClick={onServerClick} visibleColumns={columnVisibility} />
+            )}
+          </div>
+        </TableView>
       </div>
     </>
   );
 }
+

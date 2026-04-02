@@ -40,7 +40,7 @@ export function DataTable<T>({
     <>
       {/* Desktop table */}
       <div className={cn("hidden md:block overflow-x-auto", className)}>
-        <table className="w-full text-sm">
+        <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="border-b border-border">
               {columns.map((col) => (
