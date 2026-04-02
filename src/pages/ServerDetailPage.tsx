@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
@@ -78,38 +79,6 @@ function coverageColor(pct: number): string {
   if (pct < 70) return "text-status-error";
   if (pct < 100) return "text-status-warn";
   return "text-status-ok";
-}
-
-// ─── Local UI helpers ─────────────────────────────────────────────────────────
-
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <span className="text-[11px] text-fg-muted uppercase tracking-wider font-medium leading-none">{children}</span>;
-}
-
-function MonoValue({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <span className={cn("font-mono text-xs text-fg", className)}>{children}</span>;
-}
-
-function StatCard({ label, value, className }: { label: string; value: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn("rounded-xs bg-bg-card p-3 flex flex-col gap-0.5", className)}>
-      <span className="text-lg font-mono font-semibold text-fg leading-none">{value}</span>
-      <FieldLabel>{label}</FieldLabel>
-    </div>
-  );
-}
-
-function KvGrid({ rows, className }: { rows: Array<{ label: string; value: React.ReactNode }>; className?: string }) {
-  return (
-    <div className={cn("grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm", className)}>
-      {rows.map(({ label, value }) => (
-        <React.Fragment key={label}>
-          <span className="text-fg-muted">{label}</span>
-          <span className="font-mono text-xs text-fg">{value}</span>
-        </React.Fragment>
-      ))}
-    </div>
-  );
 }
 
 // ─── Tab content components ───────────────────────────────────────────────────
