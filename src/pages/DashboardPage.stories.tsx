@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { LayoutDashboard, Server, Users, Settings } from 'lucide-react';
 import { DashboardPage } from './DashboardPage';
 import { AppShell } from '@/layout/AppShell';
 
 const mockNavItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
-  { id: 'servers', label: 'Servers', icon: 'server' },
-  { id: 'clients', label: 'Clients', icon: 'users' },
-  { id: 'settings', label: 'Settings', icon: 'settings' },
+  { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
+  { id: 'servers', label: 'Servers', icon: <Server className="w-5 h-5" /> },
+  { id: 'clients', label: 'Clients', icon: <Users className="w-5 h-5" /> },
+  { id: 'settings', label: 'Settings', icon: <Settings className="w-5 h-5" /> },
 ];
 
 const meta = {

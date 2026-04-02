@@ -183,7 +183,7 @@ function ClientListRow({
         {client.activeTcpConns > 0 && (
           <MonoValue className="text-xs">{client.activeTcpConns} conns</MonoValue>
         )}
-        <Badge variant={client.enabled ? "ok" : "error"} size="sm">
+        <Badge variant={client.enabled ? "ok" : "error"}>
           {client.enabled ? "Active" : "Disabled"}
         </Badge>
       </div>
