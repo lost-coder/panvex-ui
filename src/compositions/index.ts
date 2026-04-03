@@ -16,3 +16,5 @@ export { TableView, type TableViewProps, type TableViewFilter, type TableViewCol
 export { FleetGroupChips } from "./FleetGroupChips";
 export { NodeSelector } from "./NodeSelector";
 export { EnrollmentWizard } from "./EnrollmentWizard";
+export { TokenList } from "./TokenList";
+export { AgentConnectionSection } from "./AgentConnectionSection";
