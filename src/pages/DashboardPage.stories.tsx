@@ -42,9 +42,9 @@ const mockData = {
     ],
     trends: [],
     alerts: [
-      { severity: 'crit' as const, message: 'us-east-db-1 heartbeat lost', timestamp: 'Just now' },
-      { severity: 'warn' as const, message: 'eu-central payload routing latency > 200ms', timestamp: '5m ago' },
-      { severity: 'warn' as const, message: 'Node count mismatch in ap-south pool', timestamp: '12m ago' }
+      { severity: 'crit' as const, message: 'us-east-db-1 heartbeat lost', timestamp: 'Just now', source: 'us-east-db-1' },
+      { severity: 'warn' as const, message: 'eu-central payload routing latency > 200ms', timestamp: '5m ago', source: 'eu-central-router' },
+      { severity: 'warn' as const, message: 'Node count mismatch in ap-south pool', timestamp: '12m ago', source: 'ap-south' }
     ],
     attentionNodes: [
       {
@@ -77,19 +77,19 @@ const mockData = {
       }
     ],
     healthyNodes: [
-      { id: 'n3', name: 'us-west-edge-1', cpuPct: 15, memPct: 40, connections: 12000, region: 'us-west' },
-      { id: 'n4', name: 'us-west-edge-2', cpuPct: 22, memPct: 35, connections: 15500, region: 'us-west' },
-      { id: 'n5', name: 'eu-west-edge-1', cpuPct: 18, memPct: 42, connections: 9800, region: 'eu-west' },
-      { id: 'n6', name: 'ap-south-edge-1', cpuPct: 45, memPct: 55, connections: 25000, region: 'ap-south' },
-      { id: 'n7', name: 'ap-northeast-1', cpuPct: 12, memPct: 28, connections: 8500, region: 'ap-northeast' }
+      { id: 'n3', name: 'us-west-edge-1', status: 'ok' as const, cpuPct: 15, memPct: 40, connections: 12000, trafficBytes: 1.2e9, region: 'us-west', dcs: [] },
+      { id: 'n4', name: 'us-west-edge-2', status: 'ok' as const, cpuPct: 22, memPct: 35, connections: 15500, trafficBytes: 2.1e9, region: 'us-west', dcs: [] },
+      { id: 'n5', name: 'eu-west-edge-1', status: 'ok' as const, cpuPct: 18, memPct: 42, connections: 9800, trafficBytes: 0.8e9, region: 'eu-west', dcs: [] },
+      { id: 'n6', name: 'ap-south-edge-1', status: 'ok' as const, cpuPct: 45, memPct: 55, connections: 25000, trafficBytes: 4.5e9, region: 'ap-south', dcs: [] },
+      { id: 'n7', name: 'ap-northeast-1', status: 'ok' as const, cpuPct: 12, memPct: 28, connections: 8500, trafficBytes: 0.6e9, region: 'ap-northeast', dcs: [] }
     ]
   },
   timeline: {
     events: [
-      { status: 'error', message: 'us-east-db-1 heartbeat lost', time: 'Just now' },
-      { status: 'ok', message: 'Config update deployed to eu-central pool', time: '15m ago' },
-      { status: 'ok', message: 'ap-south-edge-1 finished syncing', time: '1h ago' },
-      { status: 'warn', message: 'Spike in error rate (5xx) detected', time: '2h ago' }
+      { status: 'error' as const, message: 'us-east-db-1 heartbeat lost', time: 'Just now' },
+      { status: 'ok' as const, message: 'Config update deployed to eu-central pool', time: '15m ago' },
+      { status: 'ok' as const, message: 'ap-south-edge-1 finished syncing', time: '1h ago' },
+      { status: 'warn' as const, message: 'Spike in error rate (5xx) detected', time: '2h ago' }
     ]
   }
 };
