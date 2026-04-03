@@ -110,6 +110,8 @@ export const AutoCards: Story = {
     servers: MOCK_SERVERS_FEW,
     autoThreshold: 12,
     onServerClick: (id) => console.log("Clicked server:", id),
+    onAddServer: () => alert("Open enrollment wizard"),
+    onManageTokens: () => alert("Open token list"),
   },
 };
 
@@ -118,6 +120,8 @@ export const AutoList: Story = {
     servers: MOCK_SERVERS_MANY,
     autoThreshold: 12,
     onServerClick: (id) => console.log("Clicked server:", id),
+    onAddServer: () => alert("Open enrollment wizard"),
+    onManageTokens: () => alert("Open token list"),
   },
 };
 

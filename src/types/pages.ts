@@ -91,6 +91,8 @@ export interface ServersPageProps {
   onViewModeChange?: (mode: ViewMode) => void;
   onServerClick?: (serverId: string) => void;
   onServerLinkClick?: (serverId: string) => void;
+  onAddServer?: () => void;
+  onManageTokens?: () => void;
 }
 
 // --- Server Detail ---
@@ -404,6 +406,10 @@ export interface ServerDetailPageProps {
   };
   onBack?: () => void;
   onReload?: () => void;
+  agentConnection?: AgentConnectionData;
+  initState?: InitCardProps;
+  onAllowReEnrollment?: () => void;
+  onRevokeGrant?: () => void;
 }
 
 // --- Clients ---
@@ -428,6 +434,7 @@ export interface ClientsPageProps {
   onViewModeChange?: (mode: ViewMode) => void;
   onClientClick?: (clientId: string) => void;
   onClientLinkClick?: (clientId: string) => void;
+  onAddClient?: () => void;
 }
 
 export interface ClientDeploymentData {
@@ -457,6 +464,11 @@ export interface ClientDetailPageProps {
     deployments: ClientDeploymentData[];
   };
   onBack?: () => void;
+  onEdit?: () => void;
+  onManageAccess?: () => void;
+  onRotateSecret?: () => void;
+  onDisable?: () => void;
+  onDelete?: () => void;
 }
 
 // --- Settings ---

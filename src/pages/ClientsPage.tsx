@@ -6,6 +6,7 @@ import { StatusDot } from "@/primitives/StatusDot";
 import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
+import { Button } from "@/components/ui/button";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientsPageProps, ClientListItem, ViewMode } from "@/types/pages";
 
@@ -175,6 +176,7 @@ export function ClientsPage({
   autoThreshold = 6,
   onViewModeChange,
   onClientClick,
+  onAddClient,
 }: ClientsPageProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -206,7 +208,15 @@ export function ClientsPage({
 
   return (
     <>
-      <PageHeader title="Clients" subtitle={`${clients.length} clients`} />
+      <PageHeader
+        title="Clients"
+        subtitle={`${clients.length} clients`}
+        trailing={
+          onAddClient ? (
+            <Button size="sm" onClick={onAddClient}>Add Client</Button>
+          ) : undefined
+        }
+      />
       <div className="px-4 md:px-8 pb-8">
         <TableView
           search={search}

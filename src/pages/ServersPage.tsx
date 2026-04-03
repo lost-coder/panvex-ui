@@ -6,6 +6,7 @@ import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { StatusDot } from "@/primitives/StatusDot";
 import { DataTable } from "@/components/DataTable";
+import { Button } from "@/components/ui/button";
 import type { ServersPageProps, ServerListItem, ViewMode } from "@/types/pages";
 
 function TrafficCell({ bytes }: { bytes: number }) {
@@ -179,6 +180,8 @@ export function ServersPage({
   autoThreshold = 6,
   onViewModeChange,
   onServerClick,
+  onAddServer,
+  onManageTokens,
 }: ServersPageProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -208,7 +211,22 @@ export function ServersPage({
 
   return (
     <>
-      <PageHeader title="Servers" subtitle={`${servers.length} active nodes`} />
+      <PageHeader
+        title="Servers"
+        subtitle={`${servers.length} active nodes`}
+        trailing={
+          (onManageTokens || onAddServer) ? (
+            <div className="flex items-center gap-2">
+              {onManageTokens && (
+                <Button variant="ghost" size="sm" onClick={onManageTokens}>Manage Tokens</Button>
+              )}
+              {onAddServer && (
+                <Button size="sm" onClick={onAddServer}>Add Server</Button>
+              )}
+            </div>
+          ) : undefined
+        }
+      />
       <div className="px-4 md:px-8 pb-8">
         <TableView
           search={search}

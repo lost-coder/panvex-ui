@@ -76,6 +76,7 @@ export const Default: Story = {
     clients: mockClients.slice(0, 5),
     autoThreshold: 6,
     onClientClick: (id) => console.log("Client clicked:", id),
+    onAddClient: () => alert("Open add client form"),
   },
 };
 
@@ -85,5 +86,6 @@ export const ManyClients: Story = {
     clients: manyClients,
     autoThreshold: 6,
     onClientClick: (id) => console.log("Client clicked:", id),
+    onAddClient: () => alert("Open add client form"),
   },
 };
