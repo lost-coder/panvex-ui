@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
+import { InitCard } from "@/primitives/InitCard";
 import { formatBytes, formatUptime, formatTime, coverageColor } from "./_shared";
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
@@ -942,7 +943,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export function ServerDetailPage({ server, onBack, onReload }: ServerDetailPageProps) {
+export function ServerDetailPage({ server, onBack, onReload, initState }: ServerDetailPageProps) {
   const { systemInfo, gates, connections, summary, dcs } = server;
 
   // DC sort: problematic (low coverage) first
@@ -993,17 +994,19 @@ export function ServerDetailPage({ server, onBack, onReload }: ServerDetailPageP
         : ("ok" as const),
   }));
 
-  // Alerts — crit for <70%, warn for <100%, degraded flag first
+  // Alerts — suppress DC alerts during initialization (data is expected to be empty)
   const alertItems: { severity: "crit" | "warn"; message: string; source: string }[] = [];
-  sortedDcs
-    .filter((dc) => dc.coveragePct < 100)
-    .forEach((dc) => {
-      alertItems.push({
-        severity: dc.coveragePct < 70 ? ("crit" as const) : ("warn" as const),
-        message: `DC${dc.dc} coverage at ${dc.coveragePct}% (${dc.aliveWriters}/${dc.requiredWriters} writers)`,
-        source: "dc-coverage",
+  if (!initState) {
+    sortedDcs
+      .filter((dc) => dc.coveragePct < 100)
+      .forEach((dc) => {
+        alertItems.push({
+          severity: dc.coveragePct < 70 ? ("crit" as const) : ("warn" as const),
+          message: `DC${dc.dc} coverage at ${dc.coveragePct}% (${dc.aliveWriters}/${dc.requiredWriters} writers)`,
+          source: "dc-coverage",
+        });
       });
-    });
+  }
   if (gates.degraded) {
     alertItems.unshift({ severity: "crit" as const, message: "Server operating in degraded mode", source: "gates" });
   }
@@ -1077,6 +1080,9 @@ export function ServerDetailPage({ server, onBack, onReload }: ServerDetailPageP
             <Badge variant="error">Degraded</Badge>
           )}
         </div>
+
+        {/* Init Card — shown during Telemt initialization */}
+        {initState && <InitCard {...initState} />}
 
         {/* KPI Strip */}
         <GaugeStrip items={gaugeItems} />
