@@ -6,32 +6,8 @@ import { StatusDot } from "@/primitives/StatusDot";
 import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
+import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientsPageProps, ClientListItem, ViewMode } from "@/types/pages";
-
-// ─── Format helpers ───────────────────────────────────────────────────────────
-
-function formatBytes(bytes: number): string {
-  if (bytes > 1e9) return (bytes / 1e9).toFixed(1) + " GB";
-  if (bytes > 1e6) return (bytes / 1e6).toFixed(1) + " MB";
-  return bytes + " B";
-}
-
-function formatQuota(bytes: number): string {
-  if (bytes === 0) return "Unlimited";
-  return formatBytes(bytes);
-}
-
-function formatExpiry(rfc3339: string): string {
-  if (!rfc3339) return "Never";
-  return new Date(rfc3339).toLocaleDateString();
-}
-
-function deployVariant(status: string): "ok" | "warn" | "error" | "default" {
-  if (status === "ok") return "ok";
-  if (status === "pending") return "warn";
-  if (status === "error") return "error";
-  return "default";
-}
 
 // ─── Desktop DataTable columns ────────────────────────────────────────────────
 

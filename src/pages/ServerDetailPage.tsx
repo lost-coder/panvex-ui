@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
+import { formatBytes, formatUptime, formatTime, coverageColor } from "./_shared";
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
 function ActionsDropdown({ onReload }: { onReload?: () => void }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   return (
     <div className="relative">
       <button
@@ -20,16 +21,17 @@ function ActionsDropdown({ onReload }: { onReload?: () => void }) {
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-full mt-1 z-50 min-w-[180px] rounded-xs bg-bg-card border border-border shadow-lg py-1 flex flex-col">
-            <button onClick={() => { onReload?.(); setOpen(false); }} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">⟳ Reload Runtime</button>
-            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">🔄 Restart Server</button>
+            <button onClick={() => { onReload?.(); setOpen(false); }} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">Reload Runtime</button>
+            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">Restart Server</button>
             <div className="h-px bg-border my-1" />
-            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors">⏻ Force Stop</button>
+            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors">Force Stop</button>
           </div>
         </>
       )}
     </div>
   );
 }
+
 import { PageHeader } from "@/layout/PageHeader";
 import { SectionHeader } from "@/layout/SectionHeader";
 import { Breadcrumbs } from "@/compositions/Breadcrumbs";
@@ -56,30 +58,6 @@ import type {
   ServerMeWriterData,
   ServerEventData,
 } from "@/types/pages";
-
-// ─── Formatting helpers ───────────────────────────────────────────────────────
-
-function formatUptime(seconds: number): string {
-  const d = Math.floor(seconds / 86400);
-  const h = Math.floor((seconds % 86400) / 3600);
-  return d > 0 ? `${d}d ${h}h` : `${h}h`;
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes > 1e9) return (bytes / 1e9).toFixed(1) + " GB";
-  if (bytes > 1e6) return (bytes / 1e6).toFixed(1) + " MB";
-  return bytes + " B";
-}
-
-function formatTime(epochSecs: number): string {
-  return new Date(epochSecs * 1000).toLocaleTimeString();
-}
-
-function coverageColor(pct: number): string {
-  if (pct < 70) return "text-status-error";
-  if (pct < 100) return "text-status-warn";
-  return "text-status-ok";
-}
 
 // ─── Tab content components ───────────────────────────────────────────────────
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Copy, Check } from "lucide-react";
 import { PageHeader } from "@/layout/PageHeader";
 import { SectionHeader } from "@/layout/SectionHeader";
 import { Breadcrumbs } from "@/compositions/Breadcrumbs";
@@ -9,54 +8,10 @@ import { StatCard } from "@/primitives/StatCard";
 import { KvGrid } from "@/primitives/KvGrid";
 import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
+import { CopyButton } from "@/primitives/CopyButton";
 import { DataTable } from "@/components/DataTable";
+import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientDetailPageProps, ClientDeploymentData } from "@/types/pages";
-
-// ─── Format helpers ───────────────────────────────────────────────────────────
-
-function formatBytes(bytes: number): string {
-  if (bytes > 1e9) return (bytes / 1e9).toFixed(1) + " GB";
-  if (bytes > 1e6) return (bytes / 1e6).toFixed(1) + " MB";
-  return bytes + " B";
-}
-
-function formatQuota(bytes: number): string {
-  if (bytes === 0) return "Unlimited";
-  return formatBytes(bytes);
-}
-
-function formatExpiry(rfc3339: string): string {
-  if (!rfc3339) return "Never";
-  return new Date(rfc3339).toLocaleDateString();
-}
-
-function deployVariant(status: string): "ok" | "warn" | "error" | "default" {
-  if (status === "ok") return "ok";
-  if (status === "pending") return "warn";
-  if (status === "error") return "error";
-  return "default";
-}
-
-// ─── Copy button ──────────────────────────────────────────────────────────────
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    void navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  };
-  return (
-    <button
-      onClick={handleCopy}
-      className="ml-1 p-0.5 rounded hover:bg-bg-hover transition-colors text-fg-muted hover:text-fg"
-      title="Copy"
-    >
-      {copied ? <Check className="w-3 h-3 text-status-ok" /> : <Copy className="w-3 h-3" />}
-    </button>
-  );
-}
 
 // ─── Overview content ─────────────────────────────────────────────────────────
 
