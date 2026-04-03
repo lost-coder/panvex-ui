@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
@@ -943,14 +943,24 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-function formatLastUpdated(date: Date): string {
-  const secs = Math.round((Date.now() - date.getTime()) / 1000);
-  if (secs < 5) return "just now";
+function useRelativeTime(date: Date | undefined): string {
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    if (!date) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [date]);
+
+  if (!date) return "";
+  const secs = Math.round((now - date.getTime()) / 1000);
+  if (secs < 2) return "just now";
   if (secs < 60) return `${secs}s ago`;
   return `${Math.floor(secs / 60)}m ago`;
 }
 
 export function ServerDetailPage({ server, onBack, onReload, initState, lastUpdatedAt }: ServerDetailPageProps) {
+  const relativeTime = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
 
   // DC sort: problematic (low coverage) first
@@ -1056,9 +1066,9 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
         subtitle={subtitle}
         trailing={
           <div className="flex items-center gap-2">
-            {lastUpdatedAt && (
+            {relativeTime && (
               <span className="text-xs text-fg-muted font-mono tabular-nums">
-                {formatLastUpdated(lastUpdatedAt)}
+                {relativeTime}
               </span>
             )}
             <StatusBeacon status={server.status} size="md" />
