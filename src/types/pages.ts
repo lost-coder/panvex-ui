@@ -505,3 +505,193 @@ export interface LoginPageProps {
   loading?: boolean;
 }
 
+// --- Enrollment ---
+
+export interface FleetGroupOption {
+  id: string;
+  name: string;
+  nodeCount: number;
+}
+
+export interface EnrollmentWizardProps {
+  step: 1 | 2 | 3;
+  // Step 1
+  fleetGroups: FleetGroupOption[];
+  nodeName: string;
+  selectedFleetGroup: string;
+  tokenTtl: number;
+  onNodeNameChange: (name: string) => void;
+  onFleetGroupChange: (id: string) => void;
+  onTokenTtlChange: (seconds: number) => void;
+  onGenerateToken: () => void;
+  // Step 2
+  installCommand: string;
+  tokenValue: string;
+  tokenExpiresInSecs: number;
+  advancedOptions?: {
+    telemtUrl: string;
+    telemtAuth: string;
+  };
+  onAdvancedOptionsChange?: (opts: { telemtUrl: string; telemtAuth: string }) => void;
+  onInstallConfirm: () => void;
+  onBack: () => void;
+  // Step 3
+  connectionStatus: {
+    bootstrap: "pending" | "done";
+    grpcConnect: "pending" | "waiting" | "done";
+    firstData: "pending" | "waiting" | "done";
+  };
+  connectedAgent?: {
+    id: string;
+    version: string;
+    fleetGroup: string;
+    certExpiresAt: string;
+  };
+  onViewDetails: () => void;
+  onCancel: () => void;
+  // Shared
+  loading?: boolean;
+  error?: string;
+}
+
+export interface EnrollmentTokenData {
+  value: string;
+  fleetGroupId: string;
+  status: "active" | "consumed" | "expired" | "revoked";
+  issuedAtUnix: number;
+  expiresAtUnix: number;
+}
+
+export interface TokenListProps {
+  tokens: EnrollmentTokenData[];
+  onRevoke: (tokenValue: string) => void;
+}
+
+// --- Agent Connection ---
+
+export interface AgentConnectionData {
+  presenceState: "online" | "degraded" | "offline";
+  lastSeenAt: string;
+  agentId: string;
+  version: string;
+  fleetGroup: string;
+  certificate: {
+    issuedAt: string;
+    expiresAt: string;
+    remainingDays: number;
+  };
+  recoveryGrant?: {
+    status: "allowed" | "used" | "revoked";
+    expiresAtUnix: number;
+  };
+}
+
+export interface AgentConnectionSectionProps {
+  data: AgentConnectionData;
+  onAllowReEnrollment: () => void;
+  onRevokeGrant: () => void;
+}
+
+// --- Init State ---
+
+export interface InitCardProps {
+  stage: string;
+  progressPct: number;
+  attempt: number;
+  retryLimit: number;
+  elapsedSecs: number;
+  lastError?: string;
+  degraded?: boolean;
+}
+
+// --- Client Form ---
+
+export interface NodeOption {
+  id: string;
+  name: string;
+  status: Severity;
+  fleetGroup: string;
+}
+
+export interface FleetGroupChipsProps {
+  groups: FleetGroupOption[];
+  selected: string[];
+  onChange: (selected: string[]) => void;
+}
+
+export interface NodeSelectorProps {
+  nodes: NodeOption[];
+  selectedNodeIds: string[];
+  onChange: (ids: string[]) => void;
+}
+
+export interface ClientFormData {
+  name: string;
+  userAdTag: string;
+  expirationRfc3339: string;
+  maxTcpConns: number;
+  maxUniqueIps: number;
+  dataQuotaBytes: number;
+}
+
+export interface ClientFormSheetProps {
+  mode: "create" | "edit";
+  data: ClientFormData;
+  onChange: (data: ClientFormData) => void;
+  onSubmit: () => void;
+  onCancel: () => void;
+  loading?: boolean;
+  error?: string;
+}
+
+export interface ClientAccessSheetProps {
+  fleetGroups: FleetGroupOption[];
+  nodes: NodeOption[];
+  selectedFleetGroupIds: string[];
+  selectedNodeIds: string[];
+  onFleetGroupsChange: (ids: string[]) => void;
+  onNodesChange: (ids: string[]) => void;
+  onSubmit: () => void;
+  onCancel: () => void;
+  loading?: boolean;
+}
+
+export interface SecretRevealProps {
+  secret: string;
+  onDismiss: () => void;
+}
+
+// --- User Management ---
+
+export interface UserListItem {
+  id: string;
+  username: string;
+  role: "admin" | "operator" | "viewer";
+  totpEnabled: boolean;
+  createdAt: string;
+}
+
+export interface UsersSectionProps {
+  users: UserListItem[];
+  onAdd: () => void;
+  onEdit: (userId: string) => void;
+  onResetTotp: (userId: string) => void;
+  onDelete: (userId: string) => void;
+}
+
+export interface UserFormData {
+  username: string;
+  password: string;
+  role: "admin" | "operator" | "viewer";
+}
+
+export interface UserFormSheetProps {
+  mode: "create" | "edit";
+  data: UserFormData;
+  onChange: (data: UserFormData) => void;
+  onSubmit: () => void;
+  onCancel: () => void;
+  loading?: boolean;
+  error?: string;
+}
+
