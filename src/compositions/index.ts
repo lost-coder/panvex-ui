@@ -13,3 +13,5 @@ export { SearchFilter, type SearchFilterProps } from "./SearchFilter";
 export { Pagination, type PaginationProps } from "./Pagination";
 export { SwipeTabView, type SwipeTabViewProps, type SwipeTab } from "./SwipeTabView";
 export { TableView, type TableViewProps, type TableViewFilter, type TableViewColumn } from "./TableView";
+export { FleetGroupChips } from "./FleetGroupChips";
+export { NodeSelector } from "./NodeSelector";
