@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Settings, Server, Users } from "lucide-react";
-import { SettingsPage } from "./SettingsPage";
+import { ProfilePage } from "./ProfilePage";
 import { AppShell } from "@/layout/AppShell";
 
 const mockNavItems = [
@@ -9,9 +9,16 @@ const mockNavItems = [
   { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
 ];
 
+const mockAppearance = {
+  theme: "system" as const,
+  density: "comfortable" as const,
+  helpMode: "basic" as const,
+  swipeNavigation: true,
+};
+
 const meta = {
-  title: "Pages/SettingsPage",
-  component: SettingsPage,
+  title: "Pages/ProfilePage",
+  component: ProfilePage,
   parameters: {
     layout: "fullscreen",
   },
@@ -26,25 +33,33 @@ const meta = {
       </AppShell>
     ),
   ],
-} satisfies Meta<typeof SettingsPage>;
+} satisfies Meta<typeof ProfilePage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    panelSettings: {
-      httpPublicUrl: "https://panvex.example.com",
-      grpcPublicEndpoint: "panvex.example.com:443",
+    user: {
+      id: "u1",
+      username: "admin",
+      role: "admin",
+      totpEnabled: true,
     },
-    appearanceSettings: {
-      theme: "system",
-      density: "comfortable",
-      helpMode: "basic",
-      swipeNavigation: true,
-    },
-    onPanelSettingsChange: (s) => console.log("Panel settings changed:", s),
+    appearance: mockAppearance,
     onAppearanceChange: (s) => console.log("Appearance changed:", s),
-    onRestart: () => console.log("Restart requested"),
+  },
+};
+
+export const NoTotp: Story = {
+  args: {
+    user: {
+      id: "u2",
+      username: "operator",
+      role: "operator",
+      totpEnabled: false,
+    },
+    appearance: mockAppearance,
+    onAppearanceChange: (s) => console.log("Appearance changed:", s),
   },
 };
