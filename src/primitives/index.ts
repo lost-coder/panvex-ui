@@ -17,3 +17,7 @@ export { MonoValue, type MonoValueProps } from "./MonoValue";
 export { StatCard, type StatCardProps } from "./StatCard";
 export { KvGrid, type KvGridProps, type KvGridRow } from "./KvGrid";
 export { CopyButton, type CopyButtonProps } from "./CopyButton";
+export { ChipToggle, type ChipToggleProps } from "./ChipToggle";
+export { StepIndicator, type StepIndicatorProps } from "./StepIndicator";
+export { InitCard } from "./InitCard";
+export { SecretReveal } from "./SecretReveal";

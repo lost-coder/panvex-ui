@@ -1,0 +1,34 @@
+// src/primitives/ChipToggle.tsx
+import { cn } from "@/lib/utils";
+
+export interface ChipToggleProps {
+  label: string;
+  sublabel?: string;
+  selected: boolean;
+  onClick: () => void;
+  className?: string;
+}
+
+export function ChipToggle({ label, sublabel, selected, onClick, className }: ChipToggleProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+        selected
+          ? "bg-accent text-white"
+          : "border border-border text-fg-muted hover:border-border-hi hover:text-fg",
+        className,
+      )}
+    >
+      {selected && <span className="text-[10px]">✓</span>}
+      {label}
+      {sublabel && (
+        <span className={cn("text-[10px]", selected ? "opacity-70" : "text-fg-muted")}>
+          {sublabel}
+        </span>
+      )}
+    </button>
+  );
+}
