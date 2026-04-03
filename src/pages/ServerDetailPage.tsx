@@ -862,7 +862,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                   {expandedDc === row.dc ? "▾" : "›"}
                 </td>
                 <td className="px-3 py-2">
-                  <span className="font-mono text-xs font-semibold">DC{row.dc}</span>
+                  <span className="font-mono text-xs font-semibold text-fg">DC{row.dc}</span>
                 </td>
                 <td className="px-3 py-2">
                   <MonoValue className={row.availablePct < 100 ? "text-status-warn" : undefined}>
@@ -943,7 +943,14 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export function ServerDetailPage({ server, onBack, onReload, initState }: ServerDetailPageProps) {
+function formatLastUpdated(date: Date): string {
+  const secs = Math.round((Date.now() - date.getTime()) / 1000);
+  if (secs < 5) return "just now";
+  if (secs < 60) return `${secs}s ago`;
+  return `${Math.floor(secs / 60)}m ago`;
+}
+
+export function ServerDetailPage({ server, onBack, onReload, initState, lastUpdatedAt }: ServerDetailPageProps) {
   const { systemInfo, gates, connections, summary, dcs } = server;
 
   // DC sort: problematic (low coverage) first
@@ -1049,6 +1056,11 @@ export function ServerDetailPage({ server, onBack, onReload, initState }: Server
         subtitle={subtitle}
         trailing={
           <div className="flex items-center gap-2">
+            {lastUpdatedAt && (
+              <span className="text-xs text-fg-muted font-mono tabular-nums">
+                {formatLastUpdated(lastUpdatedAt)}
+              </span>
+            )}
             <StatusBeacon status={server.status} size="md" />
             <ActionsDropdown onReload={onReload} />
           </div>

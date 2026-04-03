@@ -408,6 +408,7 @@ export interface ServerDetailPageProps {
   onReload?: () => void;
   agentConnection?: AgentConnectionData;
   initState?: InitCardProps;
+  lastUpdatedAt?: Date;
   onAllowReEnrollment?: () => void;
   onRevokeGrant?: () => void;
 }
