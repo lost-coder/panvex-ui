@@ -18,3 +18,5 @@ export { NodeSelector } from "./NodeSelector";
 export { EnrollmentWizard } from "./EnrollmentWizard";
 export { TokenList } from "./TokenList";
 export { AgentConnectionSection } from "./AgentConnectionSection";
+export { ClientFormSheet } from "./ClientFormSheet";
+export { ClientAccessSheet } from "./ClientAccessSheet";
