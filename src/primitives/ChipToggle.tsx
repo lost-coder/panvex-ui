@@ -13,6 +13,7 @@ export function ChipToggle({ label, sublabel, selected, onClick, className }: Ch
   return (
     <button
       type="button"
+      aria-pressed={selected}
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
@@ -22,7 +23,7 @@ export function ChipToggle({ label, sublabel, selected, onClick, className }: Ch
         className,
       )}
     >
-      {selected && <span className="text-[10px]">✓</span>}
+      {selected && <span className="text-[10px]" aria-hidden="true">✓</span>}
       {label}
       {sublabel && (
         <span className={cn("text-[10px]", selected ? "opacity-70" : "text-fg-muted")}>

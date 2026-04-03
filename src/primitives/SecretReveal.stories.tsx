@@ -12,6 +12,6 @@ type Story = StoryObj<typeof SecretReveal>;
 export const Default: Story = {
   args: {
     secret: "cl_sk_a7f3b2c8d9e0f1234567890abcdef1234567890abcdef",
-    onDismiss: () => alert("dismissed"),
+    onDismiss: () => {},
   },
 };
