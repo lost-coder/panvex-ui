@@ -20,3 +20,5 @@ export { TokenList } from "./TokenList";
 export { AgentConnectionSection } from "./AgentConnectionSection";
 export { ClientFormSheet } from "./ClientFormSheet";
 export { ClientAccessSheet } from "./ClientAccessSheet";
+export { UserFormSheet } from "./UserFormSheet";
+export { UsersSection } from "./UsersSection";
