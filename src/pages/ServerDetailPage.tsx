@@ -128,11 +128,13 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
           value={mePct}
           label={`ME: ${connections.currentMe.toLocaleString()} (${mePct}%)`}
           size="sm"
+          variant="info"
         />
         <ProgressBar
           value={directPct}
           label={`Direct: ${connections.currentDirect.toLocaleString()} (${directPct}%)`}
           size="sm"
+          variant="info"
         />
         {connections.staleCacheUsed && (
           <Badge variant="warn">⚠ Stale cache in use</Badge>
@@ -236,7 +238,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       header: "RTT",
       render: (row: ServerMeWriterData) => (
         <MonoValue>
-          {row.rttEmaMs != null ? `${row.rttEmaMs}ms` : "—"}
+          {row.rttEmaMs != null ? `${row.rttEmaMs.toFixed(1)}ms` : "—"}
         </MonoValue>
       ),
     },
@@ -884,7 +886,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                 </td>
                 <td className="px-3 py-2">
                   <MonoValue className={(row.rttMs ?? 0) > 300 ? "text-status-error" : (row.rttMs ?? 0) > 100 ? "text-status-warn" : undefined}>
-                    {row.rttMs != null ? `${row.rttMs}ms` : "—"}
+                    {row.rttMs != null ? `${row.rttMs.toFixed(1)}ms` : "—"}
                   </MonoValue>
                 </td>
                 <td className="px-3 py-2">
@@ -1179,7 +1181,7 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
                     </span>
                     <span className="text-fg-muted">RTT</span>
                     <span className={`font-mono ${(selectedDc.rttMs ?? 0) > 300 ? "text-status-error" : (selectedDc.rttMs ?? 0) > 100 ? "text-status-warn" : "text-fg"}`}>
-                      {selectedDc.rttMs != null ? `${selectedDc.rttMs}ms` : "—"}
+                      {selectedDc.rttMs != null ? `${selectedDc.rttMs.toFixed(1)}ms` : "—"}
                     </span>
                     <span className="text-fg-muted">Load</span>
                     <span className="font-mono text-fg">{selectedDc.load}</span>

@@ -6,10 +6,13 @@ export interface ProgressBarProps {
   label?: string;
   showValue?: boolean;
   size?: "sm" | "md";
+  /** "threshold" colors by value (green/warn/red), "info" always uses accent */
+  variant?: "threshold" | "info";
   className?: string;
 }
 
-function getColor(pct: number): string {
+function getColor(pct: number, variant: "threshold" | "info"): string {
+  if (variant === "info") return "bg-accent";
   if (pct >= 90) return "bg-status-error";
   if (pct >= 70) return "bg-status-warn";
   return "bg-status-ok";
@@ -21,6 +24,7 @@ export function ProgressBar({
   label,
   showValue = true,
   size = "md",
+  variant = "threshold",
   className,
 }: ProgressBarProps) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
@@ -46,7 +50,7 @@ export function ProgressBar({
         )}
       >
         <div
-          className={cn("h-full rounded-full transition-all duration-500", getColor(pct))}
+          className={cn("h-full rounded-full transition-all duration-500", getColor(pct, variant))}
           style={{ width: `${pct}%` }}
         />
       </div>
