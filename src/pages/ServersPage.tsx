@@ -35,17 +35,17 @@ function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[];
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       {servers.map((s) => (
-        <div key={s.id} onClick={() => onServerClick?.(s.id)} className="cursor-pointer">
-          <NodeSummaryCard
-            name={s.name}
-            status={s.status}
-            connections={s.connections}
-            trafficBytes={s.trafficBytes}
-            cpuPct={s.cpuPct}
-            memPct={s.memPct}
-            dcs={s.dcs || []}
-          />
-        </div>
+        <NodeSummaryCard
+          key={s.id}
+          name={s.name}
+          status={s.status}
+          connections={s.connections}
+          trafficBytes={s.trafficBytes}
+          cpuPct={s.cpuPct}
+          memPct={s.memPct}
+          dcs={s.dcs || []}
+          onClick={() => onServerClick?.(s.id)}
+        />
       ))}
     </div>
   );

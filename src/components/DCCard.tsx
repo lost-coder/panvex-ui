@@ -39,7 +39,7 @@ export function DCCard({
       <span className="text-[11px] text-fg-muted leading-none">{city}</span>
       <div className="flex items-center gap-3 mt-auto">
         <span className="text-xs font-mono text-fg-muted">
-          {typeof latency === "number" ? latency.toFixed(1) : latency}<span className="text-fg-muted/50">ms</span>
+          {latency}<span className="text-fg-muted/50">ms</span>
         </span>
         <span className="text-xs font-mono text-fg-muted">
           {load}<span className="text-fg-muted/50">%</span>
