@@ -12,17 +12,18 @@ export function InitCard({
   lastError,
   degraded,
 }: InitCardProps) {
-  const borderColor = lastError
-    ? "border-status-error/30"
-    : "border-status-warn/30";
-  const bgColor = lastError
-    ? "bg-status-error/5"
-    : "bg-status-warn/5";
+  const borderColor = lastError ? "border-status-error/30" : "border-status-warn/30";
+  const bgColor = lastError ? "bg-status-error/5" : "bg-status-warn/5";
 
   return (
     <div className={cn("rounded-xs border p-4 flex flex-col gap-3", borderColor, bgColor)}>
       <div className="flex items-center justify-between">
-        <span className={cn("text-sm font-semibold", lastError ? "text-status-error" : "text-status-warn")}>
+        <span
+          className={cn(
+            "text-sm font-semibold",
+            lastError ? "text-status-error" : "text-status-warn",
+          )}
+        >
           {lastError ? "Initialization Error" : "Initializing Telemt runtime..."}
         </span>
         <span className="text-xs font-mono text-fg-muted">
@@ -39,7 +40,9 @@ export function InitCard({
         </div>
         <div>
           <span className="text-fg-muted">Attempt:</span>{" "}
-          <span className="font-mono text-fg">{attempt} / {retryLimit}</span>
+          <span className="font-mono text-fg">
+            {attempt} / {retryLimit}
+          </span>
         </div>
         <div>
           <span className="text-fg-muted">Elapsed:</span>{" "}

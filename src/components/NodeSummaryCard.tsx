@@ -91,7 +91,9 @@ export function NodeSummaryCard({
         role="button"
         tabIndex={0}
         onClick={() => onClick?.()}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onClick?.(); }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") onClick?.();
+        }}
         className="w-full text-left px-4 py-3 flex flex-col gap-2 hover:bg-bg-hover/40 transition-colors rounded-xs cursor-pointer"
       >
         {/* Row 1: name + status + issue badge + expand toggle */}
@@ -110,7 +112,10 @@ export function NodeSummaryCard({
             <button
               type="button"
               aria-label={expanded ? "Collapse" : "Expand"}
-              onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpanded((v) => !v);
+              }}
               className={cn(
                 "shrink-0 ml-1 p-1 -mr-1 rounded-md hover:bg-bg-hover/80 transition-all text-fg-muted hover:text-fg",
               )}
@@ -122,7 +127,13 @@ export function NodeSummaryCard({
                 fill="none"
                 className={cn("transition-transform duration-200", expanded && "rotate-180")}
               >
-                <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
           )}

@@ -16,17 +16,13 @@ const columns = [
   {
     key: "name",
     header: "Name",
-    render: (c: ClientListItem) => (
-      <span className="font-medium text-fg">{c.name}</span>
-    ),
+    render: (c: ClientListItem) => <span className="font-medium text-fg">{c.name}</span>,
   },
   {
     key: "status",
     header: "Status",
     render: (c: ClientListItem) => (
-      <Badge variant={c.enabled ? "ok" : "error"}>
-        {c.enabled ? "Active" : "Disabled"}
-      </Badge>
+      <Badge variant={c.enabled ? "ok" : "error"}>{c.enabled ? "Active" : "Disabled"}</Badge>
     ),
   },
   {
@@ -41,16 +37,12 @@ const columns = [
   {
     key: "traffic",
     header: "Traffic Used",
-    render: (c: ClientListItem) => (
-      <MonoValue>{formatBytes(c.trafficUsedBytes)}</MonoValue>
-    ),
+    render: (c: ClientListItem) => <MonoValue>{formatBytes(c.trafficUsedBytes)}</MonoValue>,
   },
   {
     key: "ips",
     header: "Unique IPs",
-    render: (c: ClientListItem) => (
-      <MonoValue>{c.uniqueIpsUsed}</MonoValue>
-    ),
+    render: (c: ClientListItem) => <MonoValue>{c.uniqueIpsUsed}</MonoValue>,
   },
   {
     key: "quota",
@@ -84,13 +76,7 @@ const columns = [
 
 // ─── Client card (cards view) ─────────────────────────────────────────────────
 
-function ClientCard({
-  client,
-  onClick,
-}: {
-  client: ClientListItem;
-  onClick?: () => void;
-}) {
+function ClientCard({ client, onClick }: { client: ClientListItem; onClick?: () => void }) {
   return (
     <div
       onClick={onClick}
@@ -130,9 +116,7 @@ function ClientCard({
       {/* Footer */}
       <div className="flex items-center justify-between pt-1 border-t border-border">
         <FieldLabel>Deploy</FieldLabel>
-        <Badge variant={deployVariant(client.lastDeployStatus)}>
-          {client.lastDeployStatus}
-        </Badge>
+        <Badge variant={deployVariant(client.lastDeployStatus)}>{client.lastDeployStatus}</Badge>
       </div>
     </div>
   );
@@ -140,13 +124,7 @@ function ClientCard({
 
 // ─── Mobile list row ──────────────────────────────────────────────────────────
 
-function ClientListRow({
-  client,
-  onClick,
-}: {
-  client: ClientListItem;
-  onClick?: () => void;
-}) {
+function ClientListRow({ client, onClick }: { client: ClientListItem; onClick?: () => void }) {
   return (
     <div
       onClick={onClick}
@@ -188,23 +166,22 @@ export function ClientsPage({
 
   // Filter
   const filtered = clients.filter((c) => {
-    const matchSearch =
-      !search || c.name.toLowerCase().includes(search.toLowerCase());
+    const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase());
     const matchStatus =
       statusFilter === "all" ||
       (statusFilter === "active" && c.enabled) ||
       (statusFilter === "disabled" && !c.enabled);
-    const matchDeploy =
-      deployFilter === "all" || c.lastDeployStatus === deployFilter;
+    const matchDeploy = deployFilter === "all" || c.lastDeployStatus === deployFilter;
     return matchSearch && matchStatus && matchDeploy;
   });
 
   // Paginate
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
-  const paginated = effectiveMode === "list"
-    ? filtered.slice((safePage - 1) * pageSize, safePage * pageSize)
-    : filtered;
+  const paginated =
+    effectiveMode === "list"
+      ? filtered.slice((safePage - 1) * pageSize, safePage * pageSize)
+      : filtered;
 
   return (
     <>
@@ -213,20 +190,28 @@ export function ClientsPage({
         subtitle={`${clients.length} clients`}
         trailing={
           onAddClient ? (
-            <Button size="sm" onClick={onAddClient}>Add Client</Button>
+            <Button size="sm" onClick={onAddClient}>
+              Add Client
+            </Button>
           ) : undefined
         }
       />
       <div className="px-4 md:px-8 pb-8">
         <TableView
           search={search}
-          onSearchChange={(v) => { setSearch(v); setCurrentPage(1); }}
+          onSearchChange={(v) => {
+            setSearch(v);
+            setCurrentPage(1);
+          }}
           searchPlaceholder="Search by name..."
           filters={[
             {
               key: "status",
               value: statusFilter,
-              onChange: (v) => { setStatusFilter(v); setCurrentPage(1); },
+              onChange: (v) => {
+                setStatusFilter(v);
+                setCurrentPage(1);
+              },
               options: [
                 { value: "all", label: "All Statuses" },
                 { value: "active", label: "Active" },
@@ -237,7 +222,10 @@ export function ClientsPage({
             {
               key: "deploy",
               value: deployFilter,
-              onChange: (v) => { setDeployFilter(v); setCurrentPage(1); },
+              onChange: (v) => {
+                setDeployFilter(v);
+                setCurrentPage(1);
+              },
               options: [
                 { value: "all", label: "All Deploy" },
                 { value: "ok", label: "OK" },
@@ -259,11 +247,7 @@ export function ClientsPage({
             // Cards view
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {paginated.map((c) => (
-                <ClientCard
-                  key={c.id}
-                  client={c}
-                  onClick={() => onClientClick?.(c.id)}
-                />
+                <ClientCard key={c.id} client={c} onClick={() => onClientClick?.(c.id)} />
               ))}
             </div>
           ) : (
@@ -272,11 +256,7 @@ export function ClientsPage({
               {/* Mobile: compact rows */}
               <div className="md:hidden flex flex-col">
                 {paginated.map((c) => (
-                  <ClientListRow
-                    key={c.id}
-                    client={c}
-                    onClick={() => onClientClick?.(c.id)}
-                  />
+                  <ClientListRow key={c.id} client={c} onClick={() => onClientClick?.(c.id)} />
                 ))}
               </div>
               {/* Desktop: DataTable */}

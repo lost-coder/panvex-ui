@@ -32,15 +32,9 @@ export function AppShell({
         onNavigate={onNavigate}
       />
 
-      <main className="md:ml-[60px] pb-16 md:pb-0 min-h-screen">
-        {children}
-      </main>
+      <main className="md:ml-[60px] pb-16 md:pb-0 min-h-screen">{children}</main>
 
-      <BottomNav
-        items={navItems}
-        activeId={activeId}
-        onNavigate={onNavigate}
-      />
+      <BottomNav items={navItems} activeId={activeId} onNavigate={onNavigate} />
     </div>
   );
 }

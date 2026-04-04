@@ -361,11 +361,28 @@ export interface MeSelftestData {
 }
 
 export interface MeSelftestPayload {
-  kdf: { state: string; ewma_errors_per_min: number; threshold_errors_per_min: number; errors_total: number };
-  timeskew: { state: string; max_skew_secs_15m: number | null; samples_15m: number; last_skew_secs: number | null; last_source: string | null; last_seen_age_secs: number | null };
+  kdf: {
+    state: string;
+    ewma_errors_per_min: number;
+    threshold_errors_per_min: number;
+    errors_total: number;
+  };
+  timeskew: {
+    state: string;
+    max_skew_secs_15m: number | null;
+    samples_15m: number;
+    last_skew_secs: number | null;
+    last_source: string | null;
+    last_seen_age_secs: number | null;
+  };
   ip: { v4: { addr: string; state: string } | null; v6: { addr: string; state: string } | null };
   pid: { pid: number; state: string };
-  bnd: { addr_state: string; port_state: string; last_addr: string | null; last_seen_age_secs: number | null };
+  bnd: {
+    addr_state: string;
+    port_state: string;
+    last_addr: string | null;
+    last_seen_age_secs: number | null;
+  };
 }
 
 /** GET /v1/runtime/initialization */

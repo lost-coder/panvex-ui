@@ -27,9 +27,7 @@ export function Sidebar({
       )}
     >
       <div className="flex items-center justify-center h-[52px] w-full border-b border-border shrink-0">
-        <span className="text-base font-mono font-bold text-accent">
-          {brand.charAt(0)}
-        </span>
+        <span className="text-base font-mono font-bold text-accent">{brand.charAt(0)}</span>
       </div>
 
       <nav className="flex-1 flex flex-col items-center gap-1 py-3 w-full overflow-y-auto">

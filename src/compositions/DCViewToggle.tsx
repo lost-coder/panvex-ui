@@ -7,11 +7,7 @@ export interface DCViewToggleProps {
   className?: string;
 }
 
-export function DCViewToggle({
-  cardsView,
-  gridView,
-  className,
-}: DCViewToggleProps) {
+export function DCViewToggle({ cardsView, gridView, className }: DCViewToggleProps) {
   const [mode, setMode] = useState<"cards" | "grid">("cards");
 
   return (
@@ -44,9 +40,7 @@ function ToggleBtn({
       onClick={onClick}
       className={cn(
         "h-7 w-7 flex items-center justify-center rounded text-xs transition-colors",
-        active
-          ? "bg-accent/20 text-accent"
-          : "text-fg-muted hover:text-fg hover:bg-bg-hover",
+        active ? "bg-accent/20 text-accent" : "text-fg-muted hover:text-fg hover:bg-bg-hover",
       )}
     >
       {children}

@@ -28,7 +28,14 @@ export const ScrollRow: Story = {
     <div className="flex gap-2 overflow-x-auto w-[375px] pb-2">
       <RegionCard name="EU-West" status="ok" nodeCount={8} dcCount={3} clients={4200} load={42} />
       <RegionCard name="US-East" status="ok" nodeCount={6} dcCount={2} clients={3100} load={55} />
-      <RegionCard name="AP-South" status="warn" nodeCount={4} dcCount={2} clients={1800} load={78} />
+      <RegionCard
+        name="AP-South"
+        status="warn"
+        nodeCount={4}
+        dcCount={2}
+        clients={1800}
+        load={78}
+      />
       <RegionCard name="ME-Central" status="ok" nodeCount={2} dcCount={1} clients={600} load={31} />
     </div>
   ),

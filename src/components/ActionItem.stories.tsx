@@ -17,16 +17,30 @@ export const Default: Story = {
 };
 
 export const Danger: Story = {
-  args: { icon: "⏻", label: "Force Stop", description: "Immediately terminate all processes", variant: "danger" },
+  args: {
+    icon: "⏻",
+    label: "Force Stop",
+    description: "Immediately terminate all processes",
+    variant: "danger",
+  },
 };
 
 export const ActionList: Story = {
   render: () => (
     <div className="w-[340px] flex flex-col">
-      <ActionItem icon="⟳" label="Restart Node" description="Graceful restart with connection drain" />
+      <ActionItem
+        icon="⟳"
+        label="Restart Node"
+        description="Graceful restart with connection drain"
+      />
       <ActionItem icon="⚙" label="Reconfigure" description="Apply pending configuration changes" />
       <ActionItem icon="📋" label="View Logs" description="Open real-time log stream" />
-      <ActionItem icon="⏻" label="Force Stop" description="Immediately terminate" variant="danger" />
+      <ActionItem
+        icon="⏻"
+        label="Force Stop"
+        description="Immediately terminate"
+        variant="danger"
+      />
     </div>
   ),
 };

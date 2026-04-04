@@ -5,7 +5,12 @@ import { StatusDot } from "@/primitives/StatusDot";
 import { Input } from "@/components/ui/input";
 import type { NodeSelectorProps } from "@/types/pages";
 
-export function NodeSelector({ nodes, selectedNodeIds, onChange, className }: NodeSelectorProps & { className?: string }) {
+export function NodeSelector({
+  nodes,
+  selectedNodeIds,
+  onChange,
+  className,
+}: NodeSelectorProps & { className?: string }) {
   const [search, setSearch] = useState("");
 
   const filtered = nodes.filter(

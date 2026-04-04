@@ -23,7 +23,11 @@ export function ChipToggle({ label, sublabel, selected, onClick, className }: Ch
         className,
       )}
     >
-      {selected && <span className="text-[10px]" aria-hidden="true">✓</span>}
+      {selected && (
+        <span className="text-[10px]" aria-hidden="true">
+          ✓
+        </span>
+      )}
       {label}
       {sublabel && (
         <span className={cn("text-[10px]", selected ? "opacity-70" : "text-fg-muted")}>

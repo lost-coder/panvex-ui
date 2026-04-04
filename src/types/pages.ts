@@ -109,7 +109,7 @@ export interface ServerDcData {
   requiredWriters: number;
   aliveWriters: number;
   coveragePct: number;
-  freshAlivePct?: number;       // fresh_coverage_pct
+  freshAlivePct?: number; // fresh_coverage_pct
   // floor policy
   floorMin: number;
   floorTarget: number;
@@ -123,7 +123,7 @@ export interface ServerDcData {
 // /v1/stats/upstreams → upstreams[]
 export interface ServerUpstreamData {
   upstreamId: number;
-  routeKind: string;            // direct | socks4 | socks5 | shadowsocks
+  routeKind: string; // direct | socks4 | socks5 | shadowsocks
   address: string;
   weight: number;
   healthy: boolean;
@@ -175,10 +175,10 @@ export interface ServerGatesData {
   me2dcFallbackEnabled: boolean;
   rerouteActive: boolean;
   rerouteReason?: string;
-  startupStatus: string;          // pending | initializing | ready | failed | skipped
+  startupStatus: string; // pending | initializing | ready | failed | skipped
   startupProgressPct: number;
-  degraded: boolean;              // from /v1/runtime/initialization
-  readOnly: boolean;              // from /v1/health
+  degraded: boolean; // from /v1/runtime/initialization
+  readOnly: boolean; // from /v1/health
 }
 
 // /v1/stats/me-writers → writers[]
@@ -186,7 +186,7 @@ export interface ServerMeWriterData {
   writerId: number;
   dc?: number;
   endpoint: string;
-  state: string;                  // warm | active | draining
+  state: string; // warm | active | draining
   draining: boolean;
   degraded: boolean;
   boundClients: number;
@@ -270,29 +270,29 @@ export interface ServerMeQualityData {
 export interface ServerSelftestData {
   enabled: boolean;
   kdf: {
-    state: string;                // ok | error
+    state: string; // ok | error
     ewmaErrorsPerMin: number;
     thresholdErrorsPerMin: number;
     errorsTotal: number;
   };
   timeskew: {
-    state: string;                // ok | error
+    state: string; // ok | error
     maxSkewSecs15m?: number;
     samples15m?: number;
     lastSkewSecs?: number;
     lastSource?: string;
   };
   ip: {
-    v4?: { addr: string; state: string };   // good | bogon | loopback
+    v4?: { addr: string; state: string }; // good | bogon | loopback
     v6?: { addr: string; state: string };
   };
   pid: {
     pid: number;
-    state: string;                // one | non-one
+    state: string; // one | non-one
   };
   bnd: {
-    addrState: string;            // ok | bogon | error
-    portState: string;            // ok | zero | error
+    addrState: string; // ok | bogon | error
+    portState: string; // ok | zero | error
     lastAddr?: string;
     lastSeenAgeSecs?: number;
   };
@@ -305,7 +305,7 @@ export interface ServerNatStunData {
   natProbeDisabledRuntime: boolean;
   liveStunTotal: number;
   configuredStunTotal: number;
-  configuredServers: string[];      // list of stun server addresses
+  configuredServers: string[]; // list of stun server addresses
   reflectionV4?: { addr: string; ageSecs: number };
   reflectionV6?: { addr: string; ageSecs: number };
   stunBackoffRemainingMs?: number;
@@ -707,4 +707,3 @@ export interface UserFormSheetProps {
   loading?: boolean;
   error?: string;
 }
-

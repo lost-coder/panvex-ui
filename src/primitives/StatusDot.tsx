@@ -16,12 +16,7 @@ const colorMap = {
   error: "bg-status-error",
 } as const;
 
-export function StatusDot({
-  status,
-  size = "sm",
-  animated = false,
-  className,
-}: StatusDotProps) {
+export function StatusDot({ status, size = "sm", animated = false, className }: StatusDotProps) {
   return (
     <span
       className={cn(

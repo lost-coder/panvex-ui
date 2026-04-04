@@ -24,7 +24,8 @@ const mockClient: ClientDetailPageProps["client"] = {
       desiredOperation: "upsert",
       status: "ok",
       lastError: "",
-      connectionLink: "tg://proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef",
+      connectionLink:
+        "tg://proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef",
       lastAppliedAtUnix: 1743600000,
     },
     {

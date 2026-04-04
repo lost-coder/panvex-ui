@@ -32,9 +32,19 @@ export const Error: Story = {
 export const Timeline: Story = {
   render: () => (
     <div className="w-[340px]">
-      <TimelineEvent status="ok" time="12:04" message="Node restarted successfully" detail="All 12 DC connections re-established" />
+      <TimelineEvent
+        status="ok"
+        time="12:04"
+        message="Node restarted successfully"
+        detail="All 12 DC connections re-established"
+      />
       <TimelineEvent status="error" time="12:02" message="Connection to SYD lost" />
-      <TimelineEvent status="warn" time="11:58" message="CPU spike detected — 94%" detail="Duration: 12s. Triggered autoscale check." />
+      <TimelineEvent
+        status="warn"
+        time="11:58"
+        message="CPU spike detected — 94%"
+        detail="Duration: 12s. Triggered autoscale check."
+      />
       <TimelineEvent status="ok" time="11:45" message="Config v2.4.1 deployed" />
     </div>
   ),

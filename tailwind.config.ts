@@ -31,20 +31,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        mono: [
-          "JetBrains Mono",
-          "Fira Code",
-          "SF Mono",
-          "Consolas",
-          "monospace",
-        ],
-        sans: [
-          "Inter",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "sans-serif",
-        ],
+        mono: ["JetBrains Mono", "Fira Code", "SF Mono", "Consolas", "monospace"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "12px",

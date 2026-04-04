@@ -6,7 +6,11 @@ import { Timeline } from "@/compositions/Timeline";
 import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { Badge } from "@/primitives/Badge";
-import type { DashboardPageProps, DashboardOverviewData, DashboardTimelineData } from "@/types/pages";
+import type {
+  DashboardPageProps,
+  DashboardOverviewData,
+  DashboardTimelineData,
+} from "@/types/pages";
 
 interface OverviewPanelProps {
   data: DashboardOverviewData;
@@ -30,9 +34,14 @@ function KpiStrip({ kpis }: { kpis: DashboardOverviewData["kpis"] }) {
       {/* Desktop: card grid */}
       <div className="hidden md:grid grid-cols-4 gap-3">
         {kpis.map((k) => (
-          <div key={k.label} className="rounded-xs bg-bg-card border border-border px-4 py-3 flex flex-col gap-0.5">
+          <div
+            key={k.label}
+            className="rounded-xs bg-bg-card border border-border px-4 py-3 flex flex-col gap-0.5"
+          >
             <span className="text-[10px] text-fg-muted uppercase tracking-wider">{k.label}</span>
-            <span className={`text-xl font-mono font-semibold leading-tight ${k.accent ? "text-status-ok" : "text-fg"}`}>
+            <span
+              className={`text-xl font-mono font-semibold leading-tight ${k.accent ? "text-status-ok" : "text-fg"}`}
+            >
               {k.value}
             </span>
             {k.sub && <span className="text-[10px] text-fg-muted">{k.sub}</span>}
@@ -103,11 +112,13 @@ function TimelinePanel({ data }: { data: DashboardTimelineData }) {
   return (
     <div className="flex flex-col gap-4 bg-bg-card border border-border rounded-xl p-5 shadow-sm min-h-[calc(100vh-10rem)]">
       <SectionHeader title="Recent Events" trailing={<Badge variant="accent">live</Badge>} />
-      <Timeline events={data.events.map(e => ({
-        status: e.status === "info" ? "ok" as const : e.status,
-        time: e.time,
-        message: e.message,
-      }))} />
+      <Timeline
+        events={data.events.map((e) => ({
+          status: e.status === "info" ? ("ok" as const) : e.status,
+          time: e.time,
+          message: e.message,
+        }))}
+      />
     </div>
   );
 }
@@ -124,12 +135,20 @@ export function DashboardPage({ overview, timeline, onNodeClick }: DashboardPage
               {
                 id: "overview",
                 label: "Overview",
-                content: <div className="pt-4"><OverviewPanel data={overview} onNodeClick={onNodeClick} /></div>,
+                content: (
+                  <div className="pt-4">
+                    <OverviewPanel data={overview} onNodeClick={onNodeClick} />
+                  </div>
+                ),
               },
               {
                 id: "timeline",
                 label: "Timeline",
-                content: <div className="pt-4"><TimelinePanel data={timeline} /></div>,
+                content: (
+                  <div className="pt-4">
+                    <TimelinePanel data={timeline} />
+                  </div>
+                ),
               },
             ]}
           />

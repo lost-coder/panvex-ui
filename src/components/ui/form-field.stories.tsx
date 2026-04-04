@@ -14,7 +14,11 @@ type Story = StoryObj<typeof FormField>;
 
 export const WithInput: Story = {
   render: () => (
-    <FormField label="Server Name" description="Unique identifier for this node" className="w-[300px]">
+    <FormField
+      label="Server Name"
+      description="Unique identifier for this node"
+      className="w-[300px]"
+    >
       <Input placeholder="node-eu-fra-01" />
     </FormField>
   ),

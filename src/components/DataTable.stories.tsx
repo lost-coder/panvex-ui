@@ -27,9 +27,23 @@ const users: User[] = [
 ];
 
 const columns: DataTableColumn<User>[] = [
-  { key: "name", header: "User", sortable: true, render: (r) => <span className="font-mono text-fg">{r.name}</span> },
-  { key: "status", header: "Status", render: (r) => <ConnectionBadge online={r.online} count={r.connections} /> },
-  { key: "traffic", header: "Traffic", sortable: true, render: (r) => <TrafficCell bytes={r.traffic} /> },
+  {
+    key: "name",
+    header: "User",
+    sortable: true,
+    render: (r) => <span className="font-mono text-fg">{r.name}</span>,
+  },
+  {
+    key: "status",
+    header: "Status",
+    render: (r) => <ConnectionBadge online={r.online} count={r.connections} />,
+  },
+  {
+    key: "traffic",
+    header: "Traffic",
+    sortable: true,
+    render: (r) => <TrafficCell bytes={r.traffic} />,
+  },
 ];
 
 export const Default: Story = {
@@ -43,7 +57,12 @@ export const Default: Story = {
 export const Empty: Story = {
   render: () => (
     <div className="w-[600px]">
-      <DataTable columns={columns} data={[]} keyExtractor={(r: User) => r.id} emptyMessage="No users found" />
+      <DataTable
+        columns={columns}
+        data={[]}
+        keyExtractor={(r: User) => r.id}
+        emptyMessage="No users found"
+      />
     </div>
   ),
 };

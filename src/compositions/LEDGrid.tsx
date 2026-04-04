@@ -8,20 +8,9 @@ export interface LEDGridProps {
   className?: string;
 }
 
-export function LEDGrid({
-  items,
-  activeCode,
-  onSelect,
-  className,
-}: LEDGridProps) {
+export function LEDGrid({ items, activeCode, onSelect, className }: LEDGridProps) {
   return (
-    <div
-      className={cn(
-        "grid grid-cols-4 gap-1",
-        "md:grid-cols-6",
-        className,
-      )}
-    >
+    <div className={cn("grid grid-cols-4 gap-1", "md:grid-cols-6", className)}>
       {items.map((item) => (
         <LEDIndicator
           key={item.label}

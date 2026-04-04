@@ -33,7 +33,10 @@ export function DataTable<T>({
 
   const handleSort = (key: string) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    else { setSortKey(key); setSortDir("asc"); }
+    else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
   };
 
   return (
@@ -55,9 +58,7 @@ export function DataTable<T>({
                 >
                   {col.header}
                   {sortKey === col.key && (
-                    <span className="ml-1 text-accent">
-                      {sortDir === "asc" ? "↑" : "↓"}
-                    </span>
+                    <span className="ml-1 text-accent">{sortDir === "asc" ? "↑" : "↓"}</span>
                   )}
                 </th>
               ))}
@@ -110,9 +111,7 @@ export function DataTable<T>({
                     <span className="text-[10px] text-fg-muted uppercase tracking-wider shrink-0">
                       {col.header}
                     </span>
-                    <span className="text-sm text-fg text-right truncate">
-                      {col.render(row)}
-                    </span>
+                    <span className="text-sm text-fg text-right truncate">{col.render(row)}</span>
                   </div>
                 ))}
               </div>

@@ -17,7 +17,9 @@ export const Default: Story = {
 export const OnBadge: Story = {
   render: () => (
     <Tooltip content="Accepting new client connections" side="right">
-      <span><Badge variant="ok">accepting</Badge></span>
+      <span>
+        <Badge variant="ok">accepting</Badge>
+      </span>
     </Tooltip>
   ),
 };

@@ -24,12 +24,7 @@ export function SearchFilter({
   className,
 }: SearchFilterProps) {
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2 sm:flex-row sm:items-center",
-        className,
-      )}
-    >
+    <div className={cn("flex flex-col gap-2 sm:flex-row sm:items-center", className)}>
       <Input
         value={searchValue}
         onChange={(e) => onSearchChange(e.target.value)}

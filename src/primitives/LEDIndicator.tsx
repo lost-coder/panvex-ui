@@ -35,17 +35,9 @@ export function LEDIndicator({
         className,
       )}
     >
-      <span
-        className={cn("h-3 w-3 rounded-full shrink-0", ledColor[status])}
-      />
-      <span className="text-xs font-mono font-medium text-fg leading-none">
-        {label}
-      </span>
-      {sublabel && (
-        <span className="text-[10px] text-fg-muted leading-none">
-          {sublabel}
-        </span>
-      )}
+      <span className={cn("h-3 w-3 rounded-full shrink-0", ledColor[status])} />
+      <span className="text-xs font-mono font-medium text-fg leading-none">{label}</span>
+      {sublabel && <span className="text-[10px] text-fg-muted leading-none">{sublabel}</span>}
     </button>
   );
 }

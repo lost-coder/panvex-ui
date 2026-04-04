@@ -14,13 +14,7 @@ function getStroke(pct: number): string {
   return "#34d399";
 }
 
-export function MeterRing({
-  value,
-  max = 100,
-  label,
-  size = 72,
-  className,
-}: MeterRingProps) {
+export function MeterRing({ value, max = 100, label, size = 72, className }: MeterRingProps) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
   const r = (size - 8) / 2;
   const circ = 2 * Math.PI * r;
@@ -56,11 +50,7 @@ export function MeterRing({
           <span className="text-sm font-mono font-bold text-fg">{Math.round(pct)}%</span>
         </div>
       </div>
-      {label && (
-        <span className="text-[10px] text-fg-muted uppercase tracking-wider">
-          {label}
-        </span>
-      )}
+      {label && <span className="text-[10px] text-fg-muted uppercase tracking-wider">{label}</span>}
     </div>
   );
 }

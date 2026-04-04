@@ -22,5 +22,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["src/**/*.stories.tsx", "src/main.tsx"]
+  "exclude": ["src/**/*.stories.tsx", "src/**/*.test.tsx", "src/main.tsx"]
 }

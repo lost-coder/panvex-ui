@@ -42,9 +42,24 @@ export const Info: Story = {
 export const Stack: Story = {
   render: () => (
     <div className="flex flex-col gap-2 w-[340px]">
-      <AlertItem severity="crit" message="Node health below 50%" source="health-monitor" timestamp="12:04:22" />
-      <AlertItem severity="warn" message="Memory usage exceeded 85%" source="resource-watcher" timestamp="12:01:15" />
-      <AlertItem severity="info" message="Config reloaded" source="config-mgr" timestamp="11:58:30" />
+      <AlertItem
+        severity="crit"
+        message="Node health below 50%"
+        source="health-monitor"
+        timestamp="12:04:22"
+      />
+      <AlertItem
+        severity="warn"
+        message="Memory usage exceeded 85%"
+        source="resource-watcher"
+        timestamp="12:01:15"
+      />
+      <AlertItem
+        severity="info"
+        message="Config reloaded"
+        source="config-mgr"
+        timestamp="11:58:30"
+      />
     </div>
   ),
 };

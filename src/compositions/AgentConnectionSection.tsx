@@ -9,12 +9,17 @@ import { KvGrid } from "@/primitives/KvGrid";
 import { Button } from "@/components/ui/button";
 import type { AgentConnectionSectionProps } from "@/types/pages";
 
-export function AgentConnectionSection({ data, onAllowReEnrollment, onRevokeGrant }: AgentConnectionSectionProps) {
-  const certColor = data.certificate.remainingDays > 7
-    ? "text-status-ok"
-    : data.certificate.remainingDays > 1
-      ? "text-status-warn"
-      : "text-status-error";
+export function AgentConnectionSection({
+  data,
+  onAllowReEnrollment,
+  onRevokeGrant,
+}: AgentConnectionSectionProps) {
+  const certColor =
+    data.certificate.remainingDays > 7
+      ? "text-status-ok"
+      : data.certificate.remainingDays > 1
+        ? "text-status-warn"
+        : "text-status-error";
 
   // StatusBeacon only accepts "ok" | "warn" | "error" — map "degraded" to "warn"
   const presenceBeacon: "ok" | "warn" | "error" =
@@ -37,28 +42,38 @@ export function AgentConnectionSection({ data, onAllowReEnrollment, onRevokeGran
           <span className="text-xs text-fg-muted">Last seen: {data.lastSeenAt}</span>
         </div>
 
-        <KvGrid rows={[
-          { label: "Agent ID", value: <MonoValue>{data.agentId}</MonoValue> },
-          { label: "Version", value: <MonoValue>{data.version}</MonoValue> },
-          { label: "Fleet Group", value: data.fleetGroup },
-        ]} />
+        <KvGrid
+          rows={[
+            { label: "Agent ID", value: <MonoValue>{data.agentId}</MonoValue> },
+            { label: "Version", value: <MonoValue>{data.version}</MonoValue> },
+            { label: "Fleet Group", value: data.fleetGroup },
+          ]}
+        />
       </div>
 
       {/* Certificate */}
       <div className="rounded-xs bg-bg-card border border-border p-4 flex flex-col gap-3">
         <FieldLabel>Certificate</FieldLabel>
-        <KvGrid rows={[
-          { label: "Issued", value: <span className="text-xs">{data.certificate.issuedAt}</span> },
-          { label: "Expires", value: <span className="text-xs">{data.certificate.expiresAt}</span> },
-          {
-            label: "Remaining",
-            value: (
-              <span className={cn("text-xs font-medium", certColor)}>
-                {data.certificate.remainingDays} days
-              </span>
-            ),
-          },
-        ]} />
+        <KvGrid
+          rows={[
+            {
+              label: "Issued",
+              value: <span className="text-xs">{data.certificate.issuedAt}</span>,
+            },
+            {
+              label: "Expires",
+              value: <span className="text-xs">{data.certificate.expiresAt}</span>,
+            },
+            {
+              label: "Remaining",
+              value: (
+                <span className={cn("text-xs font-medium", certColor)}>
+                  {data.certificate.remainingDays} days
+                </span>
+              ),
+            },
+          ]}
+        />
 
         {data.recoveryGrant ? (
           <div className="flex items-center justify-between mt-1">
@@ -73,11 +88,18 @@ export function AgentConnectionSection({ data, onAllowReEnrollment, onRevokeGran
               )}
             </div>
             {data.recoveryGrant.status === "allowed" && (
-              <Button variant="ghost" size="sm" onClick={onRevokeGrant}>Revoke</Button>
+              <Button variant="ghost" size="sm" onClick={onRevokeGrant}>
+                Revoke
+              </Button>
             )}
           </div>
         ) : (
-          <Button variant="ghost" size="sm" onClick={onAllowReEnrollment} className="self-start mt-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onAllowReEnrollment}
+            className="self-start mt-1"
+          >
             Allow Re-enrollment
           </Button>
         )}

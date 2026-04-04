@@ -107,7 +107,9 @@ export const Typography: Story = {
           <span className="text-xs font-sans text-fg-muted">Caption and label text</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-fg-muted uppercase tracking-wider">Mono — JetBrains Mono</span>
+          <span className="text-xs text-fg-muted uppercase tracking-wider">
+            Mono — JetBrains Mono
+          </span>
           <span className="text-xl font-mono font-bold text-fg">99.98%</span>
           <span className="text-sm font-mono text-fg">node-eu-fra-01</span>
           <span className="text-xs font-mono text-fg-muted">185.76.151.1:443</span>

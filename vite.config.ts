@@ -23,7 +23,14 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: (id) =>
+        id === "react" ||
+        id === "react-dom" ||
+        id === "react/jsx-runtime" ||
+        id === "framer-motion" ||
+        id.startsWith("framer-motion/") ||
+        id === "motion" ||
+        id.startsWith("motion/"),
       output: {
         globals: {
           react: "React",

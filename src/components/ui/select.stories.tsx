@@ -18,11 +18,21 @@ const regions = [
 
 function SelectDemo() {
   const [value, setValue] = useState<string>();
-  return <Select options={regions} value={value} onChange={setValue} placeholder="Select region…" className="w-[200px]" />;
+  return (
+    <Select
+      options={regions}
+      value={value}
+      onChange={setValue}
+      placeholder="Select region…"
+      className="w-[200px]"
+    />
+  );
 }
 
 export const Default: Story = { render: () => <SelectDemo /> };
 
 export const Disabled: Story = {
-  render: () => <Select options={regions} value="eu-west" onChange={() => {}} disabled className="w-[200px]" />,
+  render: () => (
+    <Select options={regions} value="eu-west" onChange={() => {}} disabled className="w-[200px]" />
+  ),
 };

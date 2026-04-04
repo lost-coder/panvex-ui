@@ -6,8 +6,15 @@ import { NodeSelector } from "./NodeSelector";
 import type { ClientAccessSheetProps } from "@/types/pages";
 
 export function ClientAccessSheet({
-  fleetGroups, nodes, selectedFleetGroupIds, selectedNodeIds,
-  onFleetGroupsChange, onNodesChange, onSubmit, onCancel, loading,
+  fleetGroups,
+  nodes,
+  selectedFleetGroupIds,
+  selectedNodeIds,
+  onFleetGroupsChange,
+  onNodesChange,
+  onSubmit,
+  onCancel,
+  loading,
 }: ClientAccessSheetProps) {
   const [showFineTune, setShowFineTune] = useState(false);
 
@@ -58,7 +65,9 @@ export function ClientAccessSheet({
       </div>
 
       <div className="flex gap-2 justify-end mt-2">
-        <Button variant="ghost" onClick={onCancel} disabled={loading}>Cancel</Button>
+        <Button variant="ghost" onClick={onCancel} disabled={loading}>
+          Cancel
+        </Button>
         <Button onClick={onSubmit} disabled={loading}>
           {loading ? "Saving..." : "Save Access"}
         </Button>

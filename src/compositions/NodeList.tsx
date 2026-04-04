@@ -8,14 +8,7 @@ export interface NodeListProps {
 
 export function NodeList({ nodes, className }: NodeListProps) {
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 gap-2",
-        "md:grid-cols-2",
-        "xl:grid-cols-3",
-        className,
-      )}
-    >
+    <div className={cn("grid grid-cols-1 gap-2", "md:grid-cols-2", "xl:grid-cols-3", className)}>
       {nodes.map((node) => (
         <NodeCard key={node.name} {...node} />
       ))}

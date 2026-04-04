@@ -45,7 +45,11 @@ const MOCK_SERVERS_FEW = [
     memPct: 62,
     dcCoveragePct: 100,
     uptimeSeconds: 86400 * 12,
-    dcs: Array.from({ length: 12 }, (_, i) => ({ dc: i + 1, status: "ok" as const, rttMs: 45 + (i * 12) }))
+    dcs: Array.from({ length: 12 }, (_, i) => ({
+      dc: i + 1,
+      status: "ok" as const,
+      rttMs: 45 + i * 12,
+    })),
   },
   {
     id: "srv-02",
@@ -60,7 +64,11 @@ const MOCK_SERVERS_FEW = [
     memPct: 41,
     dcCoveragePct: 100,
     uptimeSeconds: 86400 * 45,
-    dcs: Array.from({ length: 12 }, (_, i) => ({ dc: i + 1, status: "ok" as const, rttMs: 30 + (i * 10) }))
+    dcs: Array.from({ length: 12 }, (_, i) => ({
+      dc: i + 1,
+      status: "ok" as const,
+      rttMs: 30 + i * 10,
+    })),
   },
   {
     id: "srv-03",
@@ -75,12 +83,21 @@ const MOCK_SERVERS_FEW = [
     memPct: 91,
     dcCoveragePct: 83,
     uptimeSeconds: 86400 * 2,
-    dcs: Array.from({ length: 12 }, (_, i) => ({ dc: i + 1, status: i === 2 ? ("error" as const) : ("ok" as const), rttMs: i === 2 ? null : 50 + (i * 5) }))
+    dcs: Array.from({ length: 12 }, (_, i) => ({
+      dc: i + 1,
+      status: i === 2 ? ("error" as const) : ("ok" as const),
+      rttMs: i === 2 ? null : 50 + i * 5,
+    })),
   },
 ];
 
 const MOCK_SERVERS_MANY = Array.from({ length: 25 }, (_, i) => {
-  const status = Math.random() > 0.8 ? ("warn" as const) : Math.random() > 0.9 ? ("error" as const) : ("ok" as const);
+  const status =
+    Math.random() > 0.8
+      ? ("warn" as const)
+      : Math.random() > 0.9
+        ? ("error" as const)
+        : ("ok" as const);
   const usersOnline = Math.floor(Math.random() * 20000);
   const groups = ["us", "eu", "ap"];
   return {
@@ -100,8 +117,8 @@ const MOCK_SERVERS_MANY = Array.from({ length: 25 }, (_, i) => {
     dcs: Array.from({ length: 12 }, (_, j) => ({
       dc: j + 1,
       status: status === "error" && j === 1 ? ("error" as const) : ("ok" as const),
-      rttMs: status === "error" && j === 1 ? null : 40 + (j * 8)
-    }))
+      rttMs: status === "error" && j === 1 ? null : 40 + j * 8,
+    })),
   };
 });
 

@@ -7,12 +7,7 @@ export interface PaginationProps {
   className?: string;
 }
 
-export function Pagination({
-  page,
-  totalPages,
-  onPageChange,
-  className,
-}: PaginationProps) {
+export function Pagination({ page, totalPages, onPageChange, className }: PaginationProps) {
   const pages = buildRange(page, totalPages);
 
   return (
@@ -20,29 +15,21 @@ export function Pagination({
       aria-label="Pagination"
       className={cn("flex items-center justify-center gap-1", className)}
     >
-      <PageBtn
-        disabled={page <= 1}
-        onClick={() => onPageChange(page - 1)}
-      >
+      <PageBtn disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
         ‹
       </PageBtn>
       {pages.map((p, i) =>
         p === null ? (
-          <span key={`e${i}`} className="px-1 text-fg-muted/40 text-xs">…</span>
+          <span key={`e${i}`} className="px-1 text-fg-muted/40 text-xs">
+            …
+          </span>
         ) : (
-          <PageBtn
-            key={p}
-            active={p === page}
-            onClick={() => onPageChange(p)}
-          >
+          <PageBtn key={p} active={p === page} onClick={() => onPageChange(p)}>
             {p}
           </PageBtn>
         ),
       )}
-      <PageBtn
-        disabled={page >= totalPages}
-        onClick={() => onPageChange(page + 1)}
-      >
+      <PageBtn disabled={page >= totalPages} onClick={() => onPageChange(page + 1)}>
         ›
       </PageBtn>
     </nav>
@@ -68,9 +55,7 @@ function PageBtn({
       className={cn(
         "h-8 min-w-[32px] px-2 rounded-xs text-xs font-mono transition-colors",
         "disabled:opacity-30 disabled:cursor-not-allowed",
-        active
-          ? "bg-accent text-white"
-          : "text-fg-muted hover:text-fg hover:bg-bg-hover",
+        active ? "bg-accent text-white" : "text-fg-muted hover:text-fg hover:bg-bg-hover",
       )}
     >
       {children}

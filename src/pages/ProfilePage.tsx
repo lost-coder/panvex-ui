@@ -5,11 +5,7 @@ import { Select } from "@/components/ui/select";
 import { Badge } from "@/primitives/Badge";
 import type { ProfilePageProps } from "@/types/pages";
 
-export function ProfilePage({
-  user,
-  appearance,
-  onAppearanceChange,
-}: ProfilePageProps) {
+export function ProfilePage({ user, appearance, onAppearanceChange }: ProfilePageProps) {
   const initials = user.username.charAt(0).toUpperCase();
 
   return (
@@ -21,15 +17,11 @@ export function ProfilePage({
         <div className="rounded-xs bg-bg-card border border-border p-6 flex flex-col items-center gap-3 text-center">
           {/* Avatar */}
           <div className="w-16 h-16 rounded-full bg-accent/15 flex items-center justify-center">
-            <span className="text-2xl font-mono font-bold text-accent">
-              {initials}
-            </span>
+            <span className="text-2xl font-mono font-bold text-accent">{initials}</span>
           </div>
 
           {/* Username */}
-          <span className="text-lg font-semibold text-fg tracking-tight">
-            {user.username}
-          </span>
+          <span className="text-lg font-semibold text-fg tracking-tight">{user.username}</span>
 
           {/* Role + TOTP badges */}
           <div className="flex items-center gap-2 flex-wrap justify-center">

@@ -53,11 +53,7 @@ function CredentialsPanel({
         />
       </div>
 
-      <Button
-        type="submit"
-        className="w-full mt-2"
-        disabled={loading || !username || !password}
-      >
+      <Button type="submit" className="w-full mt-2" disabled={loading || !username || !password}>
         {loading ? "Signing in…" : "Sign in"}
       </Button>
     </form>
@@ -95,16 +91,10 @@ function TotpPanel({
           required
           autoFocus
         />
-        <p className="text-xs text-fg-muted">
-          Enter the 6-digit code from your authenticator app.
-        </p>
+        <p className="text-xs text-fg-muted">Enter the 6-digit code from your authenticator app.</p>
       </div>
 
-      <Button
-        type="submit"
-        className="w-full mt-2"
-        disabled={loading || totpCode.length < 6}
-      >
+      <Button type="submit" className="w-full mt-2" disabled={loading || totpCode.length < 6}>
         {loading ? "Verifying…" : "Verify"}
       </Button>
 
@@ -140,11 +130,7 @@ export function LoginPage({
 
   React.useEffect(() => {
     if (stage !== prevStageRef.current) {
-      setDirection(
-        prevStageRef.current === "credentials" && stage === "totp"
-          ? "forward"
-          : "back"
-      );
+      setDirection(prevStageRef.current === "credentials" && stage === "totp" ? "forward" : "back");
       prevStageRef.current = stage;
     }
   }, [stage]);
@@ -175,9 +161,7 @@ export function LoginPage({
       <div className="w-full max-w-sm bg-bg-card border border-border rounded-xl shadow-xl p-8 flex flex-col gap-6">
         {/* Logo / Title */}
         <div className="flex flex-col items-center gap-1">
-          <span className="font-mono text-3xl font-bold text-fg tracking-tight">
-            Panvex
-          </span>
+          <span className="font-mono text-3xl font-bold text-fg tracking-tight">Panvex</span>
           <span className="text-xs text-fg-muted uppercase tracking-widest font-mono">
             Control Plane
           </span>
@@ -185,9 +169,7 @@ export function LoginPage({
 
         {/* Stage subtitle */}
         {stage === "totp" && (
-          <div className="text-center text-sm text-fg-muted -mb-2">
-            Two-factor authentication
-          </div>
+          <div className="text-center text-sm text-fg-muted -mb-2">Two-factor authentication</div>
         )}
 
         {/* Error banner */}
@@ -198,10 +180,7 @@ export function LoginPage({
         )}
 
         {/* Animated stage panel */}
-        <div
-          key={stage}
-          className={animClass}
-        >
+        <div key={stage} className={animClass}>
           {stage === "credentials" ? (
             <CredentialsPanel
               username={username}

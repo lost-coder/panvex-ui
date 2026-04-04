@@ -52,11 +52,7 @@ function OverviewContent({ client }: { client: ClientDetailPageProps["client"] }
     },
     {
       label: "User Ad Tag",
-      value: (
-        <MonoValue className="text-fg-muted">
-          {client.userAdTag || "—"}
-        </MonoValue>
-      ),
+      value: <MonoValue className="text-fg-muted">{client.userAdTag || "—"}</MonoValue>,
     },
   ];
 
@@ -87,11 +83,7 @@ function OverviewContent({ client }: { client: ClientDetailPageProps["client"] }
 
 // ─── Deployments content ──────────────────────────────────────────────────────
 
-function DeploymentsContent({
-  deployments,
-}: {
-  deployments: ClientDeploymentData[];
-}) {
+function DeploymentsContent({ deployments }: { deployments: ClientDeploymentData[] }) {
   const deployColumns = [
     {
       key: "agentId",
@@ -134,7 +126,8 @@ function DeploymentsContent({
             className="text-xs text-status-error truncate max-w-[160px] block"
             title={row.lastError}
           >
-            {row.lastError.slice(0, 60)}{row.lastError.length > 60 ? "…" : ""}
+            {row.lastError.slice(0, 60)}
+            {row.lastError.length > 60 ? "…" : ""}
           </span>
         ) : (
           <span className="text-fg-muted text-xs">—</span>
@@ -179,12 +172,7 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
     <>
       {/* Breadcrumbs */}
       <div className="px-4 md:px-8 pt-3">
-        <Breadcrumbs
-          items={[
-            { label: "Clients", onClick: onBack },
-            { label: client.name },
-          ]}
-        />
+        <Breadcrumbs items={[{ label: "Clients", onClick: onBack }, { label: client.name }]} />
       </div>
 
       {/* Page header */}
@@ -246,9 +234,7 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
                     label: "Fleet Groups",
                     value: (
                       <MonoValue>
-                        {client.fleetGroupIds.length > 0
-                          ? client.fleetGroupIds.join(", ")
-                          : "All"}
+                        {client.fleetGroupIds.length > 0 ? client.fleetGroupIds.join(", ") : "All"}
                       </MonoValue>
                     ),
                   },
@@ -264,9 +250,7 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
                   {
                     label: "User Ad Tag",
                     value: (
-                      <MonoValue className="text-fg-muted">
-                        {client.userAdTag || "—"}
-                      </MonoValue>
+                      <MonoValue className="text-fg-muted">{client.userAdTag || "—"}</MonoValue>
                     ),
                   },
                 ]}

@@ -49,10 +49,18 @@ export const BottomSheet: Story = {
           </SheetHeader>
           <SheetBody>
             <div className="flex flex-col gap-2">
-              <Button variant="ghost" className="justify-start">⟳ Restart Node</Button>
-              <Button variant="ghost" className="justify-start">⚙ Reconfigure</Button>
-              <Button variant="ghost" className="justify-start">📋 View Logs</Button>
-              <Button variant="ghost" className="justify-start text-status-error">⏻ Force Stop</Button>
+              <Button variant="ghost" className="justify-start">
+                ⟳ Restart Node
+              </Button>
+              <Button variant="ghost" className="justify-start">
+                ⚙ Reconfigure
+              </Button>
+              <Button variant="ghost" className="justify-start">
+                📋 View Logs
+              </Button>
+              <Button variant="ghost" className="justify-start text-status-error">
+                ⏻ Force Stop
+              </Button>
             </div>
           </SheetBody>
         </SheetContent>

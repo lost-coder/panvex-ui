@@ -12,15 +12,7 @@ export interface DCCardProps {
   className?: string;
 }
 
-export function DCCard({
-  code,
-  city,
-  latency,
-  load,
-  status,
-  onClick,
-  className,
-}: DCCardProps) {
+export function DCCard({ code, city, latency, load, status, onClick, className }: DCCardProps) {
   return (
     <button
       type="button"
@@ -39,10 +31,12 @@ export function DCCard({
       <span className="text-[11px] text-fg-muted leading-none">{city}</span>
       <div className="flex items-center gap-3 mt-auto">
         <span className="text-xs font-mono text-fg-muted">
-          {latency}<span className="text-fg-muted/50">ms</span>
+          {latency}
+          <span className="text-fg-muted/50">ms</span>
         </span>
         <span className="text-xs font-mono text-fg-muted">
-          {load}<span className="text-fg-muted/50">%</span>
+          {load}
+          <span className="text-fg-muted/50">%</span>
         </span>
       </div>
     </button>

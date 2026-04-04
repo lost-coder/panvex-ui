@@ -34,9 +34,30 @@ export const Offline: Story = {
 export const List: Story = {
   render: () => (
     <div className="flex flex-col gap-2 w-[400px]">
-      <UserCard name="admin_main" online={true} connections={5} trafficUp={500_000_000} trafficDown={3_200_000_000} ips={4} />
-      <UserCard name="proxy_user_42" online={true} connections={2} trafficUp={148_500_000} trafficDown={2_480_000_000} ips={2} />
-      <UserCard name="test_bot" online={false} connections={0} trafficUp={0} trafficDown={1_200_000} ips={1} />
+      <UserCard
+        name="admin_main"
+        online={true}
+        connections={5}
+        trafficUp={500_000_000}
+        trafficDown={3_200_000_000}
+        ips={4}
+      />
+      <UserCard
+        name="proxy_user_42"
+        online={true}
+        connections={2}
+        trafficUp={148_500_000}
+        trafficDown={2_480_000_000}
+        ips={2}
+      />
+      <UserCard
+        name="test_bot"
+        online={false}
+        connections={0}
+        trafficUp={0}
+        trafficDown={1_200_000}
+        ips={1}
+      />
     </div>
   ),
 };

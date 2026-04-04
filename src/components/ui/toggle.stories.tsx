@@ -18,7 +18,9 @@ function ToggleDemo(props: { size?: "sm" | "md"; disabled?: boolean }) {
 
 export const Default: Story = { render: () => <ToggleDemo /> };
 export const Small: Story = { render: () => <ToggleDemo size="sm" /> };
-export const Disabled: Story = { render: () => <Toggle checked={false} onChange={() => {}} disabled /> };
+export const Disabled: Story = {
+  render: () => <Toggle checked={false} onChange={() => {}} disabled />,
+};
 
 export const AllStates: Story = {
   render: () => (

@@ -15,19 +15,12 @@ export const TwoLevels: Story = {
 
 export const ThreeLevels: Story = {
   args: {
-    items: [
-      { label: "Dashboard" },
-      { label: "Nodes" },
-      { label: "node-eu-fra-01" },
-    ],
+    items: [{ label: "Dashboard" }, { label: "Nodes" }, { label: "node-eu-fra-01" }],
   },
 };
 
 export const UserDetail: Story = {
   args: {
-    items: [
-      { label: "Users" },
-      { label: "proxy_user_42" },
-    ],
+    items: [{ label: "Users" }, { label: "proxy_user_42" }],
   },
 };

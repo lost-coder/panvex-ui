@@ -67,11 +67,5 @@ export function TokenList({ tokens, onRevoke }: TokenListProps) {
     );
   }
 
-  return (
-    <DataTable
-      data={tokens}
-      columns={columns}
-      keyExtractor={(t) => t.value}
-    />
-  );
+  return <DataTable data={tokens} columns={columns} keyExtractor={(t) => t.value} />;
 }

@@ -10,7 +10,11 @@ type Story = StoryObj<typeof NodeSummaryCard>;
 
 function makeDcs(overrides?: Partial<Record<number, Partial<NodeDcInfo>>>): NodeDcInfo[] {
   return Array.from({ length: 12 }, (_, i) => {
-    const base: NodeDcInfo = { dc: i + 1, status: "ok", rttMs: 10 + Math.floor(Math.random() * 20) };
+    const base: NodeDcInfo = {
+      dc: i + 1,
+      status: "ok",
+      rttMs: 10 + Math.floor(Math.random() * 20),
+    };
     return overrides?.[i + 1] ? { ...base, ...overrides[i + 1] } : base;
   });
 }

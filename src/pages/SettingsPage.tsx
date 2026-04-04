@@ -20,7 +20,10 @@ export function SettingsPage({
       <div className="px-4 md:px-8 flex flex-col gap-6 pb-8">
         {/* Panel */}
         <SettingsGroup title="Panel">
-          <SettingsRow label="HTTP Public URL" description="Public-facing URL for this control plane">
+          <SettingsRow
+            label="HTTP Public URL"
+            description="Public-facing URL for this control plane"
+          >
             <Input
               className="w-64"
               value={panelSettings.httpPublicUrl}
@@ -117,7 +120,10 @@ export function SettingsPage({
 
         {/* System */}
         <SettingsGroup title="System">
-          <SettingsRow label="Restart Control Plane" description="Gracefully restart the control-plane process">
+          <SettingsRow
+            label="Restart Control Plane"
+            description="Gracefully restart the control-plane process"
+          >
             <Button variant="danger" size="sm" onClick={onRestart}>
               Restart
             </Button>

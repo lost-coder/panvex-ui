@@ -22,10 +22,28 @@ function ActionsDropdown({ onReload }: { onReload?: () => void }) {
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-full mt-1 z-50 min-w-[180px] rounded-xs bg-bg-card border border-border shadow-lg py-1 flex flex-col">
-            <button onClick={() => { onReload?.(); setOpen(false); }} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">Reload Runtime</button>
-            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors">Restart Server</button>
+            <button
+              onClick={() => {
+                onReload?.();
+                setOpen(false);
+              }}
+              className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
+            >
+              Reload Runtime
+            </button>
+            <button
+              onClick={() => setOpen(false)}
+              className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
+            >
+              Restart Server
+            </button>
             <div className="h-px bg-border my-1" />
-            <button onClick={() => setOpen(false)} className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors">Force Stop</button>
+            <button
+              onClick={() => setOpen(false)}
+              className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors"
+            >
+              Force Stop
+            </button>
           </div>
         </>
       )}
@@ -45,13 +63,7 @@ import { Badge } from "@/primitives/Badge";
 import { ProgressBar } from "@/primitives/ProgressBar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { DataTable } from "@/components/DataTable";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetBody,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetBody } from "@/components/ui/sheet";
 import type {
   ServerDetailPageProps,
   ServerDcData,
@@ -136,9 +148,7 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
           size="sm"
           variant="info"
         />
-        {connections.staleCacheUsed && (
-          <Badge variant="warn">⚠ Stale cache in use</Badge>
-        )}
+        {connections.staleCacheUsed && <Badge variant="warn">⚠ Stale cache in use</Badge>}
       </div>
 
       {/* Top by connections */}
@@ -205,9 +215,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
     {
       key: "writerId",
       header: "Writer ID",
-      render: (row: ServerMeWriterData) => (
-        <MonoValue>{row.writerId}</MonoValue>
-      ),
+      render: (row: ServerMeWriterData) => <MonoValue>{row.writerId}</MonoValue>,
     },
     {
       key: "dc",
@@ -237,25 +245,19 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       key: "rtt",
       header: "RTT",
       render: (row: ServerMeWriterData) => (
-        <MonoValue>
-          {row.rttEmaMs != null ? `${row.rttEmaMs.toFixed(1)}ms` : "—"}
-        </MonoValue>
+        <MonoValue>{row.rttEmaMs != null ? `${row.rttEmaMs.toFixed(1)}ms` : "—"}</MonoValue>
       ),
     },
     {
       key: "clients",
       header: "Clients",
-      render: (row: ServerMeWriterData) => (
-        <MonoValue>{row.boundClients}</MonoValue>
-      ),
+      render: (row: ServerMeWriterData) => <MonoValue>{row.boundClients}</MonoValue>,
     },
     {
       key: "idle",
       header: "Idle",
       render: (row: ServerMeWriterData) => (
-        <MonoValue>
-          {row.idleForSecs != null ? `${row.idleForSecs}s` : "—"}
-        </MonoValue>
+        <MonoValue>{row.idleForSecs != null ? `${row.idleForSecs}s` : "—"}</MonoValue>
       ),
     },
   ];
@@ -272,13 +274,25 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
             { label: "Available %", value: `${mePool.summary.availablePct}%` },
             { label: "Configured DC Groups", value: mePool.summary.configuredDcGroups },
             { label: "Configured Endpoints", value: mePool.summary.configuredEndpoints },
-            { label: "Coverage %", value: `${mePool.summary.coveragePct}%`, color: coverageColor(mePool.summary.coveragePct) },
+            {
+              label: "Coverage %",
+              value: `${mePool.summary.coveragePct}%`,
+              color: coverageColor(mePool.summary.coveragePct),
+            },
             { label: "Fresh Alive Writers", value: mePool.summary.freshAliveWriters },
-            { label: "Fresh Coverage %", value: `${mePool.summary.freshCoveragePct}%`, color: coverageColor(mePool.summary.freshCoveragePct) },
+            {
+              label: "Fresh Coverage %",
+              value: `${mePool.summary.freshCoveragePct}%`,
+              color: coverageColor(mePool.summary.freshCoveragePct),
+            },
             { label: "Required Writers", value: mePool.summary.requiredWriters },
           ].map(({ label, value, color }) => (
             <div key={label} className="rounded-xs bg-bg-card p-3 flex flex-col gap-0.5">
-              <span className={`text-lg font-mono font-semibold leading-none ${color ?? "text-fg"}`}>{value}</span>
+              <span
+                className={`text-lg font-mono font-semibold leading-none ${color ?? "text-fg"}`}
+              >
+                {value}
+              </span>
               <FieldLabel>{label}</FieldLabel>
             </div>
           ))}
@@ -302,9 +316,11 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
             <div className="flex justify-between">
               <span className="text-fg-muted">Pending Hardswap</span>
               <span className="font-mono text-fg">
-                {mePool.generations.pendingHardswap > 0
-                  ? <Badge variant="warn">{mePool.generations.pendingHardswap}</Badge>
-                  : mePool.generations.pendingHardswap}
+                {mePool.generations.pendingHardswap > 0 ? (
+                  <Badge variant="warn">{mePool.generations.pendingHardswap}</Badge>
+                ) : (
+                  mePool.generations.pendingHardswap
+                )}
               </span>
             </div>
             <div className="flex justify-between">
@@ -353,7 +369,9 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
             </div>
             <div className="flex justify-between">
               <span className="text-fg-muted">Degraded</span>
-              <span className={`font-mono ${mePool.writersHealth.degraded > 0 ? "text-status-warn" : "text-fg"}`}>
+              <span
+                className={`font-mono ${mePool.writersHealth.degraded > 0 ? "text-status-warn" : "text-fg"}`}
+              >
                 {mePool.writersHealth.degraded}
               </span>
             </div>
@@ -423,24 +441,18 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
     {
       key: "routeKind",
       header: "Type",
-      render: (row: ServerUpstreamData) => (
-        <Badge variant="default">{row.routeKind}</Badge>
-      ),
+      render: (row: ServerUpstreamData) => <Badge variant="default">{row.routeKind}</Badge>,
     },
     {
       key: "address",
       header: "Address",
-      render: (row: ServerUpstreamData) => (
-        <MonoValue>{row.address}</MonoValue>
-      ),
+      render: (row: ServerUpstreamData) => <MonoValue>{row.address}</MonoValue>,
     },
     {
       key: "healthy",
       header: "Health",
       render: (row: ServerUpstreamData) => (
-        <Badge variant={row.healthy ? "ok" : "error"}>
-          {row.healthy ? "✓ OK" : "✗ FAIL"}
-        </Badge>
+        <Badge variant={row.healthy ? "ok" : "error"}>{row.healthy ? "✓ OK" : "✗ FAIL"}</Badge>
       ),
     },
     {
@@ -506,7 +518,9 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
             className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-bg-card-hover transition-colors"
           >
             <FieldLabel>Connect Statistics</FieldLabel>
-            <span className="text-fg-muted text-xs select-none">{showZeroCounters ? "▾" : "›"}</span>
+            <span className="text-fg-muted text-xs select-none">
+              {showZeroCounters ? "▾" : "›"}
+            </span>
           </button>
           {showZeroCounters && (
             <div className="px-4 pb-4 grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -514,19 +528,50 @@ function UpstreamsTab({ server }: { server: ServerDetailPageProps["server"] }) {
                 { label: "Attempt Total", value: upstreamZeroCounters.connectAttemptTotal },
                 { label: "Success Total", value: upstreamZeroCounters.connectSuccessTotal },
                 { label: "Fail Total", value: upstreamZeroCounters.connectFailTotal },
-                { label: "Failfast Hard Error", value: upstreamZeroCounters.connectFailfastHardErrorTotal },
-                { label: "Success ≤100ms", value: upstreamZeroCounters.connectDurationSuccessBucketLe100ms },
-                { label: "Success 101–500ms", value: upstreamZeroCounters.connectDurationSuccessBucket101_500ms },
-                { label: "Success 501–1000ms", value: upstreamZeroCounters.connectDurationSuccessBucket501_1000ms },
-                { label: "Success >1000ms", value: upstreamZeroCounters.connectDurationSuccessBucketGt1000ms },
-                { label: "Fail ≤100ms", value: upstreamZeroCounters.connectDurationFailBucketLe100ms },
-                { label: "Fail 101–500ms", value: upstreamZeroCounters.connectDurationFailBucket101_500ms },
-                { label: "Fail 501–1000ms", value: upstreamZeroCounters.connectDurationFailBucket501_1000ms },
-                { label: "Fail >1000ms", value: upstreamZeroCounters.connectDurationFailBucketGt1000ms },
+                {
+                  label: "Failfast Hard Error",
+                  value: upstreamZeroCounters.connectFailfastHardErrorTotal,
+                },
+                {
+                  label: "Success ≤100ms",
+                  value: upstreamZeroCounters.connectDurationSuccessBucketLe100ms,
+                },
+                {
+                  label: "Success 101–500ms",
+                  value: upstreamZeroCounters.connectDurationSuccessBucket101_500ms,
+                },
+                {
+                  label: "Success 501–1000ms",
+                  value: upstreamZeroCounters.connectDurationSuccessBucket501_1000ms,
+                },
+                {
+                  label: "Success >1000ms",
+                  value: upstreamZeroCounters.connectDurationSuccessBucketGt1000ms,
+                },
+                {
+                  label: "Fail ≤100ms",
+                  value: upstreamZeroCounters.connectDurationFailBucketLe100ms,
+                },
+                {
+                  label: "Fail 101–500ms",
+                  value: upstreamZeroCounters.connectDurationFailBucket101_500ms,
+                },
+                {
+                  label: "Fail 501–1000ms",
+                  value: upstreamZeroCounters.connectDurationFailBucket501_1000ms,
+                },
+                {
+                  label: "Fail >1000ms",
+                  value: upstreamZeroCounters.connectDurationFailBucketGt1000ms,
+                },
               ].map(({ label, value }) => (
                 <div key={label} className="rounded-xs bg-bg-hover p-2 flex flex-col gap-0.5">
-                  <span className="text-base font-mono font-semibold text-fg leading-none">{value.toLocaleString()}</span>
-                  <span className="text-[10px] text-fg-muted uppercase tracking-wider leading-none">{label}</span>
+                  <span className="text-base font-mono font-semibold text-fg leading-none">
+                    {value.toLocaleString()}
+                  </span>
+                  <span className="text-[10px] text-fg-muted uppercase tracking-wider leading-none">
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -651,7 +696,9 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
             <span className="text-fg-muted">KDF Port-only Drift</span>
             <MonoValue>{meQuality.counters.kdfPortOnlyDriftTotal}</MonoValue>
             <span className="text-fg-muted">Route Drops: no_conn</span>
-            <span className={`font-mono ${meQuality.counters.routeDropNoConn > 0 ? "text-status-warn" : "text-fg"}`}>
+            <span
+              className={`font-mono ${meQuality.counters.routeDropNoConn > 0 ? "text-status-warn" : "text-fg"}`}
+            >
               {meQuality.counters.routeDropNoConn}
             </span>
             <span className="text-fg-muted">Route Drops: channel_closed</span>
@@ -665,7 +712,13 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
               {meQuality.counters.reconnectSuccessTotal}
               {meQuality.counters.reconnectAttemptTotal > 0 && (
                 <span className="text-fg-muted ml-1">
-                  ({((meQuality.counters.reconnectSuccessTotal / meQuality.counters.reconnectAttemptTotal) * 100).toFixed(1)}%)
+                  (
+                  {(
+                    (meQuality.counters.reconnectSuccessTotal /
+                      meQuality.counters.reconnectAttemptTotal) *
+                    100
+                  ).toFixed(1)}
+                  %)
                 </span>
               )}
             </span>
@@ -723,7 +776,9 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
               <div key={entry.dc} className="rounded-xs bg-bg-card p-3 flex flex-col gap-1">
                 <span className="text-sm font-semibold text-fg">DC {entry.dc}</span>
                 {entry.ipPreference && (
-                  <span className="text-xs text-fg-muted font-mono">ip preference: {entry.ipPreference}</span>
+                  <span className="text-xs text-fg-muted font-mono">
+                    ip preference: {entry.ipPreference}
+                  </span>
                 )}
                 {entry.selectedAddrV4 && (
                   <span className="text-xs font-mono text-fg">v4: {entry.selectedAddrV4}</span>
@@ -747,7 +802,9 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
           <span className="text-fg-muted">Version</span>
           <MonoValue>{systemInfo.version}</MonoValue>
           <span className="text-fg-muted">Arch / OS</span>
-          <MonoValue>{systemInfo.targetArch} / {systemInfo.targetOs}</MonoValue>
+          <MonoValue>
+            {systemInfo.targetArch} / {systemInfo.targetOs}
+          </MonoValue>
           <span className="text-fg-muted">Build</span>
           <MonoValue>{systemInfo.buildProfile}</MonoValue>
           {systemInfo.gitCommit && (
@@ -779,11 +836,7 @@ function DiagnosticsTab({ server }: { server: ServerDetailPageProps["server"] })
   );
 }
 
-function EventsTab({
-  server,
-}: {
-  server: ServerDetailPageProps["server"];
-}) {
+function EventsTab({ server }: { server: ServerDetailPageProps["server"] }) {
   const { events, eventsDroppedTotal } = server;
 
   const eventColumns = [
@@ -798,16 +851,12 @@ function EventsTab({
     {
       key: "type",
       header: "Type",
-      render: (row: ServerEventData) => (
-        <Badge variant="default">{row.eventType}</Badge>
-      ),
+      render: (row: ServerEventData) => <Badge variant="default">{row.eventType}</Badge>,
     },
     {
       key: "context",
       header: "Context",
-      render: (row: ServerEventData) => (
-        <span className="text-xs text-fg">{row.context}</span>
-      ),
+      render: (row: ServerEventData) => <span className="text-xs text-fg">{row.context}</span>,
     },
   ];
 
@@ -838,19 +887,35 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
         <thead>
           <tr className="border-b border-border bg-bg-card">
             <th className="w-8 px-2 py-2" />
-            <th className="px-3 py-2 text-left"><FieldLabel>DC</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>Available%</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>Writers</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>Coverage%</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>Fresh%</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>RTT</FieldLabel></th>
-            <th className="px-3 py-2 text-left"><FieldLabel>Load</FieldLabel></th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>DC</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>Available%</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>Writers</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>Coverage%</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>Fresh%</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>RTT</FieldLabel>
+            </th>
+            <th className="px-3 py-2 text-left">
+              <FieldLabel>Load</FieldLabel>
+            </th>
           </tr>
         </thead>
         <tbody>
           {dcs.length === 0 && (
             <tr>
-              <td colSpan={9} className="px-3 py-6 text-center text-fg-muted text-sm">No DC data</td>
+              <td colSpan={9} className="px-3 py-6 text-center text-fg-muted text-sm">
+                No DC data
+              </td>
             </tr>
           )}
           {dcs.map((row) => (
@@ -872,7 +937,9 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                   </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <MonoValue>{row.aliveWriters}/{row.requiredWriters}</MonoValue>
+                  <MonoValue>
+                    {row.aliveWriters}/{row.requiredWriters}
+                  </MonoValue>
                 </td>
                 <td className="px-3 py-2">
                   <MonoValue className={`font-semibold ${coverageColor(row.coveragePct)}`}>
@@ -885,7 +952,15 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                   </MonoValue>
                 </td>
                 <td className="px-3 py-2">
-                  <MonoValue className={(row.rttMs ?? 0) > 300 ? "text-status-error" : (row.rttMs ?? 0) > 100 ? "text-status-warn" : undefined}>
+                  <MonoValue
+                    className={
+                      (row.rttMs ?? 0) > 300
+                        ? "text-status-error"
+                        : (row.rttMs ?? 0) > 100
+                          ? "text-status-warn"
+                          : undefined
+                    }
+                  >
                     {row.rttMs != null ? `${row.rttMs}ms` : "—"}
                   </MonoValue>
                 </td>
@@ -901,28 +976,43 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                       {/* Floor info */}
                       <div className="flex flex-wrap gap-4 text-xs">
                         <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] text-fg-muted uppercase tracking-wider">Floor policy</span>
+                          <span className="text-[10px] text-fg-muted uppercase tracking-wider">
+                            Floor policy
+                          </span>
                           <span className="font-mono text-fg">
                             min: {row.floorMin} · target: {row.floorTarget} · max: {row.floorMax}
-                            {row.floorCapped && <span className="text-status-warn ml-2">⚠ capped</span>}
+                            {row.floorCapped && (
+                              <span className="text-status-warn ml-2">⚠ capped</span>
+                            )}
                           </span>
                         </div>
                         <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] text-fg-muted uppercase tracking-wider">Endpoints</span>
-                          <MonoValue>{row.availableEndpoints}/{row.endpoints.length} available</MonoValue>
+                          <span className="text-[10px] text-fg-muted uppercase tracking-wider">
+                            Endpoints
+                          </span>
+                          <MonoValue>
+                            {row.availableEndpoints}/{row.endpoints.length} available
+                          </MonoValue>
                         </div>
                       </div>
                       {/* Endpoint writers */}
                       <div className="flex flex-col gap-1">
-                        <span className="text-[10px] text-fg-muted uppercase tracking-wider font-medium">Endpoint Writers</span>
+                        <span className="text-[10px] text-fg-muted uppercase tracking-wider font-medium">
+                          Endpoint Writers
+                        </span>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                           {row.endpointWriters.length === 0 ? (
                             <span className="text-xs text-fg-muted">No endpoint data</span>
                           ) : (
                             row.endpointWriters.map((ew) => (
-                              <div key={ew.endpoint} className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-xs bg-bg-card border border-border">
+                              <div
+                                key={ew.endpoint}
+                                className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-xs bg-bg-card border border-border"
+                              >
                                 <MonoValue className="truncate">{ew.endpoint}</MonoValue>
-                                <span className={`font-mono text-xs shrink-0 ${ew.activeWriters === 0 ? "text-status-warn" : "text-fg-muted"}`}>
+                                <span
+                                  className={`font-mono text-xs shrink-0 ${ew.activeWriters === 0 ? "text-status-warn" : "text-fg-muted"}`}
+                                >
                                   {ew.activeWriters} {ew.activeWriters === 1 ? "writer" : "writers"}
                                   {ew.activeWriters === 0 && " ⚠"}
                                 </span>
@@ -960,7 +1050,13 @@ function useRelativeTime(date: Date | undefined): { label: string; stale: boolea
   return { label, stale: secs > 10 };
 }
 
-export function ServerDetailPage({ server, onBack, onReload, initState, lastUpdatedAt }: ServerDetailPageProps) {
+export function ServerDetailPage({
+  server,
+  onBack,
+  onReload,
+  initState,
+  lastUpdatedAt,
+}: ServerDetailPageProps) {
   const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
 
@@ -1008,8 +1104,8 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
       dc.coveragePct < 70
         ? ("error" as const)
         : dc.coveragePct < 100
-        ? ("warn" as const)
-        : ("ok" as const),
+          ? ("warn" as const)
+          : ("ok" as const),
   }));
 
   // Alerts — suppress DC alerts during initialization (data is expected to be empty)
@@ -1026,13 +1122,21 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
       });
   }
   if (gates.degraded) {
-    alertItems.unshift({ severity: "crit" as const, message: "Server operating in degraded mode", source: "gates" });
+    alertItems.unshift({
+      severity: "crit" as const,
+      message: "Server operating in degraded mode",
+      source: "gates",
+    });
   }
 
   const hasAlerts = alertItems.length > 0;
 
   // Subtitle
-  const subtitle = `${systemInfo.version} · ${formatUptime(systemInfo.uptimeSeconds)} · ${server.ip ?? ""}`.replace(/ · $/, "");
+  const subtitle =
+    `${systemInfo.version} · ${formatUptime(systemInfo.uptimeSeconds)} · ${server.ip ?? ""}`.replace(
+      / · $/,
+      "",
+    );
 
   // Tab content
   const connectionsContent = <ConnectionsTab server={server} />;
@@ -1053,12 +1157,7 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
     <>
       {/* Breadcrumbs */}
       <div className="px-4 md:px-8 pt-3">
-        <Breadcrumbs
-          items={[
-            { label: "Servers", onClick: onBack },
-            { label: server.name },
-          ]}
-        />
+        <Breadcrumbs items={[{ label: "Servers", onClick: onBack }, { label: server.name }]} />
       </div>
 
       {/* Page header */}
@@ -1068,13 +1167,17 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
         trailing={
           <div className="flex items-center gap-3">
             {relativeTime && (
-              <span className={cn(
-                "text-[10px] font-mono tabular-nums inline-flex items-center gap-1 rounded-full px-2 py-0.5 border transition-colors duration-500",
-                relativeTimeStale
-                  ? "bg-status-warn/10 border-status-warn/15 text-status-warn"
-                  : "bg-status-ok/10 border-status-ok/15 text-fg-muted",
-              )}>
-                <span className="text-[11px] animate-spin" style={{ animationDuration: "3s" }}>↻</span>
+              <span
+                className={cn(
+                  "text-[10px] font-mono tabular-nums inline-flex items-center gap-1 rounded-full px-2 py-0.5 border transition-colors duration-500",
+                  relativeTimeStale
+                    ? "bg-status-warn/10 border-status-warn/15 text-status-warn"
+                    : "bg-status-ok/10 border-status-ok/15 text-fg-muted",
+                )}
+              >
+                <span className="text-[11px] animate-spin" style={{ animationDuration: "3s" }}>
+                  ↻
+                </span>
                 {relativeTime}
               </span>
             )}
@@ -1096,18 +1199,10 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
           <Badge variant={gates.useMiddleProxy ? "accent" : "default"}>
             {gates.useMiddleProxy ? "Middle Proxy" : "Direct"}
           </Badge>
-          {gates.me2dcFallbackEnabled && (
-            <Badge variant="default">Fallback</Badge>
-          )}
-          {gates.rerouteActive && (
-            <Badge variant="warn">Reroute Active</Badge>
-          )}
-          {gates.readOnly && (
-            <Badge variant="warn">Read-Only</Badge>
-          )}
-          {gates.degraded && (
-            <Badge variant="error">Degraded</Badge>
-          )}
+          {gates.me2dcFallbackEnabled && <Badge variant="default">Fallback</Badge>}
+          {gates.rerouteActive && <Badge variant="warn">Reroute Active</Badge>}
+          {gates.readOnly && <Badge variant="warn">Read-Only</Badge>}
+          {gates.degraded && <Badge variant="error">Degraded</Badge>}
         </div>
 
         {/* Init Card — shown during Telemt initialization */}
@@ -1117,9 +1212,7 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
         <GaugeStrip items={gaugeItems} />
 
         {/* Alerts */}
-        {hasAlerts && (
-          <AlertStrip alerts={alertItems} />
-        )}
+        {hasAlerts && <AlertStrip alerts={alertItems} />}
 
         {/* Mobile: DCScrollStrip + SwipeTabView */}
         <div className="md:hidden flex flex-col gap-4">
@@ -1162,7 +1255,12 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
       </div>
 
       {/* Mobile DC detail sheet */}
-      <Sheet open={selectedDc !== null} onOpenChange={(open) => { if (!open) setSelectedDc(null); }}>
+      <Sheet
+        open={selectedDc !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedDc(null);
+        }}
+      >
         <SheetContent side="bottom">
           {selectedDc && (
             <>
@@ -1173,11 +1271,15 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                     <span className="text-fg-muted">Coverage</span>
-                    <span className={`font-mono font-semibold ${coverageColor(selectedDc.coveragePct)}`}>
+                    <span
+                      className={`font-mono font-semibold ${coverageColor(selectedDc.coveragePct)}`}
+                    >
                       {selectedDc.coveragePct}%
                     </span>
                     <span className="text-fg-muted">Available</span>
-                    <span className={`font-mono ${selectedDc.availablePct < 100 ? "text-status-warn" : "text-fg"}`}>
+                    <span
+                      className={`font-mono ${selectedDc.availablePct < 100 ? "text-status-warn" : "text-fg"}`}
+                    >
                       {selectedDc.availablePct}%
                     </span>
                     <span className="text-fg-muted">Writers</span>
@@ -1185,7 +1287,9 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
                       {selectedDc.aliveWriters}/{selectedDc.requiredWriters} alive
                     </span>
                     <span className="text-fg-muted">RTT</span>
-                    <span className={`font-mono ${(selectedDc.rttMs ?? 0) > 300 ? "text-status-error" : (selectedDc.rttMs ?? 0) > 100 ? "text-status-warn" : "text-fg"}`}>
+                    <span
+                      className={`font-mono ${(selectedDc.rttMs ?? 0) > 300 ? "text-status-error" : (selectedDc.rttMs ?? 0) > 100 ? "text-status-warn" : "text-fg"}`}
+                    >
                       {selectedDc.rttMs != null ? `${selectedDc.rttMs}ms` : "—"}
                     </span>
                     <span className="text-fg-muted">Load</span>
@@ -1193,7 +1297,9 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
                     <span className="text-fg-muted">Floor</span>
                     <span className="font-mono text-fg">
                       {selectedDc.floorMin}..{selectedDc.floorTarget}..{selectedDc.floorMax}
-                      {selectedDc.floorCapped && <span className="text-status-warn ml-1">⚠ capped</span>}
+                      {selectedDc.floorCapped && (
+                        <span className="text-status-warn ml-1">⚠ capped</span>
+                      )}
                     </span>
                   </div>
 

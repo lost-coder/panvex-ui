@@ -40,9 +40,15 @@ module.exports = {
       keyframes: {
         breathe: { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0.4" } },
         blink: { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0" } },
-        "beacon-glow": { "0%, 100%": { boxShadow: "0 0 6px 2px currentColor" }, "50%": { boxShadow: "0 0 16px 6px currentColor" } },
+        "beacon-glow": {
+          "0%, 100%": { boxShadow: "0 0 6px 2px currentColor" },
+          "50%": { boxShadow: "0 0 16px 6px currentColor" },
+        },
         "led-blink": { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0.3" } },
-        "alert-pulse": { "0%, 100%": { borderLeftColor: "var(--alert-color)" }, "50%": { borderLeftColor: "transparent" } },
+        "alert-pulse": {
+          "0%, 100%": { borderLeftColor: "var(--alert-color)" },
+          "50%": { borderLeftColor: "transparent" },
+        },
       },
       animation: {
         breathe: "breathe 3s ease-in-out infinite",

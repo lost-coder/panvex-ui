@@ -6,9 +6,5 @@ export interface MonoValueProps {
 }
 
 export function MonoValue({ children, className }: MonoValueProps) {
-  return (
-    <span className={cn("font-mono text-xs text-fg", className)}>
-      {children}
-    </span>
-  );
+  return <span className={cn("font-mono text-xs text-fg", className)}>{children}</span>;
 }

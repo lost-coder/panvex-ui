@@ -8,12 +8,7 @@ export interface BottomNavProps {
   className?: string;
 }
 
-export function BottomNav({
-  items,
-  activeId,
-  onNavigate,
-  className,
-}: BottomNavProps) {
+export function BottomNav({ items, activeId, onNavigate, className }: BottomNavProps) {
   return (
     <nav
       className={cn(
@@ -30,9 +25,7 @@ export function BottomNav({
           onClick={() => onNavigate?.(item.id)}
           className={cn(
             "flex-1 flex flex-col items-center gap-0.5 py-2 text-[10px] transition-colors",
-            item.id === activeId
-              ? "text-accent"
-              : "text-fg-muted active:text-fg",
+            item.id === activeId ? "text-accent" : "text-fg-muted active:text-fg",
           )}
         >
           <span className="text-lg leading-none">{item.icon}</span>

@@ -34,13 +34,9 @@ export function ProgressBar({
       {(label || showValue) && (
         <div className="flex items-baseline justify-between">
           {label && (
-            <span className="text-[11px] text-fg-muted uppercase tracking-wider">
-              {label}
-            </span>
+            <span className="text-[11px] text-fg-muted uppercase tracking-wider">{label}</span>
           )}
-          {showValue && (
-            <span className="text-xs font-mono text-fg">{pct.toFixed(1)}%</span>
-          )}
+          {showValue && <span className="text-xs font-mono text-fg">{pct.toFixed(1)}%</span>}
         </div>
       )}
       <div

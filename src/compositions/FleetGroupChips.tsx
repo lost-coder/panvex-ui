@@ -3,11 +3,14 @@ import { ChipToggle } from "@/primitives/ChipToggle";
 import { cn } from "@/lib/utils";
 import type { FleetGroupChipsProps } from "@/types/pages";
 
-export function FleetGroupChips({ groups, selected, onChange, className }: FleetGroupChipsProps & { className?: string }) {
+export function FleetGroupChips({
+  groups,
+  selected,
+  onChange,
+  className,
+}: FleetGroupChipsProps & { className?: string }) {
   function toggle(id: string) {
-    onChange(
-      selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id],
-    );
+    onChange(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id]);
   }
 
   const totalNodes = groups
@@ -29,7 +32,8 @@ export function FleetGroupChips({ groups, selected, onChange, className }: Fleet
       </div>
       {selected.length > 0 && (
         <div className="text-xs text-accent bg-accent/8 border border-accent/20 rounded-xs px-3 py-1.5">
-          <strong>{totalNodes} nodes selected</strong> — {selected.length} group{selected.length > 1 ? "s" : ""}
+          <strong>{totalNodes} nodes selected</strong> — {selected.length} group
+          {selected.length > 1 ? "s" : ""}
         </div>
       )}
     </div>

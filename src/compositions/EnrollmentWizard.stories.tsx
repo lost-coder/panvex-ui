@@ -154,7 +154,12 @@ export const Step3Connected: Story = {
     onInstallConfirm: () => {},
     onBack: () => {},
     connectionStatus: { bootstrap: "done", grpcConnect: "done", firstData: "done" },
-    connectedAgent: { id: "agent-7", version: "v1.2.3", fleetGroup: "europe", certExpiresAt: "May 3, 2026" },
+    connectedAgent: {
+      id: "agent-7",
+      version: "v1.2.3",
+      fleetGroup: "europe",
+      certExpiresAt: "May 3, 2026",
+    },
     onViewDetails: () => {},
     onCancel: () => {},
   },

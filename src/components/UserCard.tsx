@@ -37,9 +37,7 @@ export function UserCard({
       <UserAvatar name={name} online={online} />
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-mono font-medium text-fg truncate">
-            {name}
-          </span>
+          <span className="text-sm font-mono font-medium text-fg truncate">{name}</span>
           <ConnectionBadge online={online} count={connections} />
         </div>
         <div className="flex items-center gap-3">

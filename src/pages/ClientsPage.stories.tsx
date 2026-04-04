@@ -7,7 +7,7 @@ import type { ClientListItem } from "@/types/pages";
 const makeClient = (
   id: string,
   name: string,
-  overrides: Partial<ClientListItem> = {}
+  overrides: Partial<ClientListItem> = {},
 ): ClientListItem => ({
   id,
   name,
@@ -23,25 +23,102 @@ const makeClient = (
 });
 
 const mockClients: ClientListItem[] = [
-  makeClient("1", "alice", { activeTcpConns: 45, trafficUsedBytes: 1_200_000_000, uniqueIpsUsed: 12, lastDeployStatus: "ok" }),
-  makeClient("2", "bob", { enabled: false, activeTcpConns: 0, trafficUsedBytes: 50_000_000, uniqueIpsUsed: 2, lastDeployStatus: "error" }),
-  makeClient("3", "carol", { activeTcpConns: 8, trafficUsedBytes: 300_000_000, uniqueIpsUsed: 8, dataQuotaBytes: 0, lastDeployStatus: "ok", expirationRfc3339: "" }),
-  makeClient("4", "dave", { enabled: true, activeTcpConns: 0, trafficUsedBytes: 900_000_000, uniqueIpsUsed: 3, lastDeployStatus: "pending", expirationRfc3339: "2026-03-01T00:00:00Z" }),
-  makeClient("5", "eve", { enabled: false, activeTcpConns: 0, trafficUsedBytes: 12_000, uniqueIpsUsed: 1, lastDeployStatus: "error", assignedNodesCount: 1 }),
-  makeClient("6", "frank", { activeTcpConns: 120, trafficUsedBytes: 5_500_000_000, uniqueIpsUsed: 35, dataQuotaBytes: 0, lastDeployStatus: "ok" }),
-  makeClient("7", "grace", { activeTcpConns: 3, trafficUsedBytes: 210_000_000, uniqueIpsUsed: 4, lastDeployStatus: "pending", assignedNodesCount: 2 }),
-  makeClient("8", "heidi", { enabled: true, activeTcpConns: 0, trafficUsedBytes: 0, uniqueIpsUsed: 0, lastDeployStatus: "ok", expirationRfc3339: "" }),
+  makeClient("1", "alice", {
+    activeTcpConns: 45,
+    trafficUsedBytes: 1_200_000_000,
+    uniqueIpsUsed: 12,
+    lastDeployStatus: "ok",
+  }),
+  makeClient("2", "bob", {
+    enabled: false,
+    activeTcpConns: 0,
+    trafficUsedBytes: 50_000_000,
+    uniqueIpsUsed: 2,
+    lastDeployStatus: "error",
+  }),
+  makeClient("3", "carol", {
+    activeTcpConns: 8,
+    trafficUsedBytes: 300_000_000,
+    uniqueIpsUsed: 8,
+    dataQuotaBytes: 0,
+    lastDeployStatus: "ok",
+    expirationRfc3339: "",
+  }),
+  makeClient("4", "dave", {
+    enabled: true,
+    activeTcpConns: 0,
+    trafficUsedBytes: 900_000_000,
+    uniqueIpsUsed: 3,
+    lastDeployStatus: "pending",
+    expirationRfc3339: "2026-03-01T00:00:00Z",
+  }),
+  makeClient("5", "eve", {
+    enabled: false,
+    activeTcpConns: 0,
+    trafficUsedBytes: 12_000,
+    uniqueIpsUsed: 1,
+    lastDeployStatus: "error",
+    assignedNodesCount: 1,
+  }),
+  makeClient("6", "frank", {
+    activeTcpConns: 120,
+    trafficUsedBytes: 5_500_000_000,
+    uniqueIpsUsed: 35,
+    dataQuotaBytes: 0,
+    lastDeployStatus: "ok",
+  }),
+  makeClient("7", "grace", {
+    activeTcpConns: 3,
+    trafficUsedBytes: 210_000_000,
+    uniqueIpsUsed: 4,
+    lastDeployStatus: "pending",
+    assignedNodesCount: 2,
+  }),
+  makeClient("8", "heidi", {
+    enabled: true,
+    activeTcpConns: 0,
+    trafficUsedBytes: 0,
+    uniqueIpsUsed: 0,
+    lastDeployStatus: "ok",
+    expirationRfc3339: "",
+  }),
 ];
 
 const manyClients: ClientListItem[] = [
   ...mockClients,
-  makeClient("9", "ivan", { activeTcpConns: 22, trafficUsedBytes: 700_000_000, lastDeployStatus: "ok" }),
+  makeClient("9", "ivan", {
+    activeTcpConns: 22,
+    trafficUsedBytes: 700_000_000,
+    lastDeployStatus: "ok",
+  }),
   makeClient("10", "judy", { enabled: false, lastDeployStatus: "error" }),
-  makeClient("11", "kevin", { activeTcpConns: 5, trafficUsedBytes: 100_000_000, lastDeployStatus: "pending" }),
-  makeClient("12", "laura", { activeTcpConns: 60, trafficUsedBytes: 2_000_000_000, uniqueIpsUsed: 20, dataQuotaBytes: 0 }),
-  makeClient("13", "mike", { enabled: false, lastDeployStatus: "ok", expirationRfc3339: "2025-01-01T00:00:00Z" }),
-  makeClient("14", "nancy", { activeTcpConns: 11, trafficUsedBytes: 450_000_000, lastDeployStatus: "ok" }),
-  makeClient("15", "oscar", { activeTcpConns: 0, trafficUsedBytes: 80_000_000, lastDeployStatus: "pending", assignedNodesCount: 5 }),
+  makeClient("11", "kevin", {
+    activeTcpConns: 5,
+    trafficUsedBytes: 100_000_000,
+    lastDeployStatus: "pending",
+  }),
+  makeClient("12", "laura", {
+    activeTcpConns: 60,
+    trafficUsedBytes: 2_000_000_000,
+    uniqueIpsUsed: 20,
+    dataQuotaBytes: 0,
+  }),
+  makeClient("13", "mike", {
+    enabled: false,
+    lastDeployStatus: "ok",
+    expirationRfc3339: "2025-01-01T00:00:00Z",
+  }),
+  makeClient("14", "nancy", {
+    activeTcpConns: 11,
+    trafficUsedBytes: 450_000_000,
+    lastDeployStatus: "ok",
+  }),
+  makeClient("15", "oscar", {
+    activeTcpConns: 0,
+    trafficUsedBytes: 80_000_000,
+    lastDeployStatus: "pending",
+    assignedNodesCount: 5,
+  }),
 ];
 
 const meta = {

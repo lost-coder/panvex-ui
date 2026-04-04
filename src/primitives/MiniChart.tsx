@@ -41,11 +41,7 @@ export function MiniChart({
       viewBox={`0 0 ${width} ${height}`}
       className={cn("shrink-0", className)}
     >
-      <polygon
-        points={areaPoints.join(" ")}
-        fill={color}
-        fillOpacity={0.1}
-      />
+      <polygon points={areaPoints.join(" ")} fill={color} fillOpacity={0.1} />
       <polyline
         points={points.join(" ")}
         fill="none"

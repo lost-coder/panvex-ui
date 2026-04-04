@@ -40,9 +40,7 @@ export function NodeCard({
     >
       <div className="flex items-center gap-2">
         <StatusDot status={status} size="md" />
-        <span className="font-mono font-semibold text-sm text-fg flex-1 truncate">
-          {name}
-        </span>
+        <span className="font-mono font-semibold text-sm text-fg flex-1 truncate">{name}</span>
         <span className="text-[11px] text-fg-muted">{region}</span>
       </div>
 
@@ -54,9 +52,7 @@ export function NodeCard({
       </div>
 
       {alert && (
-        <p className="text-[11px] text-status-error font-mono leading-snug truncate">
-          {alert}
-        </p>
+        <p className="text-[11px] text-status-error font-mono leading-snug truncate">{alert}</p>
       )}
     </button>
   );
@@ -65,12 +61,8 @@ export function NodeCard({
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex flex-col">
-      <span className="text-xs font-mono font-medium text-fg leading-none">
-        {value}
-      </span>
-      <span className="text-[10px] text-fg-muted uppercase tracking-wider mt-0.5">
-        {label}
-      </span>
+      <span className="text-xs font-mono font-medium text-fg leading-none">{value}</span>
+      <span className="text-[10px] text-fg-muted uppercase tracking-wider mt-0.5">{label}</span>
     </div>
   );
 }

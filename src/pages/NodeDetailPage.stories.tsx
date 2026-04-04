@@ -47,31 +47,39 @@ const mockServer = {
     const isBad = i === 2;
     // DC4 gets 10 endpoints like the real data screenshot
     const endpointCount = dc === 4 ? 10 : isBad ? 2 : 2;
-    const endpoints = dc === 4
-      ? [
-          "91.108.4.131:8888", "91.108.4.169:8888", "91.108.4.174:8888",
-          "91.108.4.177:8888", "91.108.4.186:8888", "91.108.4.187:8888",
-          "91.108.4.188:8888", "91.108.4.195:8888", "91.108.4.207:8888",
-          "91.108.4.224:8888",
-        ]
-      : [`149.154.16${i}.51:443`, `149.154.16${i}.91:443`];
-    const endpointWriters = dc === 4
-      ? [
-          { endpoint: "91.108.4.131:8888", activeWriters: 1 },
-          { endpoint: "91.108.4.169:8888", activeWriters: 0 },
-          { endpoint: "91.108.4.174:8888", activeWriters: 2 },
-          { endpoint: "91.108.4.177:8888", activeWriters: 2 },
-          { endpoint: "91.108.4.186:8888", activeWriters: 0 },
-          { endpoint: "91.108.4.187:8888", activeWriters: 0 },
-          { endpoint: "91.108.4.188:8888", activeWriters: 0 },
-          { endpoint: "91.108.4.195:8888", activeWriters: 0 },
-          { endpoint: "91.108.4.207:8888", activeWriters: 3 },
-          { endpoint: "91.108.4.224:8888", activeWriters: 2 },
-        ]
-      : [
-          { endpoint: endpoints[0], activeWriters: isBad ? 1 : 2 },
-          { endpoint: endpoints[1], activeWriters: 1 },
-        ];
+    const endpoints =
+      dc === 4
+        ? [
+            "91.108.4.131:8888",
+            "91.108.4.169:8888",
+            "91.108.4.174:8888",
+            "91.108.4.177:8888",
+            "91.108.4.186:8888",
+            "91.108.4.187:8888",
+            "91.108.4.188:8888",
+            "91.108.4.195:8888",
+            "91.108.4.207:8888",
+            "91.108.4.224:8888",
+          ]
+        : [`149.154.16${i}.51:443`, `149.154.16${i}.91:443`];
+    const endpointWriters =
+      dc === 4
+        ? [
+            { endpoint: "91.108.4.131:8888", activeWriters: 1 },
+            { endpoint: "91.108.4.169:8888", activeWriters: 0 },
+            { endpoint: "91.108.4.174:8888", activeWriters: 2 },
+            { endpoint: "91.108.4.177:8888", activeWriters: 2 },
+            { endpoint: "91.108.4.186:8888", activeWriters: 0 },
+            { endpoint: "91.108.4.187:8888", activeWriters: 0 },
+            { endpoint: "91.108.4.188:8888", activeWriters: 0 },
+            { endpoint: "91.108.4.195:8888", activeWriters: 0 },
+            { endpoint: "91.108.4.207:8888", activeWriters: 3 },
+            { endpoint: "91.108.4.224:8888", activeWriters: 2 },
+          ]
+        : [
+            { endpoint: endpoints[0], activeWriters: isBad ? 1 : 2 },
+            { endpoint: endpoints[1], activeWriters: 1 },
+          ];
     return {
       dc,
       endpoints,
@@ -285,19 +293,64 @@ const mockServer = {
   },
 
   events: [
-    { seq: 1, tsEpochSecs: Math.floor(Date.now() / 1000) - 60, eventType: "config_reload", context: "Config v2.4.1 applied" },
-    { seq: 2, tsEpochSecs: Math.floor(Date.now() / 1000) - 116, eventType: "writer_degraded", context: "DC3 / 149.154.175.50:443" },
-    { seq: 3, tsEpochSecs: Math.floor(Date.now() / 1000) - 2100, eventType: "pool_hardswap", context: "gen 41→42, 24 writers" },
-    { seq: 4, tsEpochSecs: Math.floor(Date.now() / 1000) - 7200, eventType: "startup_complete", context: "Server ready" },
+    {
+      seq: 1,
+      tsEpochSecs: Math.floor(Date.now() / 1000) - 60,
+      eventType: "config_reload",
+      context: "Config v2.4.1 applied",
+    },
+    {
+      seq: 2,
+      tsEpochSecs: Math.floor(Date.now() / 1000) - 116,
+      eventType: "writer_degraded",
+      context: "DC3 / 149.154.175.50:443",
+    },
+    {
+      seq: 3,
+      tsEpochSecs: Math.floor(Date.now() / 1000) - 2100,
+      eventType: "pool_hardswap",
+      context: "gen 41→42, 24 writers",
+    },
+    {
+      seq: 4,
+      tsEpochSecs: Math.floor(Date.now() / 1000) - 7200,
+      eventType: "startup_complete",
+      context: "Server ready",
+    },
   ],
   eventsDroppedTotal: 0,
 
   networkPath: [
-    { dc: 1, ipPreference: "prefer_v4", selectedAddrV4: "149.154.175.50:443", selectedAddrV6: "[2001:b28:f23d:f001::a]:443" },
-    { dc: 2, ipPreference: "prefer_v4", selectedAddrV4: "149.154.167.51:443", selectedAddrV6: "[2001:67c:4e8:f002::a]:443" },
-    { dc: 3, ipPreference: "prefer_v4", selectedAddrV4: "149.154.175.100:443", selectedAddrV6: "[2001:b28:f23d:f003::a]:443" },
-    { dc: 4, ipPreference: "prefer_v4", selectedAddrV4: "149.154.167.91:443", selectedAddrV6: "[2001:67c:4e8:f004::a]:443" },
-    { dc: 5, ipPreference: "prefer_v4", selectedAddrV4: "149.154.171.5:443", selectedAddrV6: "[2001:b28:f23f:f005::a]:443" },
+    {
+      dc: 1,
+      ipPreference: "prefer_v4",
+      selectedAddrV4: "149.154.175.50:443",
+      selectedAddrV6: "[2001:b28:f23d:f001::a]:443",
+    },
+    {
+      dc: 2,
+      ipPreference: "prefer_v4",
+      selectedAddrV4: "149.154.167.51:443",
+      selectedAddrV6: "[2001:67c:4e8:f002::a]:443",
+    },
+    {
+      dc: 3,
+      ipPreference: "prefer_v4",
+      selectedAddrV4: "149.154.175.100:443",
+      selectedAddrV6: "[2001:b28:f23d:f003::a]:443",
+    },
+    {
+      dc: 4,
+      ipPreference: "prefer_v4",
+      selectedAddrV4: "149.154.167.91:443",
+      selectedAddrV6: "[2001:67c:4e8:f004::a]:443",
+    },
+    {
+      dc: 5,
+      ipPreference: "prefer_v4",
+      selectedAddrV4: "149.154.171.5:443",
+      selectedAddrV6: "[2001:b28:f23f:f005::a]:443",
+    },
   ],
 
   upstreamZeroCounters: {

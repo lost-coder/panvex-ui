@@ -15,12 +15,16 @@ export function UsersSection({ users, onAdd, onEdit, onResetTotp, onDelete }: Us
     {
       key: "username",
       header: "Username",
-      render: (u: UserListItem) => <span className="text-sm font-medium text-fg">{u.username}</span>,
+      render: (u: UserListItem) => (
+        <span className="text-sm font-medium text-fg">{u.username}</span>
+      ),
     },
     {
       key: "role",
       header: "Role",
-      render: (u: UserListItem) => <Badge variant={roleVariant[u.role] ?? "default"}>{u.role}</Badge>,
+      render: (u: UserListItem) => (
+        <Badge variant={roleVariant[u.role] ?? "default"}>{u.role}</Badge>
+      ),
     },
     {
       key: "totp",
@@ -36,11 +40,20 @@ export function UsersSection({ users, onAdd, onEdit, onResetTotp, onDelete }: Us
       header: "",
       render: (u: UserListItem) => (
         <div className="flex gap-1 justify-end">
-          <Button variant="ghost" size="sm" onClick={() => onEdit(u.id)}>Edit</Button>
+          <Button variant="ghost" size="sm" onClick={() => onEdit(u.id)}>
+            Edit
+          </Button>
           {u.totpEnabled && (
-            <Button variant="ghost" size="sm" onClick={() => onResetTotp(u.id)}>Reset 2FA</Button>
+            <Button variant="ghost" size="sm" onClick={() => onResetTotp(u.id)}>
+              Reset 2FA
+            </Button>
           )}
-          <Button variant="ghost" size="sm" onClick={() => onDelete(u.id)} className="text-status-error hover:text-status-error">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete(u.id)}
+            className="text-status-error hover:text-status-error"
+          >
             Delete
           </Button>
         </div>
@@ -52,7 +65,9 @@ export function UsersSection({ users, onAdd, onEdit, onResetTotp, onDelete }: Us
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <SectionHeader title="Panel Users" />
-        <Button size="sm" onClick={onAdd}>Add User</Button>
+        <Button size="sm" onClick={onAdd}>
+          Add User
+        </Button>
       </div>
       <DataTable data={users} columns={columns} keyExtractor={(u) => u.id} />
     </div>

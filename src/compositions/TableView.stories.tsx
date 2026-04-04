@@ -133,11 +133,7 @@ export const SearchOnly: Story = {
   render: () => {
     const [search, setSearch] = React.useState("");
     return (
-      <TableView
-        search={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search anything…"
-      >
+      <TableView search={search} onSearchChange={setSearch} searchPlaceholder="Search anything…">
         <div className="rounded-xl border border-border bg-bg-card p-6 text-sm text-fg-muted font-mono">
           query: "{search || "—"}"
         </div>

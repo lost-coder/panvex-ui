@@ -7,12 +7,7 @@ export interface PageHeaderProps {
   className?: string;
 }
 
-export function PageHeader({
-  title,
-  subtitle,
-  trailing,
-  className,
-}: PageHeaderProps) {
+export function PageHeader({ title, subtitle, trailing, className }: PageHeaderProps) {
   return (
     <div
       className={cn(
@@ -22,12 +17,8 @@ export function PageHeader({
       )}
     >
       <div className="flex flex-col gap-1">
-        <h1 className="text-lg font-semibold text-fg md:text-xl tracking-tight">
-          {title}
-        </h1>
-        {subtitle && (
-          <p className="text-xs text-fg-muted md:text-sm">{subtitle}</p>
-        )}
+        <h1 className="text-lg font-semibold text-fg md:text-xl tracking-tight">{title}</h1>
+        {subtitle && <p className="text-xs text-fg-muted md:text-sm">{subtitle}</p>}
       </div>
       {trailing && <div className="shrink-0">{trailing}</div>}
     </div>

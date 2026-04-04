@@ -26,10 +26,22 @@ const dcItems = [
 
 export const Default: Story = {
   args: { items: dcItems },
-  decorators: [(Story) => <div className="w-[375px]"><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className="w-[375px]">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Desktop: Story = {
   args: { items: dcItems },
-  decorators: [(Story) => <div className="w-[900px]"><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className="w-[900px]">
+        <Story />
+      </div>
+    ),
+  ],
 };

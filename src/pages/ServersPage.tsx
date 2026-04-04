@@ -10,7 +10,11 @@ import { Button } from "@/components/ui/button";
 import type { ServersPageProps, ServerListItem, ViewMode } from "@/types/pages";
 
 function TrafficCell({ bytes }: { bytes: number }) {
-  return <span className="text-sm font-mono text-fg-muted">{Math.round(bytes / 1024 / 1024 / 1024)} GB</span>;
+  return (
+    <span className="text-sm font-mono text-fg-muted">
+      {Math.round(bytes / 1024 / 1024 / 1024)} GB
+    </span>
+  );
 }
 
 function DcMatrixCell({ dcs }: { dcs: ServerListItem["dcs"] }) {
@@ -22,7 +26,11 @@ function DcMatrixCell({ dcs }: { dcs: ServerListItem["dcs"] }) {
           key={i}
           className={cn(
             "w-2.5 h-2.5 rounded-full",
-            dc.status === "error" ? "bg-status-error" : dc.status === "warn" ? "bg-status-warn" : "bg-status-ok opacity-80"
+            dc.status === "error"
+              ? "bg-status-error"
+              : dc.status === "warn"
+                ? "bg-status-warn"
+                : "bg-status-ok opacity-80",
           )}
           title={`DC ${dc.dc}: ${dc.rttMs ? dc.rttMs + "ms" : "offline"}`}
         />
@@ -31,7 +39,13 @@ function DcMatrixCell({ dcs }: { dcs: ServerListItem["dcs"] }) {
   );
 }
 
-function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[]; onServerClick?: (id: string) => void }) {
+function ServerCardView({
+  servers,
+  onServerClick,
+}: {
+  servers: ServerListItem[];
+  onServerClick?: (id: string) => void;
+}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       {servers.map((s) => (
@@ -51,7 +65,11 @@ function ServerCardView({ servers, onServerClick }: { servers: ServerListItem[];
   );
 }
 
-function ServerListView({ servers, onServerClick, visibleColumns }: {
+function ServerListView({
+  servers,
+  onServerClick,
+  visibleColumns,
+}: {
   servers: ServerListItem[];
   onServerClick?: (id: string) => void;
   visibleColumns: Record<string, boolean>;
@@ -85,8 +103,12 @@ function ServerListView({ servers, onServerClick, visibleColumns }: {
       header: "Users",
       render: (s: ServerListItem) => (
         <div className="flex items-baseline gap-1 font-mono whitespace-nowrap justify-center">
-          <span className="text-sm text-fg">{(s.usersOnline ?? s.connections).toLocaleString()}</span>
-          <span className="text-xs text-fg-muted">/{(s.usersTotal ?? s.connections * 2).toLocaleString()}</span>
+          <span className="text-sm text-fg">
+            {(s.usersOnline ?? s.connections).toLocaleString()}
+          </span>
+          <span className="text-xs text-fg-muted">
+            /{(s.usersTotal ?? s.connections * 2).toLocaleString()}
+          </span>
         </div>
       ),
       sortable: true,
@@ -96,7 +118,9 @@ function ServerListView({ servers, onServerClick, visibleColumns }: {
       key: "traffic",
       header: "Traffic",
       render: (s: ServerListItem) => (
-        <div className="flex justify-center"><TrafficCell bytes={s.trafficBytes} /></div>
+        <div className="flex justify-center">
+          <TrafficCell bytes={s.trafficBytes} />
+        </div>
       ),
       sortable: true,
       className: "hidden md:table-cell text-center w-[80px]",
@@ -109,7 +133,9 @@ function ServerListView({ servers, onServerClick, visibleColumns }: {
         const hours = Math.floor((s.uptimeSeconds % 86400) / 3600);
         return (
           <div className="flex justify-center">
-            <span className="text-xs font-mono text-fg-muted whitespace-nowrap">{days}d {hours}h</span>
+            <span className="text-xs font-mono text-fg-muted whitespace-nowrap">
+              {days}d {hours}h
+            </span>
           </div>
         );
       },
@@ -141,7 +167,7 @@ function ServerListView({ servers, onServerClick, visibleColumns }: {
     },
   ];
 
-  const columns = allColumns.filter(c => c.key === "server" || visibleColumns[c.key] !== false);
+  const columns = allColumns.filter((c) => c.key === "server" || visibleColumns[c.key] !== false);
 
   return (
     <div className="bg-bg-card border border-border rounded-xl shadow-sm overflow-hidden">
@@ -215,13 +241,17 @@ export function ServersPage({
         title="Servers"
         subtitle={`${servers.length} active nodes`}
         trailing={
-          (onManageTokens || onAddServer) ? (
+          onManageTokens || onAddServer ? (
             <div className="flex items-center gap-2">
               {onManageTokens && (
-                <Button variant="ghost" size="sm" onClick={onManageTokens}>Manage Tokens</Button>
+                <Button variant="ghost" size="sm" onClick={onManageTokens}>
+                  Manage Tokens
+                </Button>
               )}
               {onAddServer && (
-                <Button size="sm" onClick={onAddServer}>Add Server</Button>
+                <Button size="sm" onClick={onAddServer}>
+                  Add Server
+                </Button>
               )}
             </div>
           ) : undefined
@@ -230,13 +260,19 @@ export function ServersPage({
       <div className="px-4 md:px-8 pb-8">
         <TableView
           search={search}
-          onSearchChange={(v) => { setSearch(v); setCurrentPage(1); }}
+          onSearchChange={(v) => {
+            setSearch(v);
+            setCurrentPage(1);
+          }}
           searchPlaceholder="Search by name or IP..."
           filters={[
             {
               key: "status",
               value: statusFilter,
-              onChange: (v) => { setStatusFilter(v); setCurrentPage(1); },
+              onChange: (v) => {
+                setStatusFilter(v);
+                setCurrentPage(1);
+              },
               options: [
                 { value: "all", label: "All Statuses" },
                 { value: "ok", label: "Online" },
@@ -248,7 +284,10 @@ export function ServersPage({
             {
               key: "group",
               value: groupFilter,
-              onChange: (v) => { setGroupFilter(v); setCurrentPage(1); },
+              onChange: (v) => {
+                setGroupFilter(v);
+                setCurrentPage(1);
+              },
               options: [
                 { value: "all", label: "All Groups" },
                 { value: "eu", label: "Europe" },
@@ -269,7 +308,7 @@ export function ServersPage({
           ]}
           columnVisibility={columnVisibility}
           onColumnVisibilityChange={(key, visible) =>
-            setColumnVisibility(prev => ({ ...prev, [key]: visible }))
+            setColumnVisibility((prev) => ({ ...prev, [key]: visible }))
           }
           currentPage={currentPage}
           totalPages={totalPages}
@@ -279,13 +318,21 @@ export function ServersPage({
         >
           {/* На мобильных всегда список */}
           <div className="block md:hidden">
-            <ServerListView servers={paginated} onServerClick={onServerClick} visibleColumns={columnVisibility} />
+            <ServerListView
+              servers={paginated}
+              onServerClick={onServerClick}
+              visibleColumns={columnVisibility}
+            />
           </div>
           <div className="hidden md:block">
             {effectiveMode === "cards" ? (
               <ServerCardView servers={paginated} onServerClick={onServerClick} />
             ) : (
-              <ServerListView servers={paginated} onServerClick={onServerClick} visibleColumns={columnVisibility} />
+              <ServerListView
+                servers={paginated}
+                onServerClick={onServerClick}
+                visibleColumns={columnVisibility}
+              />
             )}
           </div>
         </TableView>
@@ -293,4 +340,3 @@ export function ServersPage({
     </>
   );
 }
-

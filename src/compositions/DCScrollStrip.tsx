@@ -7,11 +7,7 @@ export interface DCScrollStripProps {
   className?: string;
 }
 
-export function DCScrollStrip({
-  items,
-  onSelect,
-  className,
-}: DCScrollStripProps) {
+export function DCScrollStrip({ items, onSelect, className }: DCScrollStripProps) {
   return (
     <div
       className={cn(

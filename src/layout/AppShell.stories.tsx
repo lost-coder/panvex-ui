@@ -52,8 +52,18 @@ export const DashboardPage: Story = {
             <SectionHeader title="Alerts" badge={2} />
             <AlertStrip
               alerts={[
-                { severity: "crit", message: "Node health below 50%", source: "monitor", timestamp: "12:04" },
-                { severity: "warn", message: "Memory threshold exceeded", source: "watcher", timestamp: "12:01" },
+                {
+                  severity: "crit",
+                  message: "Node health below 50%",
+                  source: "monitor",
+                  timestamp: "12:04",
+                },
+                {
+                  severity: "warn",
+                  message: "Memory threshold exceeded",
+                  source: "watcher",
+                  timestamp: "12:01",
+                },
               ]}
             />
           </div>

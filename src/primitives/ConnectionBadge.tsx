@@ -6,18 +6,12 @@ export interface ConnectionBadgeProps {
   className?: string;
 }
 
-export function ConnectionBadge({
-  online,
-  count,
-  className,
-}: ConnectionBadgeProps) {
+export function ConnectionBadge({ online, count, className }: ConnectionBadgeProps) {
   return (
     <span
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-mono font-medium leading-none",
-        online
-          ? "bg-status-ok/10 text-status-ok"
-          : "bg-fg-faint text-fg-muted",
+        online ? "bg-status-ok/10 text-status-ok" : "bg-fg-faint text-fg-muted",
         className,
       )}
     >
@@ -28,9 +22,7 @@ export function ConnectionBadge({
         )}
       />
       {online ? "online" : "offline"}
-      {count !== undefined && (
-        <span className="opacity-70">({count})</span>
-      )}
+      {count !== undefined && <span className="opacity-70">({count})</span>}
     </span>
   );
 }

@@ -15,8 +15,19 @@ export const Default: Story = {
       { icon: "⟳", label: "Restart Node", description: "Graceful restart with connection drain" },
       { icon: "⚙", label: "Reconfigure", description: "Apply pending configuration changes" },
       { icon: "📋", label: "View Logs", description: "Open real-time log stream" },
-      { icon: "⏻", label: "Force Stop", description: "Immediately terminate", variant: "danger" as const },
+      {
+        icon: "⏻",
+        label: "Force Stop",
+        description: "Immediately terminate",
+        variant: "danger" as const,
+      },
     ],
   },
-  decorators: [(Story) => <div className="w-[340px]"><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div className="w-[340px]">
+        <Story />
+      </div>
+    ),
+  ],
 };

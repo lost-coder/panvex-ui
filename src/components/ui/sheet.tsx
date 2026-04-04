@@ -7,8 +7,7 @@ const Sheet = DialogPrimitive.Root;
 const SheetTrigger = DialogPrimitive.Trigger;
 const SheetClose = DialogPrimitive.Close;
 
-interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   side?: "left" | "right" | "bottom";
   fullScreen?: boolean;
 }
@@ -19,8 +18,7 @@ const sideStyles = {
 } as const;
 
 // react-modal-sheet handles bottom and fullScreen variants (native swipe physics)
-const isMobileVariant = (side: string, fullScreen: boolean) =>
-  fullScreen || side === "bottom";
+const isMobileVariant = (side: string, fullScreen: boolean) => fullScreen || side === "bottom";
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
@@ -36,7 +34,9 @@ const SheetContent = React.forwardRef<
             <ModalSheet
               isOpen={true}
               onClose={() => {
-                const closeButton = document.querySelector("[data-radix-dialog-close]") as HTMLElement;
+                const closeButton = document.querySelector(
+                  "[data-radix-dialog-close]",
+                ) as HTMLElement;
                 if (closeButton) closeButton.click();
                 else document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
               }}
@@ -45,7 +45,9 @@ const SheetContent = React.forwardRef<
             >
               <ModalSheet.Backdrop
                 onTap={() => {
-                  const closeButton = document.querySelector("[data-radix-dialog-close]") as HTMLElement;
+                  const closeButton = document.querySelector(
+                    "[data-radix-dialog-close]",
+                  ) as HTMLElement;
                   if (closeButton) closeButton.click();
                   else document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
                 }}

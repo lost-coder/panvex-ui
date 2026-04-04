@@ -3,11 +3,7 @@ import { Search, ChevronLeft, ChevronRight, Columns3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { ViewModeToggle } from "@/compositions/ViewModeToggle";
 import type { ViewMode } from "@/types/pages";
 
@@ -151,12 +147,7 @@ export function TableView<T = unknown>({
                           <input
                             type="checkbox"
                             checked={visible}
-                            onChange={(e) =>
-                              onColumnVisibilityChange!(
-                                col.key,
-                                e.target.checked,
-                              )
-                            }
+                            onChange={(e) => onColumnVisibilityChange!(col.key, e.target.checked)}
                             className="accent-accent"
                           />
                           {col.label}
@@ -174,10 +165,7 @@ export function TableView<T = unknown>({
             {/* View mode toggle — hidden on mobile */}
             {hasViewMode && (
               <div className="hidden sm:block">
-                <ViewModeToggle
-                  mode={viewMode!}
-                  onChange={onViewModeChange!}
-                />
+                <ViewModeToggle mode={viewMode!} onChange={onViewModeChange!} />
               </div>
             )}
           </div>
@@ -212,25 +200,23 @@ export function TableView<T = unknown>({
             </button>
 
             {/* Page numbers */}
-            {Array.from({ length: totalPages! }, (_, i) => i + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  onClick={() => onPageChange?.(page)}
-                  className={cn(
-                    "flex items-center justify-center h-8 w-8 rounded-xs border font-mono text-xs transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50",
-                    page === currentPage
-                      ? "bg-accent border-accent text-white"
-                      : "bg-bg-card border-border-hi text-fg-muted hover:text-fg",
-                  )}
-                  aria-label={`Page ${page}`}
-                  aria-current={page === currentPage ? "page" : undefined}
-                >
-                  {page}
-                </button>
-              ),
-            )}
+            {Array.from({ length: totalPages! }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => onPageChange?.(page)}
+                className={cn(
+                  "flex items-center justify-center h-8 w-8 rounded-xs border font-mono text-xs transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50",
+                  page === currentPage
+                    ? "bg-accent border-accent text-white"
+                    : "bg-bg-card border-border-hi text-fg-muted hover:text-fg",
+                )}
+                aria-label={`Page ${page}`}
+                aria-current={page === currentPage ? "page" : undefined}
+              >
+                {page}
+              </button>
+            ))}
 
             <button
               onClick={() => onPageChange?.(currentPage + 1)}

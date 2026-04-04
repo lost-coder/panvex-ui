@@ -22,13 +22,7 @@ const severityBadge = {
   info: "bg-accent/15 text-accent",
 } as const;
 
-export function AlertItem({
-  severity,
-  message,
-  source,
-  timestamp,
-  className,
-}: AlertItemProps) {
+export function AlertItem({ severity, message, source, timestamp, className }: AlertItemProps) {
   return (
     <div
       className={cn(
@@ -51,12 +45,8 @@ export function AlertItem({
       </div>
       {(source || timestamp) && (
         <div className="flex items-center gap-2 mt-1.5 ml-[38px]">
-          {source && (
-            <span className="text-[11px] font-mono text-fg-muted">{source}</span>
-          )}
-          {timestamp && (
-            <span className="text-[11px] text-fg-muted/60">{timestamp}</span>
-          )}
+          {source && <span className="text-[11px] font-mono text-fg-muted">{source}</span>}
+          {timestamp && <span className="text-[11px] text-fg-muted/60">{timestamp}</span>}
         </div>
       )}
     </div>

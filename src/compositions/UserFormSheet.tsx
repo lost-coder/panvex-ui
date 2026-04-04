@@ -3,7 +3,15 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import type { UserFormSheetProps } from "@/types/pages";
 
-export function UserFormSheet({ mode, data, onChange, onSubmit, onCancel, loading, error }: UserFormSheetProps) {
+export function UserFormSheet({
+  mode,
+  data,
+  onChange,
+  onSubmit,
+  onCancel,
+  loading,
+  error,
+}: UserFormSheetProps) {
   function update<K extends keyof typeof data>(key: K, value: (typeof data)[K]) {
     onChange({ ...data, [key]: value });
   }
@@ -11,12 +19,16 @@ export function UserFormSheet({ mode, data, onChange, onSubmit, onCancel, loadin
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h3 className="text-lg font-semibold text-fg">{mode === "create" ? "Add User" : "Edit User"}</h3>
+        <h3 className="text-lg font-semibold text-fg">
+          {mode === "create" ? "Add User" : "Edit User"}
+        </h3>
         <p className="text-sm text-fg-muted mt-0.5">Panel administrator account.</p>
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">Username *</label>
+        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
+          Username *
+        </label>
         <Input
           value={data.username}
           onChange={(e) => update("username", e.target.value)}
@@ -41,7 +53,9 @@ export function UserFormSheet({ mode, data, onChange, onSubmit, onCancel, loadin
       </div>
 
       <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">Role *</label>
+        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
+          Role *
+        </label>
         <Select
           value={data.role}
           options={[
@@ -56,8 +70,13 @@ export function UserFormSheet({ mode, data, onChange, onSubmit, onCancel, loadin
       {error && <div className="text-xs text-status-error">{error}</div>}
 
       <div className="flex gap-2 justify-end mt-2">
-        <Button variant="ghost" onClick={onCancel} disabled={loading}>Cancel</Button>
-        <Button onClick={onSubmit} disabled={loading || !data.username || (mode === "create" && !data.password)}>
+        <Button variant="ghost" onClick={onCancel} disabled={loading}>
+          Cancel
+        </Button>
+        <Button
+          onClick={onSubmit}
+          disabled={loading || !data.username || (mode === "create" && !data.password)}
+        >
           {loading ? "Saving..." : mode === "create" ? "Add User" : "Save Changes"}
         </Button>
       </div>

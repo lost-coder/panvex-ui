@@ -6,8 +6,12 @@ export default meta;
 type Story = StoryObj<typeof MiniChart>;
 
 export const Stable: Story = { args: { data: [42, 45, 43, 44, 46, 45, 44, 43, 45, 44] } };
-export const Spike: Story = { args: { data: [30, 32, 35, 40, 85, 92, 45, 38, 35, 33], color: "#f59e0b" } };
-export const Declining: Story = { args: { data: [90, 85, 78, 72, 65, 58, 52, 48, 45, 42], color: "#34d399" } };
+export const Spike: Story = {
+  args: { data: [30, 32, 35, 40, 85, 92, 45, 38, 35, 33], color: "#f59e0b" },
+};
+export const Declining: Story = {
+  args: { data: [90, 85, 78, 72, 65, 58, 52, 48, 45, 42], color: "#34d399" },
+};
 
 export const InCards: Story = {
   render: () => (

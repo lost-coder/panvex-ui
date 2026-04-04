@@ -15,7 +15,9 @@ type Story = StoryObj<typeof LEDIndicator>;
 export const Ok: Story = { args: { status: "ok", label: "FRA", sublabel: "Frankfurt" } };
 export const Warn: Story = { args: { status: "warn", label: "SIN", sublabel: "Singapore" } };
 export const Error: Story = { args: { status: "error", label: "SYD", sublabel: "Sydney" } };
-export const Active: Story = { args: { status: "ok", label: "AMS", sublabel: "Amsterdam", active: true } };
+export const Active: Story = {
+  args: { status: "ok", label: "AMS", sublabel: "Amsterdam", active: true },
+};
 
 export const Grid: Story = {
   render: () => (

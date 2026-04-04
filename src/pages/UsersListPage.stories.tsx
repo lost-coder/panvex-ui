@@ -18,12 +18,47 @@ export default meta;
 type Story = StoryObj;
 
 const users = [
-  { name: "admin_main", online: true, connections: 5, trafficUp: 500_000_000, trafficDown: 3_200_000_000, ips: 4 },
-  { name: "proxy_user_42", online: true, connections: 2, trafficUp: 148_500_000, trafficDown: 2_480_000_000, ips: 2 },
-  { name: "alice_vpn", online: true, connections: 1, trafficUp: 89_000_000, trafficDown: 890_000_000, ips: 1 },
-  { name: "bob_mobile", online: false, connections: 0, trafficUp: 12_000_000, trafficDown: 85_000_000, ips: 1 },
+  {
+    name: "admin_main",
+    online: true,
+    connections: 5,
+    trafficUp: 500_000_000,
+    trafficDown: 3_200_000_000,
+    ips: 4,
+  },
+  {
+    name: "proxy_user_42",
+    online: true,
+    connections: 2,
+    trafficUp: 148_500_000,
+    trafficDown: 2_480_000_000,
+    ips: 2,
+  },
+  {
+    name: "alice_vpn",
+    online: true,
+    connections: 1,
+    trafficUp: 89_000_000,
+    trafficDown: 890_000_000,
+    ips: 1,
+  },
+  {
+    name: "bob_mobile",
+    online: false,
+    connections: 0,
+    trafficUp: 12_000_000,
+    trafficDown: 85_000_000,
+    ips: 1,
+  },
   { name: "test_bot", online: false, connections: 0, trafficUp: 0, trafficDown: 1_200_000, ips: 1 },
-  { name: "backup_svc", online: false, connections: 0, trafficUp: 45_000_000, trafficDown: 320_000_000, ips: 1 },
+  {
+    name: "backup_svc",
+    online: false,
+    connections: 0,
+    trafficUp: 45_000_000,
+    trafficDown: 320_000_000,
+    ips: 1,
+  },
 ];
 
 function UsersPage() {
@@ -50,17 +85,19 @@ function UsersPage() {
           searchValue={search}
           onSearchChange={setSearch}
           searchPlaceholder="Search users…"
-          filters={[{
-            key: "status",
-            options: [
-              { value: "all", label: "All" },
-              { value: "online", label: "Online" },
-              { value: "offline", label: "Offline" },
-            ],
-            value: status,
-            onChange: setStatus,
-            placeholder: "Status",
-          }]}
+          filters={[
+            {
+              key: "status",
+              options: [
+                { value: "all", label: "All" },
+                { value: "online", label: "Online" },
+                { value: "offline", label: "Offline" },
+              ],
+              value: status,
+              onChange: setStatus,
+              placeholder: "Status",
+            },
+          ]}
         />
 
         <SectionHeader

@@ -15,13 +15,7 @@ const dotColor = {
   error: "bg-status-error",
 } as const;
 
-export function TimelineEvent({
-  status,
-  time,
-  message,
-  detail,
-  className,
-}: TimelineEventProps) {
+export function TimelineEvent({ status, time, message, detail, className }: TimelineEventProps) {
   return (
     <div className={cn("flex gap-3 relative", className)}>
       <div className="flex flex-col items-center pt-1.5">
@@ -33,9 +27,7 @@ export function TimelineEvent({
           <span className="text-[11px] font-mono text-fg-muted shrink-0">{time}</span>
           <span className="text-sm text-fg leading-snug">{message}</span>
         </div>
-        {detail && (
-          <p className="text-xs text-fg-muted/70 mt-0.5 leading-relaxed">{detail}</p>
-        )}
+        {detail && <p className="text-xs text-fg-muted/70 mt-0.5 leading-relaxed">{detail}</p>}
       </div>
     </div>
   );
