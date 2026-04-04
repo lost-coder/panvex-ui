@@ -945,7 +945,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-function useRelativeTime(date: Date | undefined): string {
+function useRelativeTime(date: Date | undefined): { label: string; stale: boolean } {
   const [now, setNow] = useState(Date.now);
 
   useEffect(() => {
@@ -954,15 +954,14 @@ function useRelativeTime(date: Date | undefined): string {
     return () => clearInterval(id);
   }, [date]);
 
-  if (!date) return "";
+  if (!date) return { label: "", stale: false };
   const secs = Math.round((now - date.getTime()) / 1000);
-  if (secs < 2) return "just now";
-  if (secs < 60) return `${secs}s ago`;
-  return `${Math.floor(secs / 60)}m ago`;
+  const label = secs < 2 ? "now" : secs < 60 ? `${secs}s` : `${Math.floor(secs / 60)}m`;
+  return { label, stale: secs > 10 };
 }
 
 export function ServerDetailPage({ server, onBack, onReload, initState, lastUpdatedAt }: ServerDetailPageProps) {
-  const relativeTime = useRelativeTime(lastUpdatedAt);
+  const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
 
   // DC sort: problematic (low coverage) first
@@ -1069,12 +1068,17 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
         trailing={
           <div className="flex items-center gap-3">
             {relativeTime && (
-              <span className="text-[11px] text-fg-muted font-mono tabular-nums flex items-center gap-1.5">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-status-ok animate-pulse opacity-75" />
+              <span className={cn(
+                "text-[10px] font-mono tabular-nums inline-flex items-center gap-1 rounded-full px-2 py-0.5 border transition-colors duration-500",
+                relativeTimeStale
+                  ? "bg-status-warn/10 border-status-warn/15 text-status-warn"
+                  : "bg-status-ok/10 border-status-ok/15 text-fg-muted",
+              )}>
+                <span className="text-[11px] animate-spin" style={{ animationDuration: "3s" }}>↻</span>
                 {relativeTime}
               </span>
             )}
-            <StatusBeacon status={server.status} size="sm" />
+            <StatusBeacon status={server.status} size="xs" />
             <ActionsDropdown onReload={onReload} />
           </div>
         }
