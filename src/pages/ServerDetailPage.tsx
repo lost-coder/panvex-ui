@@ -1067,13 +1067,14 @@ export function ServerDetailPage({ server, onBack, onReload, initState, lastUpda
         title={server.name}
         subtitle={subtitle}
         trailing={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {relativeTime && (
-              <span className="text-xs text-fg-muted font-mono tabular-nums">
+              <span className="text-[11px] text-fg-muted font-mono tabular-nums flex items-center gap-1.5">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-status-ok animate-pulse opacity-75" />
                 {relativeTime}
               </span>
             )}
-            <StatusBeacon status={server.status} size="md" />
+            <StatusBeacon status={server.status} size="sm" />
             <ActionsDropdown onReload={onReload} />
           </div>
         }
