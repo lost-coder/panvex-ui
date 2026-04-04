@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
@@ -128,11 +128,13 @@ function ConnectionsTab({ server }: { server: ServerDetailPageProps["server"] })
           value={mePct}
           label={`ME: ${connections.currentMe.toLocaleString()} (${mePct}%)`}
           size="sm"
+          variant="info"
         />
         <ProgressBar
           value={directPct}
           label={`Direct: ${connections.currentDirect.toLocaleString()} (${directPct}%)`}
           size="sm"
+          variant="info"
         />
         {connections.staleCacheUsed && (
           <Badge variant="warn">⚠ Stale cache in use</Badge>
@@ -236,7 +238,7 @@ function MePoolTab({ server }: { server: ServerDetailPageProps["server"] }) {
       header: "RTT",
       render: (row: ServerMeWriterData) => (
         <MonoValue>
-          {row.rttEmaMs != null ? `${row.rttEmaMs}ms` : "—"}
+          {row.rttEmaMs != null ? `${row.rttEmaMs.toFixed(1)}ms` : "—"}
         </MonoValue>
       ),
     },
@@ -862,7 +864,7 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
                   {expandedDc === row.dc ? "▾" : "›"}
                 </td>
                 <td className="px-3 py-2">
-                  <span className="font-mono text-xs font-semibold">DC{row.dc}</span>
+                  <span className="font-mono text-xs font-semibold text-fg">DC{row.dc}</span>
                 </td>
                 <td className="px-3 py-2">
                   <MonoValue className={row.availablePct < 100 ? "text-status-warn" : undefined}>
@@ -943,7 +945,23 @@ function DcTable({ dcs }: { dcs: ServerDcData[] }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export function ServerDetailPage({ server, onBack, onReload, initState }: ServerDetailPageProps) {
+function useRelativeTime(date: Date | undefined): { label: string; stale: boolean } {
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    if (!date) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [date]);
+
+  if (!date) return { label: "", stale: false };
+  const secs = Math.round((now - date.getTime()) / 1000);
+  const label = secs < 2 ? "now" : secs < 60 ? `${secs}s` : `${Math.floor(secs / 60)}m`;
+  return { label, stale: secs > 10 };
+}
+
+export function ServerDetailPage({ server, onBack, onReload, initState, lastUpdatedAt }: ServerDetailPageProps) {
+  const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
 
   // DC sort: problematic (low coverage) first
@@ -1048,8 +1066,19 @@ export function ServerDetailPage({ server, onBack, onReload, initState }: Server
         title={server.name}
         subtitle={subtitle}
         trailing={
-          <div className="flex items-center gap-2">
-            <StatusBeacon status={server.status} size="md" />
+          <div className="flex items-center gap-3">
+            {relativeTime && (
+              <span className={cn(
+                "text-[10px] font-mono tabular-nums inline-flex items-center gap-1 rounded-full px-2 py-0.5 border transition-colors duration-500",
+                relativeTimeStale
+                  ? "bg-status-warn/10 border-status-warn/15 text-status-warn"
+                  : "bg-status-ok/10 border-status-ok/15 text-fg-muted",
+              )}>
+                <span className="text-[11px] animate-spin" style={{ animationDuration: "3s" }}>↻</span>
+                {relativeTime}
+              </span>
+            )}
+            <StatusBeacon status={server.status} size="xs" />
             <ActionsDropdown onReload={onReload} />
           </div>
         }

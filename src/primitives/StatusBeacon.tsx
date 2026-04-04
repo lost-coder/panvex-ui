@@ -3,12 +3,13 @@ import type { Status } from "@/tokens/colors";
 
 export interface StatusBeaconProps {
   status: Status;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   animated?: boolean;
   className?: string;
 }
 
 const sizeMap = {
+  xs: "h-3 w-3",
   sm: "h-4 w-4",
   md: "h-6 w-6",
   lg: "h-8 w-8",

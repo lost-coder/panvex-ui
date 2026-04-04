@@ -26,11 +26,11 @@ export function InitCard({
           {lastError ? "Initialization Error" : "Initializing Telemt runtime..."}
         </span>
         <span className="text-xs font-mono text-fg-muted">
-          Stage {attempt}/{retryLimit} · {progressPct}%
+          Stage {attempt}/{retryLimit} · {Math.round(progressPct)}%
         </span>
       </div>
 
-      <ProgressBar value={progressPct} max={100} showValue={false} className="h-1.5" />
+      <ProgressBar value={Math.round(progressPct)} max={100} showValue={false} className="h-1.5" />
 
       <div className="grid grid-cols-3 gap-2 text-xs">
         <div>

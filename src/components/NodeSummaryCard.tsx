@@ -87,31 +87,45 @@ export function NodeSummaryCard({
       )}
     >
       {/* Header — always visible */}
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="w-full text-left px-4 py-3 flex flex-col gap-2 hover:bg-bg-hover/40 transition-colors rounded-xs"
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => onClick?.()}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onClick?.(); }}
+        className="w-full text-left px-4 py-3 flex flex-col gap-2 hover:bg-bg-hover/40 transition-colors rounded-xs cursor-pointer"
       >
-        {/* Row 1: name + status + issue badge */}
+        {/* Row 1: name + status + issue badge + expand toggle */}
         <div className="flex items-center gap-3 w-full">
           <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", beaconColor[status])} />
           <span className="text-sm font-mono font-medium text-fg truncate">{name}</span>
 
           {issue && (
-            <span className={cn("text-[10px] font-mono shrink-0 ml-auto mr-5", issue.cls)}>
+            <span className={cn("text-[10px] font-mono shrink-0 ml-auto", issue.cls)}>
               {issue.text}
             </span>
           )}
           {!issue && <span className="ml-auto" />}
 
-          <span
-            className={cn(
-              "text-fg-muted text-[10px] transition-transform duration-200 shrink-0",
-              expanded && "rotate-180",
-            )}
-          >
-            ▾
-          </span>
+          {dcs.length > 0 && (
+            <button
+              type="button"
+              aria-label={expanded ? "Collapse" : "Expand"}
+              onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+              className={cn(
+                "shrink-0 ml-1 p-1 -mr-1 rounded-md hover:bg-bg-hover/80 transition-all text-fg-muted hover:text-fg",
+              )}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                className={cn("transition-transform duration-200", expanded && "rotate-180")}
+              >
+                <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          )}
         </div>
 
         {/* Row 2: inline metrics — hidden on mobile, visible on md+ */}
@@ -131,7 +145,7 @@ export function NodeSummaryCard({
             </span>
           )}
         </div>
-      </button>
+      </div>
 
       {/* Expanded panel */}
       {expanded && (

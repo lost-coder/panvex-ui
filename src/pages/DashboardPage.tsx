@@ -60,17 +60,17 @@ function OverviewPanel({ data, onNodeClick }: OverviewPanelProps) {
           <SectionHeader title="Attention Required" badge={data.attentionNodes.length} />
           <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3">
             {data.attentionNodes.map((node) => (
-              <div key={node.id} onClick={() => onNodeClick?.(node.id)} className="cursor-pointer">
-                <NodeSummaryCard
-                  name={node.name}
-                  status={node.status === "error" ? "error" : "warn"}
-                  connections={node.connections}
-                  trafficBytes={node.trafficBytes}
-                  cpuPct={node.cpuPct}
-                  memPct={node.memPct}
-                  dcs={node.dcs}
-                />
-              </div>
+              <NodeSummaryCard
+                key={node.id}
+                name={node.name}
+                status={node.status === "error" ? "error" : "warn"}
+                connections={node.connections}
+                trafficBytes={node.trafficBytes}
+                cpuPct={node.cpuPct}
+                memPct={node.memPct}
+                dcs={node.dcs}
+                onClick={() => onNodeClick?.(node.id)}
+              />
             ))}
           </div>
         </div>
