@@ -1,3 +1,5 @@
+import type { UserLinks } from "./api";
+
 // Page data contract types for panvex-web integration
 
 // --- Shared ---
@@ -61,6 +63,9 @@ export interface DashboardPageProps {
   timeline: DashboardTimelineData;
   onNodeClick?: (nodeId: string) => void;
   onNodeLinkClick?: (nodeId: string) => void;
+  onCreate?: (data: ClientFormData) => void | Promise<void>;
+  createLoading?: boolean;
+  createError?: string;
   pendingDiscoveredCount?: number;
   onDiscoveredClick?: () => void;
 }
@@ -437,7 +442,9 @@ export interface ClientsPageProps {
   onViewModeChange?: (mode: ViewMode) => void;
   onClientClick?: (clientId: string) => void;
   onClientLinkClick?: (clientId: string) => void;
-  onAddClient?: () => void;
+  onCreate?: (data: ClientFormData) => void | Promise<void>;
+  createLoading?: boolean;
+  createError?: string;
   pendingDiscoveredCount?: number;
   onDiscoveredClick?: () => void;
 }
@@ -458,7 +465,7 @@ export interface DiscoveredClientItem {
   totalOctets: number;
   currentConnections: number;
   activeUniqueIps: number;
-  connectionLink: string;
+  links: UserLinks;
   maxTcpConns: number;
   maxUniqueIps: number;
   dataQuotaBytes: number;
@@ -483,7 +490,7 @@ export interface ClientDeploymentData {
   desiredOperation: string;
   status: string;
   lastError: string;
-  connectionLink: string;
+  links: UserLinks;
   lastAppliedAtUnix: number;
 }
 
@@ -505,9 +512,13 @@ export interface ClientDetailPageProps {
     deployments: ClientDeploymentData[];
   };
   onBack?: () => void;
-  onEdit?: () => void;
+  onEdit?: (data: ClientFormData) => void | Promise<void>;
+  editLoading?: boolean;
+  editError?: string;
   onManageAccess?: () => void;
   onRotateSecret?: () => void;
+  secretRotating?: boolean;
+  secretPendingRedeploy?: boolean;
   onDisable?: () => void;
   onDelete?: () => void;
 }

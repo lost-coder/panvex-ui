@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PageHeader } from "@/layout/PageHeader";
 import { TableView } from "@/compositions/TableView";
+import { ClientFormSheet } from "@/compositions/ClientFormSheet";
 import { Badge } from "@/primitives/Badge";
 import { StatusDot } from "@/primitives/StatusDot";
 import { MonoValue } from "@/primitives/MonoValue";
@@ -8,8 +9,9 @@ import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
 import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
-import type { ClientsPageProps, ClientListItem, ViewMode } from "@/types/pages";
+import type { ClientsPageProps, ClientListItem, ClientFormData, ViewMode } from "@/types/pages";
 
 // ─── Desktop DataTable columns ────────────────────────────────────────────────
 
@@ -149,13 +151,24 @@ function ClientListRow({ client, onClick }: { client: ClientListItem; onClick?: 
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
+const emptyFormData: ClientFormData = {
+  name: "",
+  userAdTag: "",
+  expirationRfc3339: "",
+  maxTcpConns: 0,
+  maxUniqueIps: 0,
+  dataQuotaBytes: 0,
+};
+
 export function ClientsPage({
   clients,
   viewMode,
   autoThreshold = 6,
   onViewModeChange,
   onClientClick,
-  onAddClient,
+  onCreate,
+  createLoading,
+  createError,
   pendingDiscoveredCount,
   onDiscoveredClick,
 }: ClientsPageProps) {
@@ -164,6 +177,8 @@ export function ClientsPage({
   const [deployFilter, setDeployFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createData, setCreateData] = useState<ClientFormData>({ ...emptyFormData });
 
   const effectiveMode: ViewMode = viewMode ?? (clients.length <= autoThreshold ? "cards" : "list");
 
@@ -192,8 +207,8 @@ export function ClientsPage({
         title="Clients"
         subtitle={`${clients.length} clients`}
         trailing={
-          onAddClient ? (
-            <Button size="sm" onClick={onAddClient}>
+          onCreate ? (
+            <Button size="sm" onClick={() => { setCreateData({ ...emptyFormData }); setCreateOpen(true); }}>
               Add Client
             </Button>
           ) : undefined
@@ -280,6 +295,27 @@ export function ClientsPage({
           )}
         </TableView>
       </div>
+
+      {onCreate && (
+        <Sheet open={createOpen} onOpenChange={(open) => { if (!open) setCreateOpen(false); }}>
+          <SheetContent side="bottom">
+            <SheetBody>
+              <ClientFormSheet
+                mode="create"
+                data={createData}
+                onChange={setCreateData}
+                onSubmit={async () => {
+                  await onCreate(createData);
+                  if (!createError) setCreateOpen(false);
+                }}
+                onCancel={() => setCreateOpen(false)}
+                loading={createLoading}
+                error={createError}
+              />
+            </SheetBody>
+          </SheetContent>
+        </Sheet>
+      )}
     </>
   );
 }

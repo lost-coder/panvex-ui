@@ -1,16 +1,21 @@
+import { useState } from "react";
 import { PageHeader } from "@/layout/PageHeader";
 import { SectionHeader } from "@/layout/SectionHeader";
 import { SwipeTabView } from "@/compositions/SwipeTabView";
 import { AlertStrip } from "@/compositions/AlertStrip";
 import { Timeline } from "@/compositions/Timeline";
+import { ClientFormSheet } from "@/compositions/ClientFormSheet";
 import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { Badge } from "@/primitives/Badge";
+import { Button } from "@/components/ui/button";
 import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
+import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
 import type {
   DashboardPageProps,
   DashboardOverviewData,
   DashboardTimelineData,
+  ClientFormData,
 } from "@/types/pages";
 
 interface OverviewPanelProps {
@@ -124,16 +129,41 @@ function TimelinePanel({ data }: { data: DashboardTimelineData }) {
   );
 }
 
+const emptyFormData: ClientFormData = {
+  name: "",
+  userAdTag: "",
+  expirationRfc3339: "",
+  maxTcpConns: 0,
+  maxUniqueIps: 0,
+  dataQuotaBytes: 0,
+};
+
 export function DashboardPage({
   overview,
   timeline,
   onNodeClick,
+  onCreate,
+  createLoading,
+  createError,
   pendingDiscoveredCount,
   onDiscoveredClick,
 }: DashboardPageProps) {
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createData, setCreateData] = useState<ClientFormData>({ ...emptyFormData });
+
   return (
     <>
-      <PageHeader title="Dashboard" subtitle="System overview" />
+      <PageHeader
+        title="Dashboard"
+        subtitle="System overview"
+        trailing={
+          onCreate ? (
+            <Button size="sm" onClick={() => { setCreateData({ ...emptyFormData }); setCreateOpen(true); }}>
+              Add Client
+            </Button>
+          ) : undefined
+        }
+      />
       <div className="px-4 md:px-8 pb-8">
         {!!pendingDiscoveredCount && (
           <div className="mb-5">
@@ -174,6 +204,27 @@ export function DashboardPage({
           </aside>
         </div>
       </div>
+
+      {onCreate && (
+        <Sheet open={createOpen} onOpenChange={(open) => { if (!open) setCreateOpen(false); }}>
+          <SheetContent side="bottom">
+            <SheetBody>
+              <ClientFormSheet
+                mode="create"
+                data={createData}
+                onChange={setCreateData}
+                onSubmit={async () => {
+                  await onCreate(createData);
+                  if (!createError) setCreateOpen(false);
+                }}
+                onCancel={() => setCreateOpen(false)}
+                loading={createLoading}
+                error={createError}
+              />
+            </SheetBody>
+          </SheetContent>
+        </Sheet>
+      )}
     </>
   );
 }

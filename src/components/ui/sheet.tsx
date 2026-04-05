@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Sheet as ModalSheet } from "react-modal-sheet";
 import { cn } from "@/lib/utils";
 
@@ -61,6 +62,12 @@ const SheetContent = React.forwardRef<
                 <ModalSheet.Header className="pt-2 pb-0 flex justify-center w-full">
                   <ModalSheet.DragIndicator className="!mt-2 !mx-auto" />
                 </ModalSheet.Header>
+                <VisuallyHidden.Root asChild>
+                  <DialogPrimitive.Title>Sheet</DialogPrimitive.Title>
+                </VisuallyHidden.Root>
+                <VisuallyHidden.Root asChild>
+                  <DialogPrimitive.Description>Sheet content</DialogPrimitive.Description>
+                </VisuallyHidden.Root>
                 <ModalSheet.Content className={cn("flex flex-col", className)}>
                   {children}
                 </ModalSheet.Content>
@@ -88,6 +95,12 @@ const SheetContent = React.forwardRef<
         )}
         {...props}
       >
+        <VisuallyHidden.Root asChild>
+          <DialogPrimitive.Title>Sheet</DialogPrimitive.Title>
+        </VisuallyHidden.Root>
+        <VisuallyHidden.Root asChild>
+          <DialogPrimitive.Description>Sheet content</DialogPrimitive.Description>
+        </VisuallyHidden.Root>
         {children}
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>

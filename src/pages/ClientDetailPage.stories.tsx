@@ -22,10 +22,13 @@ const mockClient: ClientDetailPageProps["client"] = {
     {
       agentId: "node-eu-west-1",
       desiredOperation: "upsert",
-      status: "ok",
+      status: "succeeded",
       lastError: "",
-      connectionLink:
-        "tg://proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef",
+      links: {
+        tls: ["tg://proxy?server=eu-west-1.example.com&port=443&secret=eedeadbeefcafebabe1234567890abcdef646e2e6578616d706c652e636f6d"],
+        classic: ["https://t.me/proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef"],
+        secure: [],
+      },
       lastAppliedAtUnix: 1743600000,
     },
     {
@@ -33,7 +36,7 @@ const mockClient: ClientDetailPageProps["client"] = {
       desiredOperation: "upsert",
       status: "pending",
       lastError: "",
-      connectionLink: "",
+      links: { classic: [], secure: [], tls: [] },
       lastAppliedAtUnix: 1743500000,
     },
     {
@@ -41,7 +44,7 @@ const mockClient: ClientDetailPageProps["client"] = {
       desiredOperation: "upsert",
       status: "error",
       lastError: "connection refused: dial tcp 10.0.0.5:8080: connect: connection refused",
-      connectionLink: "",
+      links: { classic: [], secure: [], tls: [] },
       lastAppliedAtUnix: 1743400000,
     },
   ],
@@ -78,6 +81,11 @@ export const Default: Story = {
   args: {
     client: mockClient,
     onBack: () => console.log("Back clicked"),
+    onEdit: async (data) => {
+      console.log("Edit submitted:", data);
+      await new Promise((r) => setTimeout(r, 500));
+    },
+    onRotateSecret: () => console.log("Rotate secret"),
   },
 };
 
@@ -96,8 +104,21 @@ export const DisabledClient: Story = {
       expirationRfc3339: "",
       fleetGroupIds: [],
       userAdTag: "",
-      deployments: mockClient.deployments.slice(0, 1).map((d) => ({ ...d, status: "ok" })),
+      deployments: mockClient.deployments.slice(0, 1).map((d) => ({ ...d, status: "succeeded" })),
     },
     onBack: () => console.log("Back clicked"),
+    onEdit: async (data) => console.log("Edit:", data),
+    onRotateSecret: () => console.log("Rotate secret"),
+  },
+};
+
+export const WithPendingRedeploy: Story = {
+  name: "Secret pending redeploy",
+  args: {
+    client: mockClient,
+    onBack: () => console.log("Back clicked"),
+    onEdit: async (data) => console.log("Edit:", data),
+    onRotateSecret: () => console.log("Rotate secret"),
+    secretPendingRedeploy: true,
   },
 };

@@ -3,6 +3,7 @@ import { PageHeader } from "@/layout/PageHeader";
 import { SectionHeader } from "@/layout/SectionHeader";
 import { Breadcrumbs } from "@/compositions/Breadcrumbs";
 import { SwipeTabView } from "@/compositions/SwipeTabView";
+import { ClientFormSheet } from "@/compositions/ClientFormSheet";
 import { Badge } from "@/primitives/Badge";
 import { StatCard } from "@/primitives/StatCard";
 import { KvGrid } from "@/primitives/KvGrid";
@@ -10,12 +11,93 @@ import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { CopyButton } from "@/primitives/CopyButton";
 import { DataTable } from "@/components/DataTable";
+import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
-import type { ClientDetailPageProps, ClientDeploymentData } from "@/types/pages";
+import type { ClientDetailPageProps, ClientDeploymentData, ClientFormData } from "@/types/pages";
+
+// ─── Connection links ────────────────────────────────────────────────────────
+
+function ConnectionLinksContent({
+  deployments,
+  secretPendingRedeploy,
+}: {
+  deployments: ClientDeploymentData[];
+  secretPendingRedeploy?: boolean;
+}) {
+  const activeLinks = deployments.filter(
+    (d) =>
+      d.status === "succeeded" &&
+      (d.links.tls.length > 0 || d.links.classic.length > 0 || d.links.secure.length > 0),
+  );
+
+  return (
+    <div className="flex flex-col">
+      {secretPendingRedeploy && (
+        <div className="px-4 py-2 text-xs font-medium text-status-warn bg-status-warn/10 border-b border-border">
+          Secret changed — links will update after redeployment
+        </div>
+      )}
+      {activeLinks.length === 0 ? (
+        <div className="px-4 py-6 text-center text-fg-muted text-sm">
+          Links available after deployment
+        </div>
+      ) : (
+        <div className="flex flex-col divide-y divide-border">
+          {activeLinks.map((d) => (
+            <div key={d.agentId} className="px-4 py-3 flex flex-col gap-1.5">
+              <span className="text-[11px] text-fg-muted uppercase tracking-wider">
+                {d.agentId}
+              </span>
+              {d.links.tls.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">TLS</span>
+                  <span className="text-xs font-mono text-fg truncate min-w-0">
+                    {d.links.tls[0]}
+                  </span>
+                  <CopyButton text={d.links.tls[0]} />
+                </div>
+              )}
+              {d.links.classic.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">t.me</span>
+                  <span className="text-xs font-mono text-fg truncate min-w-0">
+                    {d.links.classic[0]}
+                  </span>
+                  <CopyButton text={d.links.classic[0]} />
+                </div>
+              )}
+              {d.links.secure.length > 0 && d.links.classic.length === 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">Proxy</span>
+                  <span className="text-xs font-mono text-fg truncate min-w-0">
+                    {d.links.secure[0]}
+                  </span>
+                  <CopyButton text={d.links.secure[0]} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── Overview content ─────────────────────────────────────────────────────────
 
-function OverviewContent({ client }: { client: ClientDetailPageProps["client"] }) {
+function OverviewContent({
+  client,
+  onRotateSecret,
+  secretRotating,
+  secretPendingRedeploy,
+}: {
+  client: ClientDetailPageProps["client"];
+  onRotateSecret?: () => void;
+  secretRotating?: boolean;
+  secretPendingRedeploy?: boolean;
+}) {
   const settingsRows = [
     {
       label: "Max TCP Connections",
@@ -44,9 +126,19 @@ function OverviewContent({ client }: { client: ClientDetailPageProps["client"] }
     {
       label: "Secret",
       value: (
-        <span className="flex items-center">
+        <span className="flex items-center gap-1">
           <MonoValue>{"••••••••"}</MonoValue>
           <CopyButton text={client.secret} />
+          {onRotateSecret && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={onRotateSecret}
+              disabled={secretRotating}
+            >
+              {secretRotating ? "Rotating..." : "Rotate"}
+            </Button>
+          )}
         </span>
       ),
     },
@@ -68,14 +160,15 @@ function OverviewContent({ client }: { client: ClientDetailPageProps["client"] }
         </div>
       </div>
 
-      {/* Connection links placeholder */}
+      {/* Connection links */}
       <div className="rounded-xs bg-bg-card border border-border overflow-hidden">
         <div className="px-4 py-3 border-b border-border">
           <FieldLabel>Connection Links</FieldLabel>
         </div>
-        <div className="px-4 py-6 text-center text-fg-muted text-sm">
-          Links available after deployment
-        </div>
+        <ConnectionLinksContent
+          deployments={client.deployments}
+          secretPendingRedeploy={secretPendingRedeploy}
+        />
       </div>
     </div>
   );
@@ -135,13 +228,28 @@ function DeploymentsContent({ deployments }: { deployments: ClientDeploymentData
     },
     {
       key: "link",
-      header: "Link",
-      render: (row: ClientDeploymentData) =>
-        row.connectionLink ? (
-          <CopyButton text={row.connectionLink} />
-        ) : (
-          <span className="text-fg-muted text-xs">—</span>
-        ),
+      header: "Links",
+      render: (row: ClientDeploymentData) => {
+        const hasTls = row.links.tls.length > 0;
+        const hasClassic = row.links.classic.length > 0;
+        if (!hasTls && !hasClassic) return <span className="text-fg-muted text-xs">—</span>;
+        return (
+          <span className="flex items-center gap-1">
+            {hasTls && (
+              <>
+                <span className="text-[10px] text-fg-muted">TLS</span>
+                <CopyButton text={row.links.tls[0]} />
+              </>
+            )}
+            {hasClassic && (
+              <>
+                <span className="text-[10px] text-fg-muted">t.me</span>
+                <CopyButton text={row.links.classic[0]} />
+              </>
+            )}
+          </span>
+        );
+      },
     },
   ];
 
@@ -159,8 +267,51 @@ function DeploymentsContent({ deployments }: { deployments: ClientDeploymentData
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
-  const overviewContent = <OverviewContent client={client} />;
+export function ClientDetailPage({
+  client,
+  onBack,
+  onEdit,
+  editLoading,
+  editError,
+  onRotateSecret,
+  secretRotating,
+  secretPendingRedeploy,
+}: ClientDetailPageProps) {
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState<ClientFormData>({
+    name: client.name,
+    userAdTag: client.userAdTag,
+    expirationRfc3339: client.expirationRfc3339,
+    maxTcpConns: client.maxTcpConns,
+    maxUniqueIps: client.maxUniqueIps,
+    dataQuotaBytes: client.dataQuotaBytes,
+  });
+  const [rotateConfirmOpen, setRotateConfirmOpen] = useState(false);
+
+  function handleEditClick() {
+    setEditData({
+      name: client.name,
+      userAdTag: client.userAdTag,
+      expirationRfc3339: client.expirationRfc3339,
+      maxTcpConns: client.maxTcpConns,
+      maxUniqueIps: client.maxUniqueIps,
+      dataQuotaBytes: client.dataQuotaBytes,
+    });
+    setEditOpen(true);
+  }
+
+  function handleRotateClick() {
+    setRotateConfirmOpen(true);
+  }
+
+  const overviewContent = (
+    <OverviewContent
+      client={client}
+      onRotateSecret={onRotateSecret ? handleRotateClick : undefined}
+      secretRotating={secretRotating}
+      secretPendingRedeploy={secretPendingRedeploy}
+    />
+  );
   const deploymentsContent = <DeploymentsContent deployments={client.deployments} />;
 
   const mobileTabs = [
@@ -179,9 +330,16 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
       <PageHeader
         title={client.name}
         trailing={
-          <Badge variant={client.enabled ? "ok" : "error"}>
-            {client.enabled ? "Active" : "Disabled"}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant={client.enabled ? "ok" : "error"}>
+              {client.enabled ? "Active" : "Disabled"}
+            </Badge>
+            {onEdit && (
+              <Button size="sm" variant="outline" onClick={handleEditClick}>
+                Edit
+              </Button>
+            )}
+          </div>
         }
       />
 
@@ -241,9 +399,19 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
                   {
                     label: "Secret",
                     value: (
-                      <span className="flex items-center">
+                      <span className="flex items-center gap-1">
                         <MonoValue>{"••••••••"}</MonoValue>
                         <CopyButton text={client.secret} />
+                        {onRotateSecret && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={handleRotateClick}
+                            disabled={secretRotating}
+                          >
+                            {secretRotating ? "Rotating..." : "Rotate"}
+                          </Button>
+                        )}
                       </span>
                     ),
                   },
@@ -260,8 +428,11 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
 
           <div>
             <SectionHeader title="Connection Links" />
-            <div className="rounded-xs bg-bg-card border border-border px-4 py-6 text-center text-fg-muted text-sm">
-              Links available after deployment
+            <div className="rounded-xs bg-bg-card border border-border overflow-hidden">
+              <ConnectionLinksContent
+                deployments={client.deployments}
+                secretPendingRedeploy={secretPendingRedeploy}
+              />
             </div>
           </div>
 
@@ -271,6 +442,39 @@ export function ClientDetailPage({ client, onBack }: ClientDetailPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Edit Sheet */}
+      {onEdit && (
+        <Sheet open={editOpen} onOpenChange={(open) => { if (!open) setEditOpen(false); }}>
+          <SheetContent side="bottom">
+            <SheetBody>
+              <ClientFormSheet
+                mode="edit"
+                data={editData}
+                onChange={setEditData}
+                onSubmit={async () => {
+                  await onEdit(editData);
+                  if (!editError) setEditOpen(false);
+                }}
+                onCancel={() => setEditOpen(false)}
+                loading={editLoading}
+                error={editError}
+              />
+            </SheetBody>
+          </SheetContent>
+        </Sheet>
+      )}
+
+      {/* Rotate Secret Confirm */}
+      <ConfirmDialog
+        open={rotateConfirmOpen}
+        title="Rotate Secret"
+        description="This will generate a new secret. All connection links will be regenerated after redeployment. Current links will stop working."
+        confirmLabel="Rotate Secret"
+        variant="danger"
+        onConfirm={() => { setRotateConfirmOpen(false); onRotateSecret?.(); }}
+        onCancel={() => setRotateConfirmOpen(false)}
+      />
     </>
   );
 }

@@ -19,7 +19,7 @@ const makeDiscovered = (
   totalOctets: 500_000_000,
   currentConnections: 0,
   activeUniqueIps: 3,
-  connectionLink: "",
+  links: { classic: [], secure: [], tls: [] },
   maxTcpConns: 0,
   maxUniqueIps: 0,
   dataQuotaBytes: 0,
