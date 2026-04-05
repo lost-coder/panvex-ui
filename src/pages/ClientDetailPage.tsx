@@ -130,12 +130,7 @@ function OverviewContent({
           <MonoValue>{"••••••••"}</MonoValue>
           <CopyButton text={client.secret} />
           {onRotateSecret && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={onRotateSecret}
-              disabled={secretRotating}
-            >
+            <Button size="sm" variant="ghost" onClick={onRotateSecret} disabled={secretRotating}>
               {secretRotating ? "Rotating..." : "Rotate"}
             </Button>
           )}
@@ -445,7 +440,12 @@ export function ClientDetailPage({
 
       {/* Edit Sheet */}
       {onEdit && (
-        <Sheet open={editOpen} onOpenChange={(open) => { if (!open) setEditOpen(false); }}>
+        <Sheet
+          open={editOpen}
+          onOpenChange={(open) => {
+            if (!open) setEditOpen(false);
+          }}
+        >
           <SheetContent side="bottom">
             <SheetBody>
               <ClientFormSheet
@@ -472,7 +472,10 @@ export function ClientDetailPage({
         description="This will generate a new secret. All connection links will be regenerated after redeployment. Current links will stop working."
         confirmLabel="Rotate Secret"
         variant="danger"
-        onConfirm={() => { setRotateConfirmOpen(false); onRotateSecret?.(); }}
+        onConfirm={() => {
+          setRotateConfirmOpen(false);
+          onRotateSecret?.();
+        }}
         onCancel={() => setRotateConfirmOpen(false)}
       />
     </>

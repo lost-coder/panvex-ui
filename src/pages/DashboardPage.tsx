@@ -158,7 +158,13 @@ export function DashboardPage({
         subtitle="System overview"
         trailing={
           onCreate ? (
-            <Button size="sm" onClick={() => { setCreateData({ ...emptyFormData }); setCreateOpen(true); }}>
+            <Button
+              size="sm"
+              onClick={() => {
+                setCreateData({ ...emptyFormData });
+                setCreateOpen(true);
+              }}
+            >
               Add Client
             </Button>
           ) : undefined
@@ -206,7 +212,12 @@ export function DashboardPage({
       </div>
 
       {onCreate && (
-        <Sheet open={createOpen} onOpenChange={(open) => { if (!open) setCreateOpen(false); }}>
+        <Sheet
+          open={createOpen}
+          onOpenChange={(open) => {
+            if (!open) setCreateOpen(false);
+          }}
+        >
           <SheetContent side="bottom">
             <SheetBody>
               <ClientFormSheet

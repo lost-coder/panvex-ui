@@ -168,6 +168,9 @@ export const Default: Story = {
   args: {
     ...mockData,
     onNodeClick: (id) => console.log("Node clicked:", id),
-    onCreate: async (data) => { console.log("Create client:", data); await new Promise((r) => setTimeout(r, 500)); },
+    onCreate: async (data) => {
+      console.log("Create client:", data);
+      await new Promise((r) => setTimeout(r, 500));
+    },
   },
 };

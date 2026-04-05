@@ -17,9 +17,7 @@ export function DiscoveredClientsBanner({ count, onClick }: DiscoveredClientsBan
       <span className="inline-flex items-center justify-center rounded-full bg-status-warn text-white text-xs font-bold min-w-[24px] h-6 px-1.5">
         {count}
       </span>
-      <span>
-        Discovered {count === 1 ? "client" : "clients"} pending review
-      </span>
+      <span>Discovered {count === 1 ? "client" : "clients"} pending review</span>
       <ChevronRight className="ml-auto w-4 h-4 text-status-warn/60" />
     </button>
   );

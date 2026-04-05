@@ -25,8 +25,12 @@ const mockClient: ClientDetailPageProps["client"] = {
       status: "succeeded",
       lastError: "",
       links: {
-        tls: ["tg://proxy?server=eu-west-1.example.com&port=443&secret=eedeadbeefcafebabe1234567890abcdef646e2e6578616d706c652e636f6d"],
-        classic: ["https://t.me/proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef"],
+        tls: [
+          "tg://proxy?server=eu-west-1.example.com&port=443&secret=eedeadbeefcafebabe1234567890abcdef646e2e6578616d706c652e636f6d",
+        ],
+        classic: [
+          "https://t.me/proxy?server=eu-west-1.example.com&port=443&secret=deadbeefcafebabe1234567890abcdef",
+        ],
         secure: [],
       },
       lastAppliedAtUnix: 1743600000,

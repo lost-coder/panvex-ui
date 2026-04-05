@@ -208,7 +208,13 @@ export function ClientsPage({
         subtitle={`${clients.length} clients`}
         trailing={
           onCreate ? (
-            <Button size="sm" onClick={() => { setCreateData({ ...emptyFormData }); setCreateOpen(true); }}>
+            <Button
+              size="sm"
+              onClick={() => {
+                setCreateData({ ...emptyFormData });
+                setCreateOpen(true);
+              }}
+            >
               Add Client
             </Button>
           ) : undefined
@@ -297,7 +303,12 @@ export function ClientsPage({
       </div>
 
       {onCreate && (
-        <Sheet open={createOpen} onOpenChange={(open) => { if (!open) setCreateOpen(false); }}>
+        <Sheet
+          open={createOpen}
+          onOpenChange={(open) => {
+            if (!open) setCreateOpen(false);
+          }}
+        >
           <SheetContent side="bottom">
             <SheetBody>
               <ClientFormSheet

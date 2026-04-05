@@ -88,9 +88,7 @@ const baseColumns = [
   {
     key: "traffic",
     header: "Traffic",
-    render: (dc: DiscoveredClientItem) => (
-      <MonoValue>{formatBytes(dc.totalOctets)}</MonoValue>
-    ),
+    render: (dc: DiscoveredClientItem) => <MonoValue>{formatBytes(dc.totalOctets)}</MonoValue>,
   },
   {
     key: "ips",
@@ -171,7 +169,9 @@ function DiscoveredClientCard({
   busy?: boolean;
 }) {
   return (
-    <div className={`rounded-xs bg-bg-card border p-4 flex flex-col gap-3 ${selected ? "border-accent ring-1 ring-accent" : "border-border"}`}>
+    <div
+      className={`rounded-xs bg-bg-card border p-4 flex flex-col gap-3 ${selected ? "border-accent ring-1 ring-accent" : "border-border"}`}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
@@ -198,7 +198,9 @@ function DiscoveredClientCard({
       {/* Stats grid */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
         <FieldLabel>Server</FieldLabel>
-        <span className="text-fg-muted text-sm">{client.nodeName || client.agentId.slice(0, 8)}</span>
+        <span className="text-fg-muted text-sm">
+          {client.nodeName || client.agentId.slice(0, 8)}
+        </span>
 
         <FieldLabel>Active Conns</FieldLabel>
         <MonoValue className={client.currentConnections > 0 ? "text-fg" : "text-fg-muted"}>
@@ -381,12 +383,21 @@ export function DiscoveredClientsPage({
                         <span className="text-xs text-fg-muted">{selected.size} selected</span>
                       )}
                       {selected.size > 0 && onAdoptMany && (
-                        <Button size="sm" onClick={() => setBulkConfirmAction("adopt")} disabled={busy}>
+                        <Button
+                          size="sm"
+                          onClick={() => setBulkConfirmAction("adopt")}
+                          disabled={busy}
+                        >
                           Adopt {selected.size}
                         </Button>
                       )}
                       {selected.size > 0 && onIgnoreMany && (
-                        <Button size="sm" variant="outline" onClick={() => setBulkConfirmAction("ignore")} disabled={busy}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setBulkConfirmAction("ignore")}
+                          disabled={busy}
+                        >
                           Ignore {selected.size}
                         </Button>
                       )}
@@ -466,13 +477,19 @@ export function DiscoveredClientsPage({
 
       {bulkConfirmAction && (
         <ConfirmDialog
-          title={bulkConfirmAction === "adopt" ? `Adopt ${selected.size} Clients` : `Ignore ${selected.size} Clients`}
+          title={
+            bulkConfirmAction === "adopt"
+              ? `Adopt ${selected.size} Clients`
+              : `Ignore ${selected.size} Clients`
+          }
           description={
             bulkConfirmAction === "adopt"
               ? `Import ${selected.size} selected clients? Their existing secrets and connection links will be preserved.`
               : `Ignore ${selected.size} selected clients? They will not appear in pending review unless reset.`
           }
-          confirmLabel={bulkConfirmAction === "adopt" ? `Adopt ${selected.size}` : `Ignore ${selected.size}`}
+          confirmLabel={
+            bulkConfirmAction === "adopt" ? `Adopt ${selected.size}` : `Ignore ${selected.size}`
+          }
           variant={bulkConfirmAction === "ignore" ? "danger" : "default"}
           open={true}
           onConfirm={handleBulkConfirm}

@@ -11,7 +11,10 @@ export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export { SettingsGroup, type SettingsGroupProps } from "./SettingsGroup";
 export { SettingsRow, type SettingsRowProps } from "./SettingsRow";
 export { NodeSummaryCard, type NodeSummaryCardProps, type NodeDcInfo } from "./NodeSummaryCard";
-export { DiscoveredClientsBanner, type DiscoveredClientsBannerProps } from "./DiscoveredClientsBanner";
+export {
+  DiscoveredClientsBanner,
+  type DiscoveredClientsBannerProps,
+} from "./DiscoveredClientsBanner";
 
 export { Button, type ButtonProps, buttonVariants } from "./ui/button";
 export { Input, type InputProps } from "./ui/input";

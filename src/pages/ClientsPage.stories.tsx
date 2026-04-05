@@ -153,7 +153,10 @@ export const Default: Story = {
     clients: mockClients.slice(0, 5),
     autoThreshold: 6,
     onClientClick: (id) => console.log("Client clicked:", id),
-    onCreate: async (data) => { console.log("Create client:", data); await new Promise((r) => setTimeout(r, 500)); },
+    onCreate: async (data) => {
+      console.log("Create client:", data);
+      await new Promise((r) => setTimeout(r, 500));
+    },
   },
 };
 
@@ -163,6 +166,9 @@ export const ManyClients: Story = {
     clients: manyClients,
     autoThreshold: 6,
     onClientClick: (id) => console.log("Client clicked:", id),
-    onCreate: async (data) => { console.log("Create client:", data); await new Promise((r) => setTimeout(r, 500)); },
+    onCreate: async (data) => {
+      console.log("Create client:", data);
+      await new Promise((r) => setTimeout(r, 500));
+    },
   },
 };
