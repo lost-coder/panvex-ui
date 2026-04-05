@@ -6,6 +6,7 @@ import { Timeline } from "@/compositions/Timeline";
 import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { Badge } from "@/primitives/Badge";
+import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
 import type {
   DashboardPageProps,
   DashboardOverviewData,
@@ -123,11 +124,22 @@ function TimelinePanel({ data }: { data: DashboardTimelineData }) {
   );
 }
 
-export function DashboardPage({ overview, timeline, onNodeClick }: DashboardPageProps) {
+export function DashboardPage({
+  overview,
+  timeline,
+  onNodeClick,
+  pendingDiscoveredCount,
+  onDiscoveredClick,
+}: DashboardPageProps) {
   return (
     <>
       <PageHeader title="Dashboard" subtitle="System overview" />
       <div className="px-4 md:px-8 pb-8">
+        {!!pendingDiscoveredCount && (
+          <div className="mb-5">
+            <DiscoveredClientsBanner count={pendingDiscoveredCount} onClick={onDiscoveredClick} />
+          </div>
+        )}
         {/* Mobile: swipe tabs */}
         <div className="md:hidden">
           <SwipeTabView

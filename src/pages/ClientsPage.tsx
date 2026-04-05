@@ -6,6 +6,7 @@ import { StatusDot } from "@/primitives/StatusDot";
 import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
+import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
 import { Button } from "@/components/ui/button";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientsPageProps, ClientListItem, ViewMode } from "@/types/pages";
@@ -155,6 +156,8 @@ export function ClientsPage({
   onViewModeChange,
   onClientClick,
   onAddClient,
+  pendingDiscoveredCount,
+  onDiscoveredClick,
 }: ClientsPageProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -197,6 +200,11 @@ export function ClientsPage({
         }
       />
       <div className="px-4 md:px-8 pb-8">
+        {!!pendingDiscoveredCount && (
+          <div className="mb-5">
+            <DiscoveredClientsBanner count={pendingDiscoveredCount} onClick={onDiscoveredClick} />
+          </div>
+        )}
         <TableView
           search={search}
           onSearchChange={(v) => {

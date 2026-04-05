@@ -3,6 +3,7 @@ export { ServersPage } from "./ServersPage";
 export { ServerDetailPage } from "./ServerDetailPage";
 export { ClientsPage } from "./ClientsPage";
 export { ClientDetailPage } from "./ClientDetailPage";
+export { DiscoveredClientsPage } from "./DiscoveredClientsPage";
 export { LoginPage } from "./LoginPage";
 export { SettingsPage } from "./SettingsPage";
 export { ProfilePage } from "./ProfilePage";
