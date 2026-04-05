@@ -61,6 +61,8 @@ export interface DashboardPageProps {
   timeline: DashboardTimelineData;
   onNodeClick?: (nodeId: string) => void;
   onNodeLinkClick?: (nodeId: string) => void;
+  pendingDiscoveredCount?: number;
+  onDiscoveredClick?: () => void;
 }
 
 // --- Servers ---
@@ -436,6 +438,44 @@ export interface ClientsPageProps {
   onClientClick?: (clientId: string) => void;
   onClientLinkClick?: (clientId: string) => void;
   onAddClient?: () => void;
+  pendingDiscoveredCount?: number;
+  onDiscoveredClick?: () => void;
+}
+
+// --- Discovered Clients ---
+
+export interface DiscoveredClientConflict {
+  type: "same_secret_different_names" | "same_name_different_secrets";
+  relatedIds: string[];
+}
+
+export interface DiscoveredClientItem {
+  id: string;
+  agentId: string;
+  nodeName: string;
+  clientName: string;
+  status: "pending_review" | "adopted" | "ignored";
+  totalOctets: number;
+  currentConnections: number;
+  activeUniqueIps: number;
+  connectionLink: string;
+  maxTcpConns: number;
+  maxUniqueIps: number;
+  dataQuotaBytes: number;
+  expiration: string;
+  discoveredAtUnix: number;
+  updatedAtUnix: number;
+  conflicts?: DiscoveredClientConflict[];
+}
+
+export interface DiscoveredClientsPageProps {
+  clients: DiscoveredClientItem[];
+  onAdopt?: (id: string) => void;
+  onIgnore?: (id: string) => void;
+  onAdoptMany?: (ids: string[]) => void;
+  onIgnoreMany?: (ids: string[]) => void;
+  onBack?: () => void;
+  busy?: boolean;
 }
 
 export interface ClientDeploymentData {
