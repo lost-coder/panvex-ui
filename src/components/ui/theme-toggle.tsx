@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-export function ThemeToggle({ className }: { className?: string }) {
-  const [light, setLight] = useState(false);
+export interface ThemeToggleProps {
+  value?: "light" | "dark";
+  onChange?: (value: "light" | "dark") => void;
+  className?: string;
+}
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("light", light);
-  }, [light]);
+export function ThemeToggle({ value = "dark", onChange, className }: ThemeToggleProps) {
+  const isLight = value === "light";
 
   return (
     <button
       type="button"
-      onClick={() => setLight((v) => !v)}
+      onClick={() => onChange?.(isLight ? "dark" : "light")}
       className={cn(
         "h-8 px-2.5 rounded-xs text-xs font-mono transition-colors",
         "bg-bg-card border border-border-hi text-fg-muted hover:text-fg",
         className,
       )}
     >
-      {light ? "☀ Light" : "☾ Dark"}
+      {isLight ? "☀ Light" : "☾ Dark"}
     </button>
   );
 }

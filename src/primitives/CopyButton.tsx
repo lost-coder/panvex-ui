@@ -34,6 +34,7 @@ export function CopyButton({ text, className }: CopyButtonProps) {
   };
   return (
     <button
+      type="button"
       onClick={handleCopy}
       className={cn(
         "ml-1 p-0.5 rounded hover:bg-bg-hover transition-colors text-fg-muted hover:text-fg",

@@ -11,6 +11,7 @@ export function ViewModeToggle({ mode, onChange, className }: ViewModeToggleProp
   return (
     <div className={cn("flex rounded-xs border border-border overflow-hidden", className)}>
       <button
+        type="button"
         className={cn(
           "px-2.5 py-1.5 text-xs transition-colors",
           mode === "cards" ? "bg-accent text-white" : "bg-bg-card text-fg-muted hover:text-fg",
@@ -33,6 +34,7 @@ export function ViewModeToggle({ mode, onChange, className }: ViewModeToggleProp
         </svg>
       </button>
       <button
+        type="button"
         className={cn(
           "px-2.5 py-1.5 text-xs transition-colors",
           mode === "list" ? "bg-accent text-white" : "bg-bg-card text-fg-muted hover:text-fg",

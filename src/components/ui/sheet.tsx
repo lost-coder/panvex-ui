@@ -11,6 +11,10 @@ const SheetClose = DialogPrimitive.Close;
 interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   side?: "left" | "right" | "bottom";
   fullScreen?: boolean;
+  /** Accessible title announced to screen readers when no visible SheetTitle is rendered. */
+  title?: string;
+  /** Callback to close the sheet — thread from Sheet (DialogPrimitive.Root) onOpenChange. */
+  onOpenChange?: (open: boolean) => void;
 }
 
 const sideStyles = {
@@ -24,8 +28,11 @@ const isMobileVariant = (side: string, fullScreen: boolean) => fullScreen || sid
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   SheetContentProps
->(({ side = "right", fullScreen = false, className, children, ...props }, ref) => {
+>(({ side = "right", fullScreen = false, title, onOpenChange, className, children, ...props }, ref) => {
   const useModalSheet = isMobileVariant(side, fullScreen);
+  const accessibleTitle = title ?? "Sheet";
+
+  const requestClose = () => onOpenChange?.(false);
 
   if (useModalSheet) {
     return (
@@ -34,25 +41,11 @@ const SheetContent = React.forwardRef<
           <div className="fixed inset-0 z-50 pointer-events-none">
             <ModalSheet
               isOpen={true}
-              onClose={() => {
-                const closeButton = document.querySelector(
-                  "[data-radix-dialog-close]",
-                ) as HTMLElement;
-                if (closeButton) closeButton.click();
-                else document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
-              }}
+              onClose={requestClose}
               detent={fullScreen ? "full" : "content"}
               style={{ pointerEvents: "auto" }}
             >
-              <ModalSheet.Backdrop
-                onTap={() => {
-                  const closeButton = document.querySelector(
-                    "[data-radix-dialog-close]",
-                  ) as HTMLElement;
-                  if (closeButton) closeButton.click();
-                  else document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
-                }}
-              />
+              <ModalSheet.Backdrop onTap={requestClose} />
               <ModalSheet.Container
                 className={cn(
                   "!bg-bg-card border border-border shadow-xl",
@@ -63,10 +56,10 @@ const SheetContent = React.forwardRef<
                   <ModalSheet.DragIndicator className="!mt-2 !mx-auto" />
                 </ModalSheet.Header>
                 <VisuallyHidden.Root asChild>
-                  <DialogPrimitive.Title>Sheet</DialogPrimitive.Title>
+                  <DialogPrimitive.Title>{accessibleTitle}</DialogPrimitive.Title>
                 </VisuallyHidden.Root>
                 <VisuallyHidden.Root asChild>
-                  <DialogPrimitive.Description>Sheet content</DialogPrimitive.Description>
+                  <DialogPrimitive.Description>{accessibleTitle} content</DialogPrimitive.Description>
                 </VisuallyHidden.Root>
                 <ModalSheet.Content className={cn("flex flex-col", className)}>
                   {children}
@@ -96,10 +89,10 @@ const SheetContent = React.forwardRef<
         {...props}
       >
         <VisuallyHidden.Root asChild>
-          <DialogPrimitive.Title>Sheet</DialogPrimitive.Title>
+          <DialogPrimitive.Title>{accessibleTitle}</DialogPrimitive.Title>
         </VisuallyHidden.Root>
         <VisuallyHidden.Root asChild>
-          <DialogPrimitive.Description>Sheet content</DialogPrimitive.Description>
+          <DialogPrimitive.Description>{accessibleTitle} content</DialogPrimitive.Description>
         </VisuallyHidden.Root>
         {children}
       </DialogPrimitive.Content>

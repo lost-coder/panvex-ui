@@ -8,7 +8,7 @@ import { Pagination } from "@/compositions/Pagination";
 import { UserCard } from "@/components/UserCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/primitives/Badge";
-import { navItems } from "./_shared";
+import { navItems } from "./__fixtures__/navItems";
 
 const meta: Meta = {
   title: "Pages/UsersList",

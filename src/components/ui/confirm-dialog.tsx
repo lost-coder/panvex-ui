@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 
@@ -24,6 +24,8 @@ export function ConfirmDialog({
   onCancel,
 }: ConfirmDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  const descId = useId();
 
   useEffect(() => {
     const el = dialogRef.current;
@@ -36,6 +38,11 @@ export function ConfirmDialog({
     <dialog
       ref={dialogRef}
       onClose={onCancel}
+      onClick={(e) => {
+        if (e.target === dialogRef.current) onCancel();
+      }}
+      aria-labelledby={titleId}
+      aria-describedby={descId}
       className={cn(
         "bg-transparent p-0 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-sm",
         "max-w-[calc(100vw-2rem)]",
@@ -43,8 +50,8 @@ export function ConfirmDialog({
     >
       <div className="w-[360px] max-w-full rounded bg-bg-card border border-border-hi p-5 flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <h2 className="text-base font-semibold text-fg">{title}</h2>
-          <p className="text-sm text-fg-muted leading-relaxed">{description}</p>
+          <h2 id={titleId} className="text-base font-semibold text-fg">{title}</h2>
+          <p id={descId} className="text-sm text-fg-muted leading-relaxed">{description}</p>
         </div>
         <div className="flex justify-end gap-2">
           <Button variant="ghost" size="sm" onClick={onCancel}>

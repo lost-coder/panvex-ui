@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { StatusDot } from "@/primitives/StatusDot";
@@ -15,6 +16,11 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+function StatefulThemeToggle() {
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  return <ThemeToggle value={theme} onChange={setTheme} />;
+}
+
 function Swatch({ name, className }: { name: string; className: string }) {
   return (
     <div className="flex items-center gap-3">
@@ -29,7 +35,7 @@ export const Colors: Story = {
     <div className="flex flex-col gap-8 max-w-[600px]">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-fg">Color Palette</h2>
-        <ThemeToggle />
+        <StatefulThemeToggle />
       </div>
 
       <section>
@@ -94,7 +100,7 @@ export const Typography: Story = {
     <div className="flex flex-col gap-6 max-w-[600px]">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-fg">Typography</h2>
-        <ThemeToggle />
+        <StatefulThemeToggle />
       </div>
 
       <div className="flex flex-col gap-4">

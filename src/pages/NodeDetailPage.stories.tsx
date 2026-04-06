@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { AppShell } from "@/layout/AppShell";
 import { ServerDetailPage } from "./ServerDetailPage";
-import { navItems } from "./_shared";
+import { navItems } from "./__fixtures__/navItems";
 
 const meta: Meta = {
   title: "Pages/NodeDetail",
