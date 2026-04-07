@@ -776,3 +776,29 @@ export interface EnrollmentTokensPageProps {
   onCreateToken: () => void;
   onRevoke: (tokenValue: string) => void;
 }
+
+// --- Activity (Jobs + Audit) ---
+
+export interface JobListItem {
+  id: string;
+  action: string;
+  status: string;
+  actorId: string;
+  targetCount: number;
+  createdAtUnix: number;
+}
+
+export interface AuditListItem {
+  id: string;
+  actorId: string;
+  action: string;
+  targetId: string;
+  createdAtUnix: number;
+}
+
+export interface ActivityPageProps {
+  jobs: JobListItem[];
+  auditEvents: AuditListItem[];
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}

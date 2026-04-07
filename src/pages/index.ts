@@ -8,4 +8,5 @@ export { LoginPage } from "./LoginPage";
 export { SettingsPage } from "./SettingsPage";
 export { UsersManagementPage } from "./UsersManagementPage";
 export { EnrollmentTokensPage } from "./EnrollmentTokensPage";
+export { ActivityPage } from "./ActivityPage";
 export { ProfilePage } from "./ProfilePage";
