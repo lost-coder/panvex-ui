@@ -28,6 +28,7 @@ const meta = {
         navItems={mockNavItems}
         activeId="settings"
         onNavigate={(id) => console.log("Navigate to:", id)}
+        onLogout={() => console.log("Logout clicked")}
       >
         <Story />
       </AppShell>

@@ -9,6 +9,7 @@ export interface AppShellProps {
   brand?: string;
   sidebarFooter?: React.ReactNode;
   onNavigate?: (id: string) => void;
+  onLogout?: () => void;
   children: React.ReactNode;
   className?: string;
 }
@@ -19,6 +20,7 @@ export function AppShell({
   brand,
   sidebarFooter,
   onNavigate,
+  onLogout,
   children,
   className,
 }: AppShellProps) {
@@ -30,6 +32,7 @@ export function AppShell({
         brand={brand}
         footer={sidebarFooter}
         onNavigate={onNavigate}
+        onLogout={onLogout}
       />
 
       <main className="md:ml-[60px] pb-16 md:pb-0 min-h-screen">{children}</main>
