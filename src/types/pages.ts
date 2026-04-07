@@ -768,3 +768,11 @@ export interface UsersManagementPageProps {
   onResetTotp: (userId: string) => void;
   sheet?: UserFormSheetProps;
 }
+
+// --- Enrollment Tokens ---
+
+export interface EnrollmentTokensPageProps {
+  tokens: EnrollmentTokenData[];
+  onCreateToken: () => void;
+  onRevoke: (tokenValue: string) => void;
+}

@@ -7,4 +7,5 @@ export { DiscoveredClientsPage } from "./DiscoveredClientsPage";
 export { LoginPage } from "./LoginPage";
 export { SettingsPage } from "./SettingsPage";
 export { UsersManagementPage } from "./UsersManagementPage";
+export { EnrollmentTokensPage } from "./EnrollmentTokensPage";
 export { ProfilePage } from "./ProfilePage";
