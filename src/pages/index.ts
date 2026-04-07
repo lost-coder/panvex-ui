@@ -6,4 +6,5 @@ export { ClientDetailPage } from "./ClientDetailPage";
 export { DiscoveredClientsPage } from "./DiscoveredClientsPage";
 export { LoginPage } from "./LoginPage";
 export { SettingsPage } from "./SettingsPage";
+export { UsersManagementPage } from "./UsersManagementPage";
 export { ProfilePage } from "./ProfilePage";

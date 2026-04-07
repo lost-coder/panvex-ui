@@ -12,6 +12,7 @@ export function SettingsPage({
   onPanelSettingsChange,
   onAppearanceChange,
   onRestart,
+  onManageUsers,
 }: SettingsPageProps) {
   return (
     <div className="flex flex-col">
@@ -117,6 +118,20 @@ export function SettingsPage({
             />
           </SettingsRow>
         </SettingsGroup>
+
+        {/* Administration */}
+        {onManageUsers && (
+          <SettingsGroup title="Administration">
+            <SettingsRow
+              label="User Management"
+              description="Create, edit, and manage user accounts"
+            >
+              <Button size="sm" onClick={onManageUsers}>
+                Manage Users
+              </Button>
+            </SettingsRow>
+          </SettingsGroup>
+        )}
 
         {/* System */}
         <SettingsGroup title="System">

@@ -539,6 +539,7 @@ export interface SettingsPageProps {
   onPanelSettingsChange?: (settings: SettingsPageProps["panelSettings"]) => void;
   onAppearanceChange?: (settings: SettingsPageProps["appearanceSettings"]) => void;
   onRestart?: () => void;
+  onManageUsers?: () => void;
 }
 
 // --- Profile ---
@@ -757,4 +758,13 @@ export interface UserFormSheetProps {
   onCancel: () => void;
   loading?: boolean;
   error?: string;
+}
+
+export interface UsersManagementPageProps {
+  users: UserListItem[];
+  onAdd: () => void;
+  onEdit: (userId: string) => void;
+  onDelete: (userId: string) => void;
+  onResetTotp: (userId: string) => void;
+  sheet?: UserFormSheetProps;
 }

@@ -47,5 +47,6 @@ export const Default: Story = {
     onPanelSettingsChange: (s) => console.log("Panel settings changed:", s),
     onAppearanceChange: (s) => console.log("Appearance changed:", s),
     onRestart: () => console.log("Restart requested"),
+    onManageUsers: () => console.log("Manage users clicked"),
   },
 };
