@@ -15,7 +15,7 @@ export function FleetGroupChips({
 
   const totalNodes = groups
     .filter((g) => selected.includes(g.id))
-    .reduce((sum, g) => sum + g.nodeCount, 0);
+    .reduce((sum, g) => sum + (g.nodeCount ?? g.agentCount ?? 0), 0);
 
   return (
     <div className={cn("flex flex-col gap-3", className)}>
@@ -23,8 +23,8 @@ export function FleetGroupChips({
         {groups.map((g) => (
           <ChipToggle
             key={g.id}
-            label={g.name}
-            sublabel={`${g.nodeCount} nodes`}
+            label={g.name ?? g.label ?? g.id}
+            sublabel={`${g.nodeCount ?? g.agentCount ?? 0} nodes`}
             selected={selected.includes(g.id)}
             onClick={() => toggle(g.id)}
           />

@@ -204,6 +204,7 @@ export function ServersPage({
   servers,
   viewMode,
   autoThreshold = 6,
+  fleetGroups,
   onViewModeChange,
   onServerClick,
   onAddServer,
@@ -290,9 +291,10 @@ export function ServersPage({
               },
               options: [
                 { value: "all", label: "All Groups" },
-                { value: "eu", label: "Europe" },
-                { value: "us", label: "America" },
-                { value: "ap", label: "Asia Pacific" },
+                ...(fleetGroups ?? []).map((g) => ({
+                  value: g.id,
+                  label: g.label ?? g.name ?? g.id,
+                })),
               ],
               placeholder: "Group",
             },

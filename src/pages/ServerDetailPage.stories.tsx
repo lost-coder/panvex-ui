@@ -394,6 +394,8 @@ export const WithComponent: Story = {
         onAllowReEnrollment={() => alert("Allow re-enrollment")}
         onRevokeGrant={() => alert("Revoke grant")}
         onBoostDetail={() => alert("Boost detail")}
+        onRename={(name) => alert(`Rename to: ${name}`)}
+        onDeregister={() => alert("Deregister server")}
       />
     </AppShell>
   ),
@@ -437,6 +439,8 @@ export const WithRecoveryGrant: Story = {
         onAllowReEnrollment={() => alert("Allow re-enrollment")}
         onRevokeGrant={() => alert("Revoke grant")}
         onBoostDetail={() => alert("Boost detail")}
+        onRename={(name) => alert(`Rename to: ${name}`)}
+        onDeregister={() => alert("Deregister server")}
       />
     </AppShell>
   ),
@@ -464,6 +468,8 @@ export const WithCertExpiring: Story = {
         onAllowReEnrollment={() => alert("Allow re-enrollment")}
         onRevokeGrant={() => alert("Revoke grant")}
         onBoostDetail={() => alert("Boost detail")}
+        onRename={(name) => alert(`Rename to: ${name}`)}
+        onDeregister={() => alert("Deregister server")}
       />
     </AppShell>
   ),

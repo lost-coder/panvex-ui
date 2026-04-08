@@ -95,6 +95,7 @@ export interface ServersPageProps {
   servers: ServerListItem[];
   viewMode?: ViewMode;
   autoThreshold?: number;
+  fleetGroups?: FleetGroupOption[];
   onViewModeChange?: (mode: ViewMode) => void;
   onServerClick?: (serverId: string) => void;
   onServerLinkClick?: (serverId: string) => void;
@@ -419,6 +420,8 @@ export interface ServerDetailPageProps {
   lastUpdatedAt?: Date;
   onAllowReEnrollment?: () => void;
   onRevokeGrant?: () => void;
+  onRename?: (name: string) => void;
+  onDeregister?: () => void;
 }
 
 // --- Clients ---
@@ -587,8 +590,10 @@ export interface LoginPageProps {
 
 export interface FleetGroupOption {
   id: string;
-  name: string;
-  nodeCount: number;
+  name?: string;
+  label?: string;
+  nodeCount?: number;
+  agentCount?: number;
 }
 
 export interface EnrollmentWizardProps {

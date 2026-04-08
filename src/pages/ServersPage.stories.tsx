@@ -123,10 +123,17 @@ const MOCK_SERVERS_MANY = Array.from({ length: 25 }, (_, i) => {
   };
 });
 
+const MOCK_FLEET_GROUPS = [
+  { id: "eu", label: "Europe", agentCount: 3 },
+  { id: "us", label: "America", agentCount: 2 },
+  { id: "ap", label: "Asia Pacific", agentCount: 1 },
+];
+
 export const AutoCards: Story = {
   args: {
     servers: MOCK_SERVERS_FEW,
     autoThreshold: 12,
+    fleetGroups: MOCK_FLEET_GROUPS,
     onServerClick: (id) => console.log("Clicked server:", id),
     onAddServer: () => alert("Open enrollment wizard"),
     onManageTokens: () => alert("Open token list"),
@@ -137,6 +144,7 @@ export const AutoList: Story = {
   args: {
     servers: MOCK_SERVERS_MANY,
     autoThreshold: 12,
+    fleetGroups: MOCK_FLEET_GROUPS,
     onServerClick: (id) => console.log("Clicked server:", id),
     onAddServer: () => alert("Open enrollment wizard"),
     onManageTokens: () => alert("Open token list"),
