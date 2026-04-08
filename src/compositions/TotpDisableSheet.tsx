@@ -46,7 +46,9 @@ export function TotpDisableSheet({
         </label>
         <Input
           value={totpCode}
-          onChange={(e) => setTotpCode(e.target.value)}
+          onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ""))}
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder="6-digit code"
           maxLength={6}
           disabled={loading}

@@ -149,7 +149,10 @@ export function ProfilePage({
         <Sheet
           open={setupOpen}
           onOpenChange={(open) => {
-            if (!open) setSetupOpen(false);
+            if (!open) {
+              setSetupOpen(false);
+              setSetupData(null);
+            }
           }}
         >
           <SheetContent side="bottom">
@@ -158,8 +161,12 @@ export function ProfilePage({
                 secret={setupData.secret}
                 otpauthUrl={setupData.otpauthUrl}
                 onEnable={async (password, code) => {
-                  await onEnableTotp(password, code);
-                  if (!totpError) setSetupOpen(false);
+                  try {
+                    await onEnableTotp(password, code);
+                    setSetupOpen(false);
+                  } catch {
+                    // Sheet stays open, error displayed via totpError prop
+                  }
                 }}
                 onCancel={() => setSetupOpen(false)}
                 loading={totpEnableLoading}
@@ -182,8 +189,12 @@ export function ProfilePage({
             <SheetBody>
               <TotpDisableSheet
                 onDisable={async (password, code) => {
-                  await onDisableTotp(password, code);
-                  if (!totpError) setDisableOpen(false);
+                  try {
+                    await onDisableTotp(password, code);
+                    setDisableOpen(false);
+                  } catch {
+                    // Sheet stays open, error displayed via totpError prop
+                  }
                 }}
                 onCancel={() => setDisableOpen(false)}
                 loading={totpDisableLoading}
