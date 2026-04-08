@@ -3,11 +3,14 @@ import { MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
 import { InitCard } from "@/primitives/InitCard";
+import { AgentConnectionSection } from "@/compositions/AgentConnectionSection";
 import { formatBytes, formatUptime, formatTime, coverageColor } from "./_shared";
+
+const noop = () => {};
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
-function ActionsDropdown({ onReload }: { onReload?: () => void }) {
+function ActionsDropdown({ onReload, onBoostDetail }: { onReload?: () => void; onBoostDetail?: () => void }) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className="relative">
@@ -31,6 +34,17 @@ function ActionsDropdown({ onReload }: { onReload?: () => void }) {
             >
               Reload Runtime
             </button>
+            {onBoostDetail && (
+              <button
+                onClick={() => {
+                  onBoostDetail();
+                  setOpen(false);
+                }}
+                className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
+              >
+                Refresh Diagnostics
+              </button>
+            )}
             <button
               onClick={() => setOpen(false)}
               className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
@@ -1054,8 +1068,12 @@ export function ServerDetailPage({
   server,
   onBack,
   onReload,
+  onBoostDetail,
   initState,
   lastUpdatedAt,
+  agentConnection,
+  onAllowReEnrollment,
+  onRevokeGrant,
 }: ServerDetailPageProps) {
   const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
@@ -1182,7 +1200,7 @@ export function ServerDetailPage({
               </span>
             )}
             <StatusBeacon status={server.status} size="xs" />
-            <ActionsDropdown onReload={onReload} />
+            <ActionsDropdown onReload={onReload} onBoostDetail={onBoostDetail} />
           </div>
         }
       />
@@ -1252,6 +1270,16 @@ export function ServerDetailPage({
             <TabsContent value="events">{eventsContent}</TabsContent>
           </Tabs>
         </div>
+
+        {agentConnection && (
+          <div>
+            <AgentConnectionSection
+              data={agentConnection}
+              onAllowReEnrollment={onAllowReEnrollment ?? noop}
+              onRevokeGrant={onRevokeGrant ?? noop}
+            />
+          </div>
+        )}
       </div>
 
       {/* Mobile DC detail sheet */}

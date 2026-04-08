@@ -413,6 +413,7 @@ export interface ServerDetailPageProps {
   };
   onBack?: () => void;
   onReload?: () => void;
+  onBoostDetail?: () => void;
   agentConnection?: AgentConnectionData;
   initState?: InitCardProps;
   lastUpdatedAt?: Date;
