@@ -17,6 +17,7 @@ export function ProfilePage({
   onStartTotpSetup,
   onEnableTotp,
   onDisableTotp,
+  totpSetupLoading,
   totpEnableLoading,
   totpDisableLoading,
   totpError,
@@ -25,17 +26,15 @@ export function ProfilePage({
   const [setupOpen, setSetupOpen] = useState(false);
   const [disableOpen, setDisableOpen] = useState(false);
   const [setupData, setSetupData] = useState<TotpSetupData | null>(null);
-  const [setupLoading, setSetupLoading] = useState(false);
 
   async function handleStartSetup() {
     if (!onStartTotpSetup) return;
-    setSetupLoading(true);
     try {
       const data = await onStartTotpSetup();
       setSetupData(data);
       setSetupOpen(true);
-    } finally {
-      setSetupLoading(false);
+    } catch {
+      // Error handling is done by the container
     }
   }
 
@@ -136,9 +135,9 @@ export function ProfilePage({
               <Button
                 size="sm"
                 onClick={handleStartSetup}
-                disabled={!onStartTotpSetup || setupLoading}
+                disabled={!onStartTotpSetup || totpSetupLoading}
               >
-                {setupLoading ? "Loading..." : "Set Up 2FA"}
+                {totpSetupLoading ? "Loading..." : "Set Up 2FA"}
               </Button>
             )}
           </SettingsRow>
