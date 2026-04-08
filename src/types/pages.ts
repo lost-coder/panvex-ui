@@ -545,6 +545,11 @@ export interface SettingsPageProps {
 
 // --- Profile ---
 
+export interface TotpSetupData {
+  secret: string;
+  otpauthUrl: string;
+}
+
 export interface ProfilePageProps {
   user: {
     id: string;
@@ -554,6 +559,13 @@ export interface ProfilePageProps {
   };
   appearance: SettingsPageProps["appearanceSettings"];
   onAppearanceChange?: (settings: SettingsPageProps["appearanceSettings"]) => void;
+  onStartTotpSetup?: () => Promise<TotpSetupData>;
+  onEnableTotp?: (password: string, totpCode: string) => Promise<void>;
+  onDisableTotp?: (password: string, totpCode: string) => Promise<void>;
+  totpSetupLoading?: boolean;
+  totpEnableLoading?: boolean;
+  totpDisableLoading?: boolean;
+  totpError?: string;
 }
 
 // --- Login ---

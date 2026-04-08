@@ -27,3 +27,5 @@ export { ClientFormSheet } from "./ClientFormSheet";
 export { ClientAccessSheet } from "./ClientAccessSheet";
 export { UserFormSheet } from "./UserFormSheet";
 export { UsersSection } from "./UsersSection";
+export { TotpSetupSheet } from "./TotpSetupSheet";
+export { TotpDisableSheet } from "./TotpDisableSheet";

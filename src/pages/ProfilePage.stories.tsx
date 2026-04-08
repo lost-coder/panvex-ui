@@ -49,6 +49,18 @@ export const Default: Story = {
     },
     appearance: mockAppearance,
     onAppearanceChange: (s) => console.log("Appearance changed:", s),
+    onStartTotpSetup: async () => ({
+      secret: "JBSWY3DPEHPK3PXP",
+      otpauthUrl: "otpauth://totp/Panvex:admin?secret=JBSWY3DPEHPK3PXP&issuer=Panvex",
+    }),
+    onEnableTotp: async (password, code) => {
+      await new Promise((r) => setTimeout(r, 1000));
+      console.log("Enable TOTP:", password, code);
+    },
+    onDisableTotp: async (password, code) => {
+      await new Promise((r) => setTimeout(r, 1000));
+      console.log("Disable TOTP:", password, code);
+    },
   },
 };
 
@@ -62,5 +74,17 @@ export const NoTotp: Story = {
     },
     appearance: mockAppearance,
     onAppearanceChange: (s) => console.log("Appearance changed:", s),
+    onStartTotpSetup: async () => ({
+      secret: "JBSWY3DPEHPK3PXP",
+      otpauthUrl: "otpauth://totp/Panvex:admin?secret=JBSWY3DPEHPK3PXP&issuer=Panvex",
+    }),
+    onEnableTotp: async (password, code) => {
+      await new Promise((r) => setTimeout(r, 1000));
+      console.log("Enable TOTP:", password, code);
+    },
+    onDisableTotp: async (password, code) => {
+      await new Promise((r) => setTimeout(r, 1000));
+      console.log("Disable TOTP:", password, code);
+    },
   },
 };

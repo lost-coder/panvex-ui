@@ -1,12 +1,42 @@
+import { useState } from "react";
 import { PageHeader } from "@/layout/PageHeader";
 import { SettingsGroup } from "@/components/SettingsGroup";
 import { SettingsRow } from "@/components/SettingsRow";
 import { Select } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
 import { Badge } from "@/primitives/Badge";
-import type { ProfilePageProps } from "@/types/pages";
+import { TotpSetupSheet } from "@/compositions/TotpSetupSheet";
+import { TotpDisableSheet } from "@/compositions/TotpDisableSheet";
+import type { ProfilePageProps, TotpSetupData } from "@/types/pages";
 
-export function ProfilePage({ user, appearance, onAppearanceChange }: ProfilePageProps) {
+export function ProfilePage({
+  user,
+  appearance,
+  onAppearanceChange,
+  onStartTotpSetup,
+  onEnableTotp,
+  onDisableTotp,
+  totpSetupLoading,
+  totpEnableLoading,
+  totpDisableLoading,
+  totpError,
+}: ProfilePageProps) {
   const initials = user.username.charAt(0).toUpperCase();
+  const [setupOpen, setSetupOpen] = useState(false);
+  const [disableOpen, setDisableOpen] = useState(false);
+  const [setupData, setSetupData] = useState<TotpSetupData | null>(null);
+
+  async function handleStartSetup() {
+    if (!onStartTotpSetup) return;
+    try {
+      const data = await onStartTotpSetup();
+      setSetupData(data);
+      setSetupOpen(true);
+    } catch {
+      // Error handling is done by the container
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -83,7 +113,97 @@ export function ProfilePage({ user, appearance, onAppearanceChange }: ProfilePag
             />
           </SettingsRow>
         </SettingsGroup>
+
+        {/* Security */}
+        <SettingsGroup title="Security">
+          <SettingsRow
+            label="Two-Factor Authentication"
+            description={user.totpEnabled
+              ? "Your account is protected with 2FA"
+              : "Add an extra layer of security to your account"}
+          >
+            {user.totpEnabled ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setDisableOpen(true)}
+                disabled={!onDisableTotp}
+              >
+                Disable 2FA
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={handleStartSetup}
+                disabled={!onStartTotpSetup || totpSetupLoading}
+              >
+                {totpSetupLoading ? "Loading..." : "Set Up 2FA"}
+              </Button>
+            )}
+          </SettingsRow>
+        </SettingsGroup>
       </div>
+
+      {/* TOTP Setup Sheet */}
+      {setupData && onEnableTotp && (
+        <Sheet
+          open={setupOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              setSetupOpen(false);
+              setSetupData(null);
+            }
+          }}
+        >
+          <SheetContent side="bottom">
+            <SheetBody>
+              <TotpSetupSheet
+                secret={setupData.secret}
+                otpauthUrl={setupData.otpauthUrl}
+                onEnable={async (password, code) => {
+                  try {
+                    await onEnableTotp(password, code);
+                    setSetupOpen(false);
+                  } catch {
+                    // Sheet stays open, error displayed via totpError prop
+                  }
+                }}
+                onCancel={() => setSetupOpen(false)}
+                loading={totpEnableLoading}
+                error={totpError}
+              />
+            </SheetBody>
+          </SheetContent>
+        </Sheet>
+      )}
+
+      {/* TOTP Disable Sheet */}
+      {onDisableTotp && (
+        <Sheet
+          open={disableOpen}
+          onOpenChange={(open) => {
+            if (!open) setDisableOpen(false);
+          }}
+        >
+          <SheetContent side="bottom">
+            <SheetBody>
+              <TotpDisableSheet
+                onDisable={async (password, code) => {
+                  try {
+                    await onDisableTotp(password, code);
+                    setDisableOpen(false);
+                  } catch {
+                    // Sheet stays open, error displayed via totpError prop
+                  }
+                }}
+                onCancel={() => setDisableOpen(false)}
+                loading={totpDisableLoading}
+                error={totpError}
+              />
+            </SheetBody>
+          </SheetContent>
+        </Sheet>
+      )}
     </div>
   );
 }
