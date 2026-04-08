@@ -6,6 +6,8 @@ import { InitCard } from "@/primitives/InitCard";
 import { AgentConnectionSection } from "@/compositions/AgentConnectionSection";
 import { formatBytes, formatUptime, formatTime, coverageColor } from "./_shared";
 
+const noop = () => {};
+
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
 function ActionsDropdown({ onReload, onBoostDetail }: { onReload?: () => void; onBoostDetail?: () => void }) {
@@ -1273,8 +1275,8 @@ export function ServerDetailPage({
           <div>
             <AgentConnectionSection
               data={agentConnection}
-              onAllowReEnrollment={onAllowReEnrollment ?? (() => {})}
-              onRevokeGrant={onRevokeGrant ?? (() => {})}
+              onAllowReEnrollment={onAllowReEnrollment ?? noop}
+              onRevokeGrant={onRevokeGrant ?? noop}
             />
           </div>
         )}
