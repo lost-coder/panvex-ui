@@ -398,3 +398,73 @@ export const WithComponent: Story = {
     </AppShell>
   ),
 };
+
+export const WithoutAgentConnection: Story = {
+  render: () => (
+    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+      <ServerDetailPage
+        server={mockServer}
+        onBack={() => {}}
+        onReload={() => {}}
+      />
+    </AppShell>
+  ),
+};
+
+export const WithRecoveryGrant: Story = {
+  render: () => (
+    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+      <ServerDetailPage
+        server={mockServer}
+        onBack={() => {}}
+        onReload={() => {}}
+        agentConnection={{
+          presenceState: "offline",
+          lastSeenAt: "3 hours ago",
+          agentId: "agent-5",
+          version: "v1.1.0",
+          fleetGroup: "us-east",
+          certificate: {
+            issuedAt: "Mar 1, 2026",
+            expiresAt: "Mar 31, 2026",
+            remainingDays: 0,
+          },
+          recoveryGrant: {
+            status: "allowed",
+            expiresAtUnix: Math.floor(Date.now() / 1000) + 900,
+          },
+        }}
+        onAllowReEnrollment={() => alert("Allow re-enrollment")}
+        onRevokeGrant={() => alert("Revoke grant")}
+        onBoostDetail={() => alert("Boost detail")}
+      />
+    </AppShell>
+  ),
+};
+
+export const WithCertExpiring: Story = {
+  render: () => (
+    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+      <ServerDetailPage
+        server={mockServer}
+        onBack={() => {}}
+        onReload={() => {}}
+        agentConnection={{
+          presenceState: "online",
+          lastSeenAt: "5 seconds ago",
+          agentId: "agent-3",
+          version: "v1.2.3",
+          fleetGroup: "default",
+          certificate: {
+            issuedAt: "Mar 4, 2026",
+            expiresAt: "Apr 3, 2026",
+            remainingDays: 1,
+          },
+        }}
+        onAllowReEnrollment={() => alert("Allow re-enrollment")}
+        onRevokeGrant={() => alert("Revoke grant")}
+        onBoostDetail={() => alert("Boost detail")}
+      />
+    </AppShell>
+  ),
+};
