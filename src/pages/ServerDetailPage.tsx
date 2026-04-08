@@ -10,7 +10,12 @@ const noop = () => {};
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
-function ActionsDropdown({ onReload, onBoostDetail }: { onReload?: () => void; onBoostDetail?: () => void }) {
+function ActionsDropdown({ onReload, onBoostDetail, onRename, onDeregister }: {
+  onReload?: () => void;
+  onBoostDetail?: () => void;
+  onRename?: () => void;
+  onDeregister?: () => void;
+}) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className="relative">
@@ -45,19 +50,31 @@ function ActionsDropdown({ onReload, onBoostDetail }: { onReload?: () => void; o
                 Refresh Diagnostics
               </button>
             )}
-            <button
-              onClick={() => setOpen(false)}
-              className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
-            >
-              Restart Server
-            </button>
-            <div className="h-px bg-border my-1" />
-            <button
-              onClick={() => setOpen(false)}
-              className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors"
-            >
-              Force Stop
-            </button>
+            {onRename && (
+              <button
+                onClick={() => {
+                  onRename();
+                  setOpen(false);
+                }}
+                className="px-3 py-2 text-left text-sm text-fg hover:bg-bg-card-hover transition-colors"
+              >
+                Rename Server
+              </button>
+            )}
+            {onDeregister && (
+              <>
+                <div className="h-px bg-border my-1" />
+                <button
+                  onClick={() => {
+                    onDeregister();
+                    setOpen(false);
+                  }}
+                  className="px-3 py-2 text-left text-sm text-status-error hover:bg-bg-card-hover transition-colors"
+                >
+                  Deregister Server
+                </button>
+              </>
+            )}
           </div>
         </>
       )}
@@ -1074,6 +1091,8 @@ export function ServerDetailPage({
   agentConnection,
   onAllowReEnrollment,
   onRevokeGrant,
+  onRename,
+  onDeregister,
 }: ServerDetailPageProps) {
   const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
@@ -1083,6 +1102,13 @@ export function ServerDetailPage({
 
   // Mobile DC sheet state
   const [selectedDc, setSelectedDc] = useState<ServerDcData | null>(null);
+
+  // Rename dialog state
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [renameValue, setRenameValue] = useState(server.name);
+
+  // Deregister confirmation state
+  const [deregisterOpen, setDeregisterOpen] = useState(false);
 
   // KPI gauge items
   const minCoverage = sortedDcs.length > 0 ? Math.min(...sortedDcs.map((d) => d.coveragePct)) : 100;
@@ -1200,7 +1226,12 @@ export function ServerDetailPage({
               </span>
             )}
             <StatusBeacon status={server.status} size="xs" />
-            <ActionsDropdown onReload={onReload} onBoostDetail={onBoostDetail} />
+            <ActionsDropdown
+              onReload={onReload}
+              onBoostDetail={onBoostDetail}
+              onRename={onRename ? () => { setRenameValue(server.name); setRenameOpen(true); } : undefined}
+              onDeregister={onDeregister ? () => setDeregisterOpen(true) : undefined}
+            />
           </div>
         }
       />
@@ -1351,6 +1382,86 @@ export function ServerDetailPage({
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Rename Sheet */}
+      <Sheet open={renameOpen} onOpenChange={setRenameOpen}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Rename Server</SheetTitle>
+          </SheetHeader>
+          <SheetBody>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const trimmed = renameValue.trim();
+                if (trimmed && trimmed !== server.name) {
+                  onRename?.(trimmed);
+                }
+                setRenameOpen(false);
+              }}
+              className="flex flex-col gap-4"
+            >
+              <label className="flex flex-col gap-1.5">
+                <span className="text-sm text-fg-muted">Server Name</span>
+                <input
+                  type="text"
+                  value={renameValue}
+                  onChange={(e) => setRenameValue(e.target.value)}
+                  className="rounded-xs border border-border bg-bg px-3 py-2 text-sm text-fg focus:outline-none focus:ring-2 focus:ring-accent"
+                  autoFocus
+                />
+              </label>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRenameOpen(false)}
+                  className="px-3 py-1.5 text-sm rounded-xs border border-border text-fg hover:bg-bg-card-hover transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!renameValue.trim() || renameValue.trim() === server.name}
+                  className="px-3 py-1.5 text-sm rounded-xs bg-accent text-white hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </SheetBody>
+        </SheetContent>
+      </Sheet>
+
+      {/* Deregister Confirmation */}
+      {deregisterOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setDeregisterOpen(false)} />
+          <div className="relative z-10 bg-bg-card border border-border rounded-lg shadow-xl p-6 max-w-sm w-full mx-4">
+            <h3 className="text-base font-semibold text-fg mb-2">Deregister Server</h3>
+            <p className="text-sm text-fg-muted mb-4">
+              This will disconnect the agent, revoke its credentials, and remove all associated data.
+              This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setDeregisterOpen(false)}
+                className="px-3 py-1.5 text-sm rounded-xs border border-border text-fg hover:bg-bg-card-hover transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  onDeregister?.();
+                  setDeregisterOpen(false);
+                }}
+                className="px-3 py-1.5 text-sm rounded-xs bg-status-error text-white hover:bg-status-error/90 transition-colors"
+              >
+                Deregister
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
