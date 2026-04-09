@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PageHeader } from "@/layout/PageHeader";
 import { SettingsGroup } from "@/components/SettingsGroup";
 import { SettingsRow } from "@/components/SettingsRow";
@@ -6,6 +7,26 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import type { SettingsPageProps } from "@/types/pages";
 
+function secondsToDisplay(seconds: number): { value: number; unit: string } {
+  if (seconds >= 86400 && seconds % 86400 === 0) return { value: seconds / 86400, unit: "days" };
+  if (seconds >= 3600 && seconds % 3600 === 0) return { value: seconds / 3600, unit: "hours" };
+  if (seconds >= 60 && seconds % 60 === 0) return { value: seconds / 60, unit: "minutes" };
+  return { value: seconds, unit: "seconds" };
+}
+
+function displayToSeconds(value: number, unit: string): number {
+  switch (unit) {
+    case "days":
+      return value * 86400;
+    case "hours":
+      return value * 3600;
+    case "minutes":
+      return value * 60;
+    default:
+      return value;
+  }
+}
+
 export function SettingsPage({
   panelSettings,
   appearanceSettings,
@@ -13,6 +34,8 @@ export function SettingsPage({
   onAppearanceChange,
   onRestart,
   onManageUsers,
+  retentionSettings,
+  onRetentionChange,
 }: SettingsPageProps) {
   return (
     <div className="flex flex-col">
@@ -133,6 +156,11 @@ export function SettingsPage({
           </SettingsGroup>
         )}
 
+        {/* Data Retention */}
+        {retentionSettings && onRetentionChange && (
+          <RetentionSection settings={retentionSettings} onChange={onRetentionChange} />
+        )}
+
         {/* System */}
         <SettingsGroup title="System">
           <SettingsRow
@@ -146,5 +174,89 @@ export function SettingsPage({
         </SettingsGroup>
       </div>
     </div>
+  );
+}
+
+const RETENTION_FIELDS: {
+  key: keyof NonNullable<SettingsPageProps["retentionSettings"]>;
+  label: string;
+  description: string;
+}[] = [
+  {
+    key: "ts_raw_seconds",
+    label: "Raw Metrics",
+    description: "Server load and DC health raw data points",
+  },
+  { key: "ts_hourly_seconds", label: "Hourly Rollups", description: "Aggregated hourly metrics" },
+  { key: "ts_dc_seconds", label: "DC Health", description: "Per-DC coverage and RTT history" },
+  {
+    key: "ip_history_seconds",
+    label: "Client IP History",
+    description: "Client IP address records",
+  },
+  {
+    key: "event_history_seconds",
+    label: "Runtime Events",
+    description: "Telemt runtime event log",
+  },
+];
+
+const UNITS = [
+  { value: "seconds", label: "Seconds" },
+  { value: "minutes", label: "Minutes" },
+  { value: "hours", label: "Hours" },
+  { value: "days", label: "Days" },
+];
+
+function RetentionSection({
+  settings,
+  onChange,
+}: {
+  settings: NonNullable<SettingsPageProps["retentionSettings"]>;
+  onChange: (s: NonNullable<SettingsPageProps["retentionSettings"]>) => void;
+}) {
+  const [draft, setDraft] = useState(settings);
+  const isDirty = JSON.stringify(draft) !== JSON.stringify(settings);
+
+  function updateField(key: keyof typeof draft, value: number, unit: string) {
+    setDraft((prev) => ({ ...prev, [key]: displayToSeconds(value, unit) }));
+  }
+
+  return (
+    <SettingsGroup title="Data Retention">
+      {RETENTION_FIELDS.map(({ key, label, description }) => {
+        const display = secondsToDisplay(draft[key]);
+        return (
+          <SettingsRow key={key} label={label} description={description}>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                min={1}
+                value={display.value}
+                onChange={(e) => updateField(key, Number(e.target.value) || 1, display.unit)}
+                className="w-20"
+              />
+              <Select
+                value={display.unit}
+                onChange={(v) => updateField(key, display.value, v)}
+                options={UNITS}
+              />
+            </div>
+          </SettingsRow>
+        );
+      })}
+      {isDirty && (
+        <div className="flex justify-end px-4 py-3">
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setDraft(settings)}>
+              Cancel
+            </Button>
+            <Button size="sm" onClick={() => onChange(draft)}>
+              Save Retention Settings
+            </Button>
+          </div>
+        </div>
+      )}
+    </SettingsGroup>
   );
 }

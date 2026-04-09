@@ -550,6 +550,14 @@ export interface SettingsPageProps {
   onAppearanceChange?: (settings: SettingsPageProps["appearanceSettings"]) => void;
   onRestart?: () => void;
   onManageUsers?: () => void;
+  retentionSettings?: {
+    ts_raw_seconds: number;
+    ts_hourly_seconds: number;
+    ts_dc_seconds: number;
+    ip_history_seconds: number;
+    event_history_seconds: number;
+  };
+  onRetentionChange?: (settings: NonNullable<SettingsPageProps["retentionSettings"]>) => void;
 }
 
 // --- Profile ---
