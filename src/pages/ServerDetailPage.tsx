@@ -10,7 +10,12 @@ const noop = () => {};
 
 // ─── ActionsDropdown ──────────────────────────────────────────────────────────
 
-function ActionsDropdown({ onReload, onBoostDetail, onRename, onDeregister }: {
+function ActionsDropdown({
+  onReload,
+  onBoostDetail,
+  onRename,
+  onDeregister,
+}: {
   onReload?: () => void;
   onBoostDetail?: () => void;
   onRename?: () => void;
@@ -1229,7 +1234,14 @@ export function ServerDetailPage({
             <ActionsDropdown
               onReload={onReload}
               onBoostDetail={onBoostDetail}
-              onRename={onRename ? () => { setRenameValue(server.name); setRenameOpen(true); } : undefined}
+              onRename={
+                onRename
+                  ? () => {
+                      setRenameValue(server.name);
+                      setRenameOpen(true);
+                    }
+                  : undefined
+              }
               onDeregister={onDeregister ? () => setDeregisterOpen(true) : undefined}
             />
           </div>
@@ -1439,8 +1451,8 @@ export function ServerDetailPage({
           <div className="relative z-10 bg-bg-card border border-border rounded-lg shadow-xl p-6 max-w-sm w-full mx-4">
             <h3 className="text-base font-semibold text-fg mb-2">Deregister Server</h3>
             <p className="text-sm text-fg-muted mb-4">
-              This will disconnect the agent, revoke its credentials, and remove all associated data.
-              This action cannot be undone.
+              This will disconnect the agent, revoke its credentials, and remove all associated
+              data. This action cannot be undone.
             </p>
             <div className="flex justify-end gap-2">
               <button

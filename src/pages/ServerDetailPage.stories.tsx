@@ -374,7 +374,12 @@ const mockServer = {
 
 export const WithComponent: Story = {
   render: () => (
-    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+    <AppShell
+      navItems={navItems}
+      activeId="nodes"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
       <ServerDetailPage
         server={mockServer}
         onBack={() => {}}
@@ -403,19 +408,25 @@ export const WithComponent: Story = {
 
 export const WithoutAgentConnection: Story = {
   render: () => (
-    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
-      <ServerDetailPage
-        server={mockServer}
-        onBack={() => {}}
-        onReload={() => {}}
-      />
+    <AppShell
+      navItems={navItems}
+      activeId="nodes"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
+      <ServerDetailPage server={mockServer} onBack={() => {}} onReload={() => {}} />
     </AppShell>
   ),
 };
 
 export const WithRecoveryGrant: Story = {
   render: () => (
-    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+    <AppShell
+      navItems={navItems}
+      activeId="nodes"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
       <ServerDetailPage
         server={mockServer}
         onBack={() => {}}
@@ -448,7 +459,12 @@ export const WithRecoveryGrant: Story = {
 
 export const WithCertExpiring: Story = {
   render: () => (
-    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+    <AppShell
+      navItems={navItems}
+      activeId="nodes"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
       <ServerDetailPage
         server={mockServer}
         onBack={() => {}}

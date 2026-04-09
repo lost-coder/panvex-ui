@@ -29,4 +29,9 @@ export { UserFormSheet } from "./UserFormSheet";
 export { UsersSection } from "./UsersSection";
 export { TotpSetupSheet } from "./TotpSetupSheet";
 export { TotpDisableSheet } from "./TotpDisableSheet";
-export { MetricsChartSection, type MetricsChartSectionProps, type MetricsPoint, type MetricsTab } from "./MetricsChartSection";
+export {
+  MetricsChartSection,
+  type MetricsChartSectionProps,
+  type MetricsPoint,
+  type MetricsTab,
+} from "./MetricsChartSection";

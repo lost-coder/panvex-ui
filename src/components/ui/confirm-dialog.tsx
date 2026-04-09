@@ -50,8 +50,12 @@ export function ConfirmDialog({
     >
       <div className="w-[360px] max-w-full rounded bg-bg-card border border-border-hi p-5 flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <h2 id={titleId} className="text-base font-semibold text-fg">{title}</h2>
-          <p id={descId} className="text-sm text-fg-muted leading-relaxed">{description}</p>
+          <h2 id={titleId} className="text-base font-semibold text-fg">
+            {title}
+          </h2>
+          <p id={descId} className="text-sm text-fg-muted leading-relaxed">
+            {description}
+          </p>
         </div>
         <div className="flex justify-end gap-2">
           <Button variant="ghost" size="sm" onClick={onCancel}>

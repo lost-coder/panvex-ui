@@ -66,17 +66,58 @@ function SystemChart({ points }: { points: MetricsPoint[] }) {
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-        <XAxis dataKey="t" tickFormatter={formatTime} tick={{ fontSize: 11 }} className="text-fg-muted" />
-        <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} className="text-fg-muted" />
+        <XAxis
+          dataKey="t"
+          tickFormatter={formatTime}
+          tick={{ fontSize: 11 }}
+          className="text-fg-muted"
+        />
+        <YAxis
+          domain={[0, 100]}
+          tick={{ fontSize: 11 }}
+          tickFormatter={(v) => `${v}%`}
+          className="text-fg-muted"
+        />
         <Tooltip
-          contentStyle={{ backgroundColor: "var(--color-bg-card)", border: "1px solid var(--color-border)", borderRadius: 6 }}
-          labelFormatter={formatDate}
-          formatter={(value: number, name: string) => [`${value.toFixed(1)}%`, name]}
+          contentStyle={{
+            backgroundColor: "var(--color-bg-card)",
+            border: "1px solid var(--color-border)",
+            borderRadius: 6,
+          }}
+          labelFormatter={(label) => formatDate(String(label))}
+          formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name]}
         />
         <Legend />
-        <Area type="monotone" dataKey="cpuAvg" name="CPU" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={1.5} dot={false} />
-        <Area type="monotone" dataKey="memAvg" name="Memory" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={1.5} dot={false} />
-        <Area type="monotone" dataKey="diskAvg" name="Disk" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.1} strokeWidth={1.5} dot={false} />
+        <Area
+          type="monotone"
+          dataKey="cpuAvg"
+          name="CPU"
+          stroke="#3b82f6"
+          fill="#3b82f6"
+          fillOpacity={0.15}
+          strokeWidth={1.5}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="memAvg"
+          name="Memory"
+          stroke="#8b5cf6"
+          fill="#8b5cf6"
+          fillOpacity={0.15}
+          strokeWidth={1.5}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="diskAvg"
+          name="Disk"
+          stroke="#f59e0b"
+          fill="#f59e0b"
+          fillOpacity={0.1}
+          strokeWidth={1.5}
+          dot={false}
+        />
       </AreaChart>
     </ChartContainer>
   );
@@ -87,15 +128,42 @@ function ConnectionsChart({ points }: { points: MetricsPoint[] }) {
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-        <XAxis dataKey="t" tickFormatter={formatTime} tick={{ fontSize: 11 }} className="text-fg-muted" />
+        <XAxis
+          dataKey="t"
+          tickFormatter={formatTime}
+          tick={{ fontSize: 11 }}
+          className="text-fg-muted"
+        />
         <YAxis tick={{ fontSize: 11 }} className="text-fg-muted" />
         <Tooltip
-          contentStyle={{ backgroundColor: "var(--color-bg-card)", border: "1px solid var(--color-border)", borderRadius: 6 }}
-          labelFormatter={formatDate}
+          contentStyle={{
+            backgroundColor: "var(--color-bg-card)",
+            border: "1px solid var(--color-border)",
+            borderRadius: 6,
+          }}
+          labelFormatter={(label) => formatDate(String(label))}
         />
         <Legend />
-        <Area type="monotone" dataKey="connectionsAvg" name="Connections" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.2} strokeWidth={1.5} dot={false} />
-        <Area type="monotone" dataKey="activeUsersAvg" name="Active Users" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={1.5} dot={false} />
+        <Area
+          type="monotone"
+          dataKey="connectionsAvg"
+          name="Connections"
+          stroke="#3b82f6"
+          fill="#3b82f6"
+          fillOpacity={0.2}
+          strokeWidth={1.5}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="activeUsersAvg"
+          name="Active Users"
+          stroke="#10b981"
+          fill="#10b981"
+          fillOpacity={0.15}
+          strokeWidth={1.5}
+          dot={false}
+        />
       </AreaChart>
     </ChartContainer>
   );
@@ -106,15 +174,38 @@ function NetworkChart({ points }: { points: MetricsPoint[] }) {
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-        <XAxis dataKey="t" tickFormatter={formatTime} tick={{ fontSize: 11 }} className="text-fg-muted" />
-        <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} className="text-fg-muted" />
+        <XAxis
+          dataKey="t"
+          tickFormatter={formatTime}
+          tick={{ fontSize: 11 }}
+          className="text-fg-muted"
+        />
+        <YAxis
+          domain={[0, 100]}
+          tick={{ fontSize: 11 }}
+          tickFormatter={(v) => `${v}%`}
+          className="text-fg-muted"
+        />
         <Tooltip
-          contentStyle={{ backgroundColor: "var(--color-bg-card)", border: "1px solid var(--color-border)", borderRadius: 6 }}
-          labelFormatter={formatDate}
-          formatter={(value: number, name: string) => [`${value.toFixed(1)}%`, name]}
+          contentStyle={{
+            backgroundColor: "var(--color-bg-card)",
+            border: "1px solid var(--color-border)",
+            borderRadius: 6,
+          }}
+          labelFormatter={(label) => formatDate(String(label))}
+          formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name]}
         />
         <Legend />
-        <Area type="monotone" dataKey="dcCoverageMin" name="DC Coverage (min)" stroke="#ef4444" fill="#ef4444" fillOpacity={0.1} strokeWidth={1.5} dot={false} />
+        <Area
+          type="monotone"
+          dataKey="dcCoverageMin"
+          name="DC Coverage (min)"
+          stroke="#ef4444"
+          fill="#ef4444"
+          fillOpacity={0.1}
+          strokeWidth={1.5}
+          dot={false}
+        />
       </AreaChart>
     </ChartContainer>
   );
@@ -125,16 +216,47 @@ function TrafficChart({ points }: { points: MetricsPoint[] }) {
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-        <XAxis dataKey="t" tickFormatter={formatTime} tick={{ fontSize: 11 }} className="text-fg-muted" />
-        <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${v.toFixed(1)}`} className="text-fg-muted" />
+        <XAxis
+          dataKey="t"
+          tickFormatter={formatTime}
+          tick={{ fontSize: 11 }}
+          className="text-fg-muted"
+        />
+        <YAxis
+          tick={{ fontSize: 11 }}
+          tickFormatter={(v) => `${v.toFixed(1)}`}
+          className="text-fg-muted"
+        />
         <Tooltip
-          contentStyle={{ backgroundColor: "var(--color-bg-card)", border: "1px solid var(--color-border)", borderRadius: 6 }}
+          contentStyle={{
+            backgroundColor: "var(--color-bg-card)",
+            border: "1px solid var(--color-border)",
+            borderRadius: 6,
+          }}
           labelFormatter={formatDate}
-          formatter={(value: number, name: string) => [`${value.toFixed(2)} Mbps`, name]}
+          formatter={(value, name) => [`${Number(value).toFixed(2)} Mbps`, name]}
         />
         <Legend />
-        <Area type="monotone" dataKey="netUploadMbps" name="Upload" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={1.5} dot={false} />
-        <Area type="monotone" dataKey="netDownloadMbps" name="Download" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={1.5} dot={false} />
+        <Area
+          type="monotone"
+          dataKey="netUploadMbps"
+          name="Upload"
+          stroke="#3b82f6"
+          fill="#3b82f6"
+          fillOpacity={0.15}
+          strokeWidth={1.5}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="netDownloadMbps"
+          name="Download"
+          stroke="#10b981"
+          fill="#10b981"
+          fillOpacity={0.15}
+          strokeWidth={1.5}
+          dot={false}
+        />
       </AreaChart>
     </ChartContainer>
   );
@@ -165,9 +287,7 @@ export function MetricsChartSection({
                 key={r}
                 onClick={() => onTimeRangeChange?.(r)}
                 className={`px-2 py-1 text-xs transition-colors ${
-                  timeRange === r
-                    ? "bg-accent text-white"
-                    : "text-fg-muted hover:bg-bg-card-hover"
+                  timeRange === r ? "bg-accent text-white" : "text-fg-muted hover:bg-bg-card-hover"
                 }`}
               >
                 {r}
@@ -183,9 +303,7 @@ export function MetricsChartSection({
             key={t}
             onClick={() => setTab(t)}
             className={`px-3 py-1.5 text-xs capitalize transition-colors border-b-2 -mb-px ${
-              tab === t
-                ? "border-accent text-fg"
-                : "border-transparent text-fg-muted hover:text-fg"
+              tab === t ? "border-accent text-fg" : "border-transparent text-fg-muted hover:text-fg"
             }`}
           >
             {t}

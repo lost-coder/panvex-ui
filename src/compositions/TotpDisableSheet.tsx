@@ -9,12 +9,7 @@ interface TotpDisableSheetProps {
   error?: string;
 }
 
-export function TotpDisableSheet({
-  onDisable,
-  onCancel,
-  loading,
-  error,
-}: TotpDisableSheetProps) {
+export function TotpDisableSheet({ onDisable, onCancel, loading, error }: TotpDisableSheetProps) {
   const [password, setPassword] = useState("");
   const [totpCode, setTotpCode] = useState("");
 

@@ -18,7 +18,12 @@ export function UserFormSheet({
   }
 
   return (
-    <Sheet open onOpenChange={(open) => { if (!open) onCancel(); }}>
+    <Sheet
+      open
+      onOpenChange={(open) => {
+        if (!open) onCancel();
+      }}
+    >
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{mode === "create" ? "Add User" : "Edit User"}</SheetTitle>

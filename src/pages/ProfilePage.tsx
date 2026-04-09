@@ -118,9 +118,11 @@ export function ProfilePage({
         <SettingsGroup title="Security">
           <SettingsRow
             label="Two-Factor Authentication"
-            description={user.totpEnabled
-              ? "Your account is protected with 2FA"
-              : "Add an extra layer of security to your account"}
+            description={
+              user.totpEnabled
+                ? "Your account is protected with 2FA"
+                : "Add an extra layer of security to your account"
+            }
           >
             {user.totpEnabled ? (
               <Button

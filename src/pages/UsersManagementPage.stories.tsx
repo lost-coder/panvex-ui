@@ -27,9 +27,27 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockUsers = [
-  { id: "u1", username: "admin", role: "admin" as const, totpEnabled: true, createdAt: "2025-01-15" },
-  { id: "u2", username: "operator1", role: "operator" as const, totpEnabled: false, createdAt: "2025-03-10" },
-  { id: "u3", username: "viewer_ro", role: "viewer" as const, totpEnabled: false, createdAt: "2025-06-01" },
+  {
+    id: "u1",
+    username: "admin",
+    role: "admin" as const,
+    totpEnabled: true,
+    createdAt: "2025-01-15",
+  },
+  {
+    id: "u2",
+    username: "operator1",
+    role: "operator" as const,
+    totpEnabled: false,
+    createdAt: "2025-03-10",
+  },
+  {
+    id: "u3",
+    username: "viewer_ro",
+    role: "viewer" as const,
+    totpEnabled: false,
+    createdAt: "2025-06-01",
+  },
 ];
 
 export const Default: Story = {
@@ -54,7 +72,11 @@ export const Empty: Story = {
 
 function InteractiveUsersPage() {
   const [sheet, setSheet] = useState<UserFormSheetProps | undefined>();
-  const [formData, setFormData] = useState<UserFormData>({ username: "", password: "", role: "viewer" });
+  const [formData, setFormData] = useState<UserFormData>({
+    username: "",
+    password: "",
+    role: "viewer",
+  });
 
   return (
     <UsersManagementPage
@@ -65,7 +87,10 @@ function InteractiveUsersPage() {
           mode: "create",
           data: formData,
           onChange: setFormData,
-          onSubmit: () => { console.log("Submit:", formData); setSheet(undefined); },
+          onSubmit: () => {
+            console.log("Submit:", formData);
+            setSheet(undefined);
+          },
           onCancel: () => setSheet(undefined),
         });
       }}
@@ -78,7 +103,10 @@ function InteractiveUsersPage() {
           mode: "edit",
           data: editData,
           onChange: setFormData,
-          onSubmit: () => { console.log("Save:", formData); setSheet(undefined); },
+          onSubmit: () => {
+            console.log("Save:", formData);
+            setSheet(undefined);
+          },
           onCancel: () => setSheet(undefined),
         });
       }}

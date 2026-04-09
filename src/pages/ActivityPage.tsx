@@ -36,7 +36,9 @@ const jobColumns = [
     key: "targets",
     header: "Targets",
     render: (j: JobListItem) => (
-      <span className="text-xs text-fg-muted">{j.targetCount} agent{j.targetCount !== 1 ? "s" : ""}</span>
+      <span className="text-xs text-fg-muted">
+        {j.targetCount} agent{j.targetCount !== 1 ? "s" : ""}
+      </span>
     ),
   },
   {
@@ -50,7 +52,7 @@ const jobColumns = [
 
 function auditToTimeline(events: AuditListItem[]) {
   return events.map((e) => ({
-    status: ("ok" as const),
+    status: "ok" as const,
     time: formatTime(e.createdAtUnix),
     message: `${e.actorId} — ${e.action}`,
     detail: e.targetId,

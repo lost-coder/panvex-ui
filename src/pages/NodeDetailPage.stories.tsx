@@ -375,7 +375,12 @@ const mockServer = {
 
 export const WithComponent: Story = {
   render: () => (
-    <AppShell navItems={navItems} activeId="nodes" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+    <AppShell
+      navItems={navItems}
+      activeId="nodes"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
       <ServerDetailPage server={mockServer} onBack={() => {}} onReload={() => {}} />
     </AppShell>
   ),

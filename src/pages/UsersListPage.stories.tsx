@@ -74,7 +74,12 @@ function UsersPage() {
   });
 
   return (
-    <AppShell navItems={navItems} activeId="users" brand="PVX" onLogout={() => console.log("Logout clicked")}>
+    <AppShell
+      navItems={navItems}
+      activeId="users"
+      brand="PVX"
+      onLogout={() => console.log("Logout clicked")}
+    >
       <PageHeader
         title="Users"
         subtitle={`${users.length} configured · ${users.filter((u) => u.online).length} online`}
