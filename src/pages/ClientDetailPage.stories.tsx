@@ -91,6 +91,41 @@ export const Default: Story = {
       await new Promise((r) => setTimeout(r, 500));
     },
     onRotateSecret: () => console.log("Rotate secret"),
+    ipHistory: {
+      totalUnique: 5,
+      ips: [
+        {
+          agentId: "node-eu-west-1",
+          ip: "185.23.108.42",
+          firstSeen: "2026-04-07T10:00:00Z",
+          lastSeen: "2026-04-09T14:30:00Z",
+        },
+        {
+          agentId: "node-eu-west-1",
+          ip: "91.204.15.7",
+          firstSeen: "2026-04-08T06:12:00Z",
+          lastSeen: "2026-04-09T14:25:00Z",
+        },
+        {
+          agentId: "node-us-east-1",
+          ip: "74.125.200.101",
+          firstSeen: "2026-04-09T08:00:00Z",
+          lastSeen: "2026-04-09T14:20:00Z",
+        },
+        {
+          agentId: "node-eu-west-1",
+          ip: "2a02:6b8::1",
+          firstSeen: "2026-04-09T12:00:00Z",
+          lastSeen: "2026-04-09T14:15:00Z",
+        },
+        {
+          agentId: "node-us-east-1",
+          ip: "198.51.100.23",
+          firstSeen: "2026-04-09T13:45:00Z",
+          lastSeen: "2026-04-09T14:10:00Z",
+        },
+      ],
+    },
   },
 };
 
