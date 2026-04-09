@@ -122,9 +122,9 @@ function InteractiveActivity() {
   );
 }
 
-export const Default: Story = {
+export const Default = {
   render: () => <InteractiveActivity />,
-};
+} satisfies Omit<Story, "args">;
 
 export const EmptyJobs: Story = {
   args: {

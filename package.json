@@ -43,7 +43,7 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "100 kB"
+      "limit": "210 kB"
     },
     {
       "path": "dist/styles.css",

@@ -117,6 +117,6 @@ function InteractiveUsersPage() {
   );
 }
 
-export const Interactive: Story = {
+export const Interactive = {
   render: () => <InteractiveUsersPage />,
-};
+} satisfies Omit<Story, "args">;
