@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { FieldLabel, MonoValue, StatCard, KvGrid } from "@/primitives";
 import { InitCard } from "@/primitives/InitCard";
 import { AgentConnectionSection } from "@/compositions/AgentConnectionSection";
+import { MetricsChartSection } from "@/compositions/MetricsChartSection";
 import { formatBytes, formatUptime, formatTime, coverageColor } from "./_shared";
 
 const noop = () => {};
@@ -1098,6 +1099,7 @@ export function ServerDetailPage({
   onRevokeGrant,
   onRename,
   onDeregister,
+  metricsChart,
 }: ServerDetailPageProps) {
   const { label: relativeTime, stale: relativeTimeStale } = useRelativeTime(lastUpdatedAt);
   const { systemInfo, gates, connections, summary, dcs } = server;
@@ -1274,6 +1276,16 @@ export function ServerDetailPage({
 
         {/* Alerts */}
         {hasAlerts && <AlertStrip alerts={alertItems} />}
+
+        {/* Performance Charts */}
+        {metricsChart && metricsChart.points.length > 0 && (
+          <MetricsChartSection
+            points={metricsChart.points}
+            resolution={metricsChart.resolution}
+            timeRange={metricsChart.timeRange}
+            onTimeRangeChange={metricsChart.onTimeRangeChange}
+          />
+        )}
 
         {/* Mobile: DCScrollStrip + SwipeTabView */}
         <div className="md:hidden flex flex-col gap-4">

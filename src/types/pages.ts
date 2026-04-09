@@ -422,6 +422,12 @@ export interface ServerDetailPageProps {
   onRevokeGrant?: () => void;
   onRename?: (name: string) => void;
   onDeregister?: () => void;
+  metricsChart?: {
+    points: import("@/compositions/MetricsChartSection").MetricsPoint[];
+    resolution?: "raw" | "hourly";
+    timeRange: string;
+    onTimeRangeChange?: (range: string) => void;
+  };
 }
 
 // --- Clients ---

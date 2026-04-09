@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "=== Pre-push: Prettier check ==="
+npx prettier --check .
+
+echo "=== Pre-push: Type check ==="
+npm run lint
+
+echo "=== Pre-push: all checks passed ==="
