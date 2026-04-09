@@ -65,12 +65,11 @@ function SystemChart({ points }: { points: MetricsPoint[] }) {
   return (
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
         <XAxis
           dataKey="t"
           tickFormatter={formatTime}
-          tick={{ fontSize: 11 }}
-          className="text-fg-muted"
+          tick={{ fontSize: 11, fill: "var(--color-fg-muted)" }}
         />
         <YAxis
           domain={[0, 100]}
@@ -83,6 +82,7 @@ function SystemChart({ points }: { points: MetricsPoint[] }) {
             backgroundColor: "var(--color-bg-card)",
             border: "1px solid var(--color-border)",
             borderRadius: 6,
+            color: "var(--color-fg-muted)",
           }}
           labelFormatter={(label) => formatDate(String(label))}
           formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name]}
@@ -127,12 +127,11 @@ function ConnectionsChart({ points }: { points: MetricsPoint[] }) {
   return (
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
         <XAxis
           dataKey="t"
           tickFormatter={formatTime}
-          tick={{ fontSize: 11 }}
-          className="text-fg-muted"
+          tick={{ fontSize: 11, fill: "var(--color-fg-muted)" }}
         />
         <YAxis tick={{ fontSize: 11 }} className="text-fg-muted" />
         <Tooltip
@@ -140,6 +139,7 @@ function ConnectionsChart({ points }: { points: MetricsPoint[] }) {
             backgroundColor: "var(--color-bg-card)",
             border: "1px solid var(--color-border)",
             borderRadius: 6,
+            color: "var(--color-fg-muted)",
           }}
           labelFormatter={(label) => formatDate(String(label))}
         />
@@ -173,12 +173,11 @@ function NetworkChart({ points }: { points: MetricsPoint[] }) {
   return (
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
         <XAxis
           dataKey="t"
           tickFormatter={formatTime}
-          tick={{ fontSize: 11 }}
-          className="text-fg-muted"
+          tick={{ fontSize: 11, fill: "var(--color-fg-muted)" }}
         />
         <YAxis
           domain={[0, 100]}
@@ -191,6 +190,7 @@ function NetworkChart({ points }: { points: MetricsPoint[] }) {
             backgroundColor: "var(--color-bg-card)",
             border: "1px solid var(--color-border)",
             borderRadius: 6,
+            color: "var(--color-fg-muted)",
           }}
           labelFormatter={(label) => formatDate(String(label))}
           formatter={(value, name) => [`${Number(value).toFixed(1)}%`, name]}
@@ -215,12 +215,11 @@ function TrafficChart({ points }: { points: MetricsPoint[] }) {
   return (
     <ChartContainer>
       <AreaChart data={points} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
         <XAxis
           dataKey="t"
           tickFormatter={formatTime}
-          tick={{ fontSize: 11 }}
-          className="text-fg-muted"
+          tick={{ fontSize: 11, fill: "var(--color-fg-muted)" }}
         />
         <YAxis
           tick={{ fontSize: 11 }}
@@ -232,6 +231,7 @@ function TrafficChart({ points }: { points: MetricsPoint[] }) {
             backgroundColor: "var(--color-bg-card)",
             border: "1px solid var(--color-border)",
             borderRadius: 6,
+            color: "var(--color-fg-muted)",
           }}
           labelFormatter={(label) => formatDate(String(label))}
           formatter={(value, name) => [`${Number(value).toFixed(2)} Mbps`, name]}

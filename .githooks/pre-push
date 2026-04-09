@@ -4,7 +4,14 @@ set -e
 echo "=== Pre-push: Prettier check ==="
 npx prettier --check .
 
-echo "=== Pre-push: Type check ==="
+echo "=== Pre-push: Type check (lint) ==="
 npm run lint
+
+echo "=== Pre-push: TypeScript strict ==="
+npx tsc --noEmit
+
+echo "=== Pre-push: Build + size limit ==="
+npm run build
+npm run size
 
 echo "=== Pre-push: all checks passed ==="
