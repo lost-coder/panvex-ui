@@ -531,6 +531,10 @@ export interface ClientDetailPageProps {
   secretPendingRedeploy?: boolean;
   onDisable?: () => void;
   onDelete?: () => void;
+  ipHistory?: {
+    ips: { agentId: string; ip: string; firstSeen: string; lastSeen: string }[];
+    totalUnique: number;
+  };
 }
 
 // --- Settings ---

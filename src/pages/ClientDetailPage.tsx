@@ -271,6 +271,7 @@ export function ClientDetailPage({
   onRotateSecret,
   secretRotating,
   secretPendingRedeploy,
+  ipHistory,
 }: ClientDetailPageProps) {
   const [editOpen, setEditOpen] = useState(false);
   const [editData, setEditData] = useState<ClientFormData>({
@@ -435,6 +436,49 @@ export function ClientDetailPage({
             <SectionHeader title="Deployments" badge={client.deployments.length} />
             <DeploymentsContent deployments={client.deployments} />
           </div>
+
+          {/* IP History */}
+          {ipHistory && ipHistory.ips.length > 0 && (
+            <div>
+              <SectionHeader title="IP Address History" badge={ipHistory.totalUnique} />
+              <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
+                <DataTable
+                  columns={[
+                    {
+                      key: "ip",
+                      header: "IP Address",
+                      render: (row) => <MonoValue>{row.ip}</MonoValue>,
+                    },
+                    {
+                      key: "firstSeen",
+                      header: "First Seen",
+                      render: (row) => (
+                        <span className="text-sm text-fg-muted">
+                          {new Date(row.firstSeen).toLocaleString()}
+                        </span>
+                      ),
+                    },
+                    {
+                      key: "lastSeen",
+                      header: "Last Seen",
+                      render: (row) => (
+                        <span className="text-sm text-fg-muted">
+                          {new Date(row.lastSeen).toLocaleString()}
+                        </span>
+                      ),
+                    },
+                    {
+                      key: "agentId",
+                      header: "Server",
+                      render: (row) => <span className="text-sm text-fg-muted">{row.agentId}</span>,
+                    },
+                  ]}
+                  data={ipHistory.ips}
+                  keyExtractor={(row) => `${row.agentId}-${row.ip}`}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
