@@ -233,7 +233,7 @@ function TrafficChart({ points }: { points: MetricsPoint[] }) {
             border: "1px solid var(--color-border)",
             borderRadius: 6,
           }}
-          labelFormatter={formatDate}
+          labelFormatter={(label) => formatDate(String(label))}
           formatter={(value, name) => [`${Number(value).toFixed(2)} Mbps`, name]}
         />
         <Legend />
