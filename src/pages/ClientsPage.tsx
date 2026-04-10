@@ -227,12 +227,14 @@ export function ClientsPage({
           </div>
         )}
         <TableView
-          search={search}
-          onSearchChange={(v) => {
-            setSearch(v);
-            setCurrentPage(1);
+          search={{
+            value: search,
+            onChange: (v) => {
+              setSearch(v);
+              setCurrentPage(1);
+            },
+            placeholder: "Search by name...",
           }}
-          searchPlaceholder="Search by name..."
           filters={[
             {
               key: "status",
@@ -264,13 +266,14 @@ export function ClientsPage({
               placeholder: "Deploy",
             },
           ]}
-          viewMode={effectiveMode}
-          onViewModeChange={onViewModeChange}
-          currentPage={safePage}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          pageSize={pageSize}
-          onPageChange={setCurrentPage}
+          viewMode={onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined}
+          pagination={{
+            page: safePage,
+            totalPages,
+            totalItems: filtered.length,
+            pageSize,
+            onChange: setCurrentPage,
+          }}
         >
           {effectiveMode === "cards" ? (
             // Cards view

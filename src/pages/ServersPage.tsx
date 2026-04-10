@@ -260,12 +260,14 @@ export function ServersPage({
       />
       <div className="px-4 md:px-8 pb-8">
         <TableView
-          search={search}
-          onSearchChange={(v) => {
-            setSearch(v);
-            setCurrentPage(1);
+          search={{
+            value: search,
+            onChange: (v) => {
+              setSearch(v);
+              setCurrentPage(1);
+            },
+            placeholder: "Search by name or IP...",
           }}
-          searchPlaceholder="Search by name or IP..."
           filters={[
             {
               key: "status",
@@ -299,24 +301,26 @@ export function ServersPage({
               placeholder: "Group",
             },
           ]}
-          viewMode={effectiveMode}
-          onViewModeChange={onViewModeChange}
-          availableColumns={[
-            { key: "dcs", label: "DC Matrix" },
-            { key: "users", label: "Users" },
-            { key: "traffic", label: "Traffic" },
-            { key: "uptime", label: "Uptime" },
-            { key: "load", label: "Load" },
-          ]}
-          columnVisibility={columnVisibility}
-          onColumnVisibilityChange={(key, visible) =>
-            setColumnVisibility((prev) => ({ ...prev, [key]: visible }))
-          }
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filtered.length}
-          pageSize={pageSize}
-          onPageChange={setCurrentPage}
+          viewMode={onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined}
+          columns={{
+            available: [
+              { key: "dcs", label: "DC Matrix" },
+              { key: "users", label: "Users" },
+              { key: "traffic", label: "Traffic" },
+              { key: "uptime", label: "Uptime" },
+              { key: "load", label: "Load" },
+            ],
+            visibility: columnVisibility,
+            onChange: (key, visible) =>
+              setColumnVisibility((prev) => ({ ...prev, [key]: visible })),
+          }}
+          pagination={{
+            page: currentPage,
+            totalPages,
+            totalItems: filtered.length,
+            pageSize,
+            onChange: setCurrentPage,
+          }}
         >
           {/* На мобильных всегда список */}
           <div className="block md:hidden">

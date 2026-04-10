@@ -17,6 +17,10 @@ export {
   type TableViewProps,
   type TableViewFilter,
   type TableViewColumn,
+  type TableViewSearchConfig,
+  type TableViewPaginationConfig,
+  type TableViewViewModeConfig,
+  type TableViewColumnsConfig,
 } from "./TableView";
 export { FleetGroupChips } from "./FleetGroupChips";
 export { NodeSelector } from "./NodeSelector";

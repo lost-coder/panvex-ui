@@ -20,28 +20,38 @@ export interface TableViewColumn {
   label: string;
 }
 
-export interface TableViewProps<T = unknown> {
-  // Toolbar — search
-  search?: string;
-  onSearchChange?: (val: string) => void;
-  searchPlaceholder?: string;
-  // Toolbar — filters
-  filters?: TableViewFilter[];
-  // Toolbar — view mode toggle
-  viewMode?: ViewMode;
-  onViewModeChange?: (mode: ViewMode) => void;
-  // Toolbar — column visibility
-  columnVisibility?: Record<string, boolean>;
-  onColumnVisibilityChange?: (key: string, visible: boolean) => void;
-  availableColumns?: TableViewColumn[];
-  // Content
-  children: React.ReactNode;
-  // Pagination
-  currentPage?: number;
-  totalPages?: number;
+export interface TableViewSearchConfig {
+  value: string;
+  onChange: (val: string) => void;
+  placeholder?: string;
+}
+
+export interface TableViewPaginationConfig {
+  page: number;
+  totalPages: number;
   totalItems?: number;
   pageSize?: number;
-  onPageChange?: (page: number) => void;
+  onChange: (page: number) => void;
+}
+
+export interface TableViewViewModeConfig {
+  current: ViewMode;
+  onChange: (mode: ViewMode) => void;
+}
+
+export interface TableViewColumnsConfig {
+  available: TableViewColumn[];
+  visibility: Record<string, boolean>;
+  onChange: (key: string, visible: boolean) => void;
+}
+
+export interface TableViewProps<T = unknown> {
+  search?: TableViewSearchConfig;
+  filters?: TableViewFilter[];
+  viewMode?: TableViewViewModeConfig;
+  columns?: TableViewColumnsConfig;
+  pagination?: TableViewPaginationConfig;
+  children: React.ReactNode;
   className?: string;
 }
 
@@ -51,36 +61,27 @@ function Divider() {
 
 export function TableView<T = unknown>({
   search,
-  onSearchChange,
-  searchPlaceholder = "Search…",
   filters,
   viewMode,
-  onViewModeChange,
-  columnVisibility,
-  onColumnVisibilityChange,
-  availableColumns,
+  columns,
+  pagination,
   children,
-  currentPage = 1,
-  totalPages,
-  totalItems,
-  pageSize,
-  onPageChange,
   className,
 }: TableViewProps<T>) {
   const hasFilters = filters && filters.length > 0;
-  const hasViewMode = viewMode !== undefined && onViewModeChange !== undefined;
-  const hasColumnPicker =
-    availableColumns && availableColumns.length > 0 && onColumnVisibilityChange;
+  const hasViewMode = viewMode !== undefined;
+  const hasColumnPicker = columns !== undefined && columns.available.length > 0;
 
   // Derived pagination display
-  const showPagination = totalPages !== undefined && totalPages > 1;
+  const currentPage = pagination?.page ?? 1;
+  const showPagination = pagination !== undefined && pagination.totalPages > 1;
   const rangeStart =
-    totalItems !== undefined && pageSize !== undefined
-      ? (currentPage - 1) * pageSize + 1
+    pagination?.totalItems !== undefined && pagination?.pageSize !== undefined
+      ? (currentPage - 1) * pagination.pageSize + 1
       : undefined;
   const rangeEnd =
-    totalItems !== undefined && pageSize !== undefined
-      ? Math.min(currentPage * pageSize, totalItems)
+    pagination?.totalItems !== undefined && pagination?.pageSize !== undefined
+      ? Math.min(currentPage * pagination.pageSize, pagination.totalItems)
       : undefined;
 
   return (
@@ -92,9 +93,9 @@ export function TableView<T = unknown>({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-fg-muted pointer-events-none" />
           <Input
             type="search"
-            value={search ?? ""}
-            onChange={(e) => onSearchChange?.(e.target.value)}
-            placeholder={searchPlaceholder}
+            value={search?.value ?? ""}
+            onChange={(e) => search?.onChange(e.target.value)}
+            placeholder={search?.placeholder ?? "Search…"}
             className="pl-9"
           />
         </div>
@@ -118,7 +119,7 @@ export function TableView<T = unknown>({
             {hasFilters && (hasColumnPicker || hasViewMode) && <Divider />}
 
             {/* Column visibility picker */}
-            {hasColumnPicker && (
+            {hasColumnPicker && columns && (
               <Popover>
                 <PopoverTrigger asChild>
                   <button
@@ -137,8 +138,8 @@ export function TableView<T = unknown>({
                     Columns
                   </p>
                   <div className="flex flex-col gap-1.5">
-                    {availableColumns!.map((col) => {
-                      const visible = columnVisibility?.[col.key] ?? true;
+                    {columns.available.map((col) => {
+                      const visible = columns.visibility[col.key] ?? true;
                       return (
                         <label
                           key={col.key}
@@ -147,7 +148,7 @@ export function TableView<T = unknown>({
                           <input
                             type="checkbox"
                             checked={visible}
-                            onChange={(e) => onColumnVisibilityChange!(col.key, e.target.checked)}
+                            onChange={(e) => columns.onChange(col.key, e.target.checked)}
                             className="accent-accent"
                           />
                           {col.label}
@@ -163,9 +164,9 @@ export function TableView<T = unknown>({
             {hasColumnPicker && hasViewMode && <Divider />}
 
             {/* View mode toggle — hidden on mobile */}
-            {hasViewMode && (
+            {hasViewMode && viewMode && (
               <div className="hidden sm:block">
-                <ViewModeToggle mode={viewMode!} onChange={onViewModeChange!} />
+                <ViewModeToggle mode={viewMode.current} onChange={viewMode.onChange} />
               </div>
             )}
           </div>
@@ -179,14 +180,14 @@ export function TableView<T = unknown>({
       {showPagination && (
         <div className="flex items-center justify-between px-1">
           <span className="text-xs text-fg-muted font-mono">
-            {rangeStart !== undefined && rangeEnd !== undefined && totalItems !== undefined
-              ? `Showing ${rangeStart}–${rangeEnd} of ${totalItems}`
-              : `Page ${currentPage} of ${totalPages}`}
+            {rangeStart !== undefined && rangeEnd !== undefined && pagination?.totalItems !== undefined
+              ? `Showing ${rangeStart}–${rangeEnd} of ${pagination.totalItems}`
+              : `Page ${currentPage} of ${pagination!.totalPages}`}
           </span>
 
           <div className="flex gap-1">
             <button
-              onClick={() => onPageChange?.(currentPage - 1)}
+              onClick={() => pagination?.onChange(currentPage - 1)}
               disabled={currentPage <= 1}
               className={cn(
                 "flex items-center justify-center h-8 w-8 rounded-xs border border-border-hi",
@@ -200,10 +201,10 @@ export function TableView<T = unknown>({
             </button>
 
             {/* Page numbers */}
-            {Array.from({ length: totalPages! }, (_, i) => i + 1).map((page) => (
+            {Array.from({ length: pagination!.totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
-                onClick={() => onPageChange?.(page)}
+                onClick={() => pagination?.onChange(page)}
                 className={cn(
                   "flex items-center justify-center h-8 w-8 rounded-xs border font-mono text-xs transition-colors",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50",
@@ -219,8 +220,8 @@ export function TableView<T = unknown>({
             ))}
 
             <button
-              onClick={() => onPageChange?.(currentPage + 1)}
-              disabled={currentPage >= totalPages!}
+              onClick={() => pagination?.onChange(currentPage + 1)}
+              disabled={currentPage >= pagination!.totalPages}
               className={cn(
                 "flex items-center justify-center h-8 w-8 rounded-xs border border-border-hi",
                 "bg-bg-card text-fg-muted hover:text-fg transition-colors",

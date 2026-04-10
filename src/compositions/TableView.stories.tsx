@@ -43,9 +43,7 @@ function TableViewDemo({
 
   return (
     <TableView
-      search={search}
-      onSearchChange={setSearch}
-      searchPlaceholder="Search servers…"
+      search={{ value: search, onChange: setSearch, placeholder: "Search servers…" }}
       filters={[
         {
           key: "status",
@@ -70,21 +68,18 @@ function TableViewDemo({
           ],
         },
       ]}
-      viewMode={viewMode}
-      onViewModeChange={setViewMode}
-      availableColumns={[
-        { key: "status", label: "Status" },
-        { key: "ip", label: "IP Address" },
-        { key: "group", label: "Group" },
-        { key: "lastSeen", label: "Last Seen" },
-      ]}
-      columnVisibility={colVis}
-      onColumnVisibilityChange={handleColChange}
-      currentPage={page}
-      totalPages={totalPages}
-      totalItems={totalItems}
-      pageSize={pageSize}
-      onPageChange={setPage}
+      viewMode={{ current: viewMode, onChange: setViewMode }}
+      columns={{
+        available: [
+          { key: "status", label: "Status" },
+          { key: "ip", label: "IP Address" },
+          { key: "group", label: "Group" },
+          { key: "lastSeen", label: "Last Seen" },
+        ],
+        visibility: colVis,
+        onChange: handleColChange,
+      }}
+      pagination={{ page, totalPages, totalItems, pageSize, onChange: setPage }}
     >
       {/* Placeholder content */}
       <div className="rounded-xl border border-border bg-bg-card p-6 flex flex-col gap-3">
@@ -133,7 +128,7 @@ export const SearchOnly: Story = {
   render: () => {
     const [search, setSearch] = React.useState("");
     return (
-      <TableView search={search} onSearchChange={setSearch} searchPlaceholder="Search anything…">
+      <TableView search={{ value: search, onChange: setSearch, placeholder: "Search anything…" }}>
         <div className="rounded-xl border border-border bg-bg-card p-6 text-sm text-fg-muted font-mono">
           query: "{search || "—"}"
         </div>
@@ -149,8 +144,7 @@ export const WithoutPagination: Story = {
     const [viewMode, setViewMode] = React.useState<"cards" | "list">("list");
     return (
       <TableView
-        search={search}
-        onSearchChange={setSearch}
+        search={{ value: search, onChange: setSearch }}
         filters={[
           {
             key: "status",
@@ -163,8 +157,7 @@ export const WithoutPagination: Story = {
             ],
           },
         ]}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
+        viewMode={{ current: viewMode, onChange: setViewMode }}
       >
         <div className="rounded-xl border border-border bg-bg-card p-6 text-sm text-fg-muted font-mono">
           No pagination · {viewMode} view
