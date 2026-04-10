@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { Select, type SelectOption } from "@/components/ui/select";
+import { Input } from "@/base/input";
+import { Select, type SelectOption } from "@/base/select";
 
 export interface SearchFilterProps {
   searchValue: string;

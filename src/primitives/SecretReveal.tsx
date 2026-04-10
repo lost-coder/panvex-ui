@@ -1,6 +1,6 @@
 // src/primitives/SecretReveal.tsx
 import { CopyButton } from "./CopyButton";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import type { SecretRevealProps } from "@/types/pages";
 
 export function SecretReveal({ secret, onDismiss }: SecretRevealProps) {

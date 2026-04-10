@@ -2,9 +2,9 @@ import { useState } from "react";
 import { PageHeader } from "@/layout/PageHeader";
 import { SettingsGroup } from "@/components/SettingsGroup";
 import { SettingsRow } from "@/components/SettingsRow";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/base/input";
+import { Select } from "@/base/select";
+import { Button } from "@/base/button";
 import { secondsToDisplay, displayToSeconds } from "./_shared";
 import type { SettingsPageProps } from "@/types/pages";
 

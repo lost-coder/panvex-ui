@@ -16,16 +16,16 @@ export {
   type DiscoveredClientsBannerProps,
 } from "./DiscoveredClientsBanner";
 
-export { Button, type ButtonProps, buttonVariants } from "./ui/button";
-export { Input, type InputProps } from "./ui/input";
-export { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
-export { Toggle, type ToggleProps } from "./ui/toggle";
-export { Select, type SelectProps, type SelectOption } from "./ui/select";
-export { FormField, type FormFieldProps } from "./ui/form-field";
-export { ConfirmDialog, type ConfirmDialogProps } from "./ui/confirm-dialog";
-export { Toast, type ToastProps, type ToastVariant } from "./ui/toast";
-export { Tooltip, type TooltipProps } from "./ui/tooltip";
-export { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+export { Button, type ButtonProps, buttonVariants } from "@/base/button";
+export { Input, type InputProps } from "@/base/input";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "@/base/tabs";
+export { Toggle, type ToggleProps } from "@/base/toggle";
+export { Select, type SelectProps, type SelectOption } from "@/base/select";
+export { FormField, type FormFieldProps } from "@/base/form-field";
+export { ConfirmDialog, type ConfirmDialogProps } from "@/base/confirm-dialog";
+export { Toast, type ToastProps, type ToastVariant } from "@/base/toast";
+export { Tooltip, type TooltipProps } from "@/base/tooltip";
+export { Popover, PopoverTrigger, PopoverContent } from "@/base/popover";
 export {
   Sheet,
   SheetTrigger,
@@ -34,12 +34,12 @@ export {
   SheetHeader,
   SheetTitle,
   SheetBody,
-} from "./ui/sheet";
+} from "@/base/sheet";
 export {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "./ui/dropdown-menu";
-export { ThemeToggle } from "./ui/theme-toggle";
+} from "@/base/dropdown-menu";
+export { ThemeToggle } from "@/base/theme-toggle";

@@ -6,7 +6,7 @@ import { SectionHeader } from "@/layout/SectionHeader";
 import { SearchFilter } from "@/compositions/SearchFilter";
 import { Pagination } from "@/compositions/Pagination";
 import { UserCard } from "@/components/UserCard";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import { Badge } from "@/primitives/Badge";
 import { navItems } from "./__fixtures__/navItems";
 

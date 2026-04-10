@@ -1,5 +1,5 @@
 import { PageHeader } from "@/layout/PageHeader";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import { TokenList } from "@/compositions/TokenList";
 import type { EnrollmentTokensPageProps } from "@/types/pages";
 

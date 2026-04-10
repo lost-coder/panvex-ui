@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageHeader } from "./PageHeader";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 
 const meta: Meta<typeof PageHeader> = {
   title: "Layout/PageHeader",

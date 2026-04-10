@@ -2,10 +2,10 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { StepIndicator } from "@/primitives/StepIndicator";
 import { CopyButton } from "@/primitives/CopyButton";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { FormField } from "@/components/ui/form-field";
+import { Button } from "@/base/button";
+import { Input } from "@/base/input";
+import { Select } from "@/base/select";
+import { FormField } from "@/base/form-field";
 import type { EnrollmentWizardProps } from "@/types/pages";
 
 const TTL_PRESETS = [

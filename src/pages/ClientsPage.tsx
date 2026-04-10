@@ -8,8 +8,8 @@ import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
 import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
+import { Button } from "@/base/button";
+import { Sheet, SheetContent, SheetBody } from "@/base/sheet";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientsPageProps, ClientListItem, ClientFormData, ViewMode } from "@/types/pages";
 

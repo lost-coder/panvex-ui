@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/base/button";
+import { Input } from "@/base/input";
 import type { LoginPageProps } from "@/types/pages";
 
 // ─── Stage panels ─────────────────────────────────────────────────────────────

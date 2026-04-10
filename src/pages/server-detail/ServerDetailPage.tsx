@@ -15,8 +15,8 @@ import { AlertStrip } from "@/compositions/AlertStrip";
 import { SwipeTabView } from "@/compositions/SwipeTabView";
 import { AgentConnectionSection } from "@/compositions/AgentConnectionSection";
 import { MetricsChartSection } from "@/compositions/MetricsChartSection";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetBody } from "@/components/ui/sheet";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/base/tabs";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetBody } from "@/base/sheet";
 import type { ServerDetailPageProps, ServerDcData } from "@/types/pages";
 
 import { useRelativeTime } from "./useRelativeTime";

@@ -1,6 +1,6 @@
 // src/compositions/TokenList.tsx
 import { Badge } from "@/primitives/Badge";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import { DataTable } from "@/components/DataTable";
 import { tokenStatusVariant } from "@/lib/status";
 import type { TokenListProps, EnrollmentTokenData } from "@/types/pages";

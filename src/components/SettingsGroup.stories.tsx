@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SettingsGroup } from "./SettingsGroup";
 import { SettingsRow } from "./SettingsRow";
-import { Toggle } from "./ui/toggle";
-import { Select } from "./ui/select";
-import { Input } from "./ui/input";
+import { Toggle } from "@/base/toggle";
+import { Select } from "@/base/select";
+import { Input } from "@/base/input";
 
 const meta: Meta<typeof SettingsGroup> = {
   title: "Components/SettingsGroup",

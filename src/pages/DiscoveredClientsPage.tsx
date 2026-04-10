@@ -6,8 +6,8 @@ import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { DataTable } from "@/components/DataTable";
 import { EmptyState } from "@/components/EmptyState";
-import { Button } from "@/components/ui/button";
-import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Button } from "@/base/button";
+import { ConfirmDialog } from "@/base/confirm-dialog";
 import { formatBytes, formatQuota, formatAge } from "./_shared";
 import type { DiscoveredClientsPageProps, DiscoveredClientItem } from "@/types/pages";
 

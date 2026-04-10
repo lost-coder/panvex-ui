@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Search, ChevronLeft, ChevronRight, Columns3 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Input } from "@/base/input";
+import { Select } from "@/base/select";
+import { Popover, PopoverTrigger, PopoverContent } from "@/base/popover";
 import { ViewModeToggle } from "@/compositions/ViewModeToggle";
 import type { ViewMode } from "@/types/pages";
 

@@ -11,9 +11,9 @@ import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { CopyButton } from "@/primitives/CopyButton";
 import { DataTable } from "@/components/DataTable";
-import { Button } from "@/components/ui/button";
-import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
+import { Button } from "@/base/button";
+import { ConfirmDialog } from "@/base/confirm-dialog";
+import { Sheet, SheetContent, SheetBody } from "@/base/sheet";
 import { formatBytes, formatQuota, formatExpiry, deployVariant } from "./_shared";
 import type { ClientDetailPageProps, ClientDeploymentData, ClientFormData } from "@/types/pages";
 

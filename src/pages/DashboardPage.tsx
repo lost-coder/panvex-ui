@@ -8,9 +8,9 @@ import { ClientFormSheet } from "@/compositions/ClientFormSheet";
 import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { Badge } from "@/primitives/Badge";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import { DiscoveredClientsBanner } from "@/components/DiscoveredClientsBanner";
-import { Sheet, SheetContent, SheetBody } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetBody } from "@/base/sheet";
 import type {
   DashboardPageProps,
   DashboardOverviewData,

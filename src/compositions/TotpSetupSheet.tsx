@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FormField } from "@/components/ui/form-field";
+import { Button } from "@/base/button";
+import { Input } from "@/base/input";
+import { FormField } from "@/base/form-field";
 import { MonoValue } from "@/primitives/MonoValue";
 import { CopyButton } from "@/primitives/CopyButton";
 import { FieldLabel } from "@/primitives/FieldLabel";

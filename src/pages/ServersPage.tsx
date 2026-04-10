@@ -6,7 +6,7 @@ import { NodeSummaryCard } from "@/components/NodeSummaryCard";
 import { NodeCard } from "@/components/NodeCard";
 import { StatusDot } from "@/primitives/StatusDot";
 import { DataTable } from "@/components/DataTable";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import type { ServersPageProps, ServerListItem, ViewMode } from "@/types/pages";
 
 function TrafficCell({ bytes }: { bytes: number }) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ThemeToggle } from "@/base/theme-toggle";
 import { StatusDot } from "@/primitives/StatusDot";
 import { StatusBeacon } from "@/primitives/StatusBeacon";
 import { Badge } from "@/primitives/Badge";

@@ -7,7 +7,7 @@ import { StatusBeacon } from "@/primitives/StatusBeacon";
 import { MonoValue } from "@/primitives/MonoValue";
 import { FieldLabel } from "@/primitives/FieldLabel";
 import { KvGrid } from "@/primitives/KvGrid";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/base/button";
 import type { AgentConnectionSectionProps } from "@/types/pages";
 
 export function AgentConnectionSection({

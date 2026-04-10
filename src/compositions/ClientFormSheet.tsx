@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FormField } from "@/components/ui/form-field";
+import { Button } from "@/base/button";
+import { Input } from "@/base/input";
+import { FormField } from "@/base/form-field";
 import type { ClientFormSheetProps } from "@/types/pages";
 
 export function ClientFormSheet({

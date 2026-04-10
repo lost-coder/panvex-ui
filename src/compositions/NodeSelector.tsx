@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { StatusDot } from "@/primitives/StatusDot";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/base/input";
 import type { NodeSelectorProps } from "@/types/pages";
 
 export function NodeSelector({

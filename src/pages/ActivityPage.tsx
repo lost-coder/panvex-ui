@@ -1,5 +1,5 @@
 import { PageHeader } from "@/layout/PageHeader";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/base/tabs";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/primitives/Badge";
 import { Timeline } from "@/compositions/Timeline";
