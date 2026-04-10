@@ -266,7 +266,9 @@ export function ClientsPage({
               placeholder: "Deploy",
             },
           ]}
-          viewMode={onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined}
+          viewMode={
+            onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined
+          }
           pagination={{
             page: safePage,
             totalPages,

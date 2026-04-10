@@ -24,9 +24,7 @@ export function ClientFormSheet({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h3 className="text-title">
-          {mode === "create" ? "New Client" : "Edit Client"}
-        </h3>
+        <h3 className="text-title">{mode === "create" ? "New Client" : "Edit Client"}</h3>
         <p className="text-sm text-fg-muted mt-0.5">
           {mode === "create" ? "Configure a new Telemt client." : "Update client parameters."}
         </p>
@@ -41,7 +39,11 @@ export function ClientFormSheet({
         />
       </FormField>
 
-      <FormField label="Ad Tag" variant="uppercase" description="Promotional channel displayed to users">
+      <FormField
+        label="Ad Tag"
+        variant="uppercase"
+        description="Promotional channel displayed to users"
+      >
         <Input
           value={data.userAdTag}
           onChange={(e) => update("userAdTag", e.target.value)}

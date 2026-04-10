@@ -43,9 +43,7 @@ export function FormField({
         {label}
         {required && " *"}
       </label>
-      {description && !error && (
-        <p className="text-caption leading-snug">{description}</p>
-      )}
+      {description && !error && <p className="text-caption leading-snug">{description}</p>}
       {React.isValidElement(children)
         ? React.cloneElement(children as React.ReactElement<{ id?: string }>, { id: fieldId })
         : children}

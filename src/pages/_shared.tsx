@@ -11,4 +11,10 @@ export {
 } from "@/lib/format";
 
 // Re-export status utilities from lib/status.ts
-export { coverageColor, deployVariant, roleVariant, tokenStatusVariant, presenceSeverity } from "@/lib/status";
+export {
+  coverageColor,
+  deployVariant,
+  roleVariant,
+  tokenStatusVariant,
+  presenceSeverity,
+} from "@/lib/status";

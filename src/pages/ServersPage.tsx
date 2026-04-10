@@ -301,7 +301,9 @@ export function ServersPage({
               placeholder: "Group",
             },
           ]}
-          viewMode={onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined}
+          viewMode={
+            onViewModeChange ? { current: effectiveMode, onChange: onViewModeChange } : undefined
+          }
           columns={{
             available: [
               { key: "dcs", label: "DC Matrix" },

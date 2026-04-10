@@ -14,9 +14,7 @@ export function GaugeCell({ value, unit, label, className }: GaugeCellProps) {
         {value}
         {unit && <span className="text-xs font-normal text-fg-muted ml-0.5">{unit}</span>}
       </span>
-      <span className="text-caption uppercase tracking-wider leading-none">
-        {label}
-      </span>
+      <span className="text-caption uppercase tracking-wider leading-none">{label}</span>
     </div>
   );
 }

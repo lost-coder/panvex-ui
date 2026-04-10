@@ -64,7 +64,11 @@ export const UppercaseVariant: Story = {
       <FormField label="Client Name" variant="uppercase" required>
         <Input placeholder="e.g. premium-users" />
       </FormField>
-      <FormField label="Ad Tag" variant="uppercase" description="Promotional channel displayed to users">
+      <FormField
+        label="Ad Tag"
+        variant="uppercase"
+        description="Promotional channel displayed to users"
+      >
         <Input placeholder="Telegram ad channel tag" />
       </FormField>
     </div>
@@ -89,7 +93,13 @@ export const CompactVariant: Story = {
 
 export const RequiredWithError: Story = {
   render: () => (
-    <FormField label="Username" variant="uppercase" required error="Username is already taken" className="w-[300px]">
+    <FormField
+      label="Username"
+      variant="uppercase"
+      required
+      error="Username is already taken"
+      className="w-[300px]"
+    >
       <Input value="admin" />
     </FormField>
   ),

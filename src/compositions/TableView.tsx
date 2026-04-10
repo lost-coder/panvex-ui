@@ -180,7 +180,9 @@ export function TableView<T = unknown>({
       {showPagination && (
         <div className="flex items-center justify-between px-1">
           <span className="text-xs text-fg-muted font-mono">
-            {rangeStart !== undefined && rangeEnd !== undefined && pagination?.totalItems !== undefined
+            {rangeStart !== undefined &&
+            rangeEnd !== undefined &&
+            pagination?.totalItems !== undefined
               ? `Showing ${rangeStart}–${rangeEnd} of ${pagination.totalItems}`
               : `Page ${currentPage} of ${pagination!.totalPages}`}
           </span>

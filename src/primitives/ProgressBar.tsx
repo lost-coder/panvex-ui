@@ -33,9 +33,7 @@ export function ProgressBar({
     <div className={cn("flex flex-col gap-1", className)}>
       {(label || showValue) && (
         <div className="flex items-baseline justify-between">
-          {label && (
-            <span className="text-caption uppercase tracking-wider">{label}</span>
-          )}
+          {label && <span className="text-caption uppercase tracking-wider">{label}</span>}
           {showValue && <span className="text-xs font-mono text-fg">{pct.toFixed(1)}%</span>}
         </div>
       )}
