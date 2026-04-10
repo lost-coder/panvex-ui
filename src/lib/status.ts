@@ -1,9 +1,9 @@
-import type { Severity } from "@/types/pages";
+import type { Status } from "@/tokens/colors";
 
-type BadgeVariant = Severity | "default";
+type BadgeVariant = Status | "default";
 
 /** Agent presence state → severity */
-export const presenceSeverity: Record<string, Severity> = {
+export const presenceSeverity: Record<string, Status> = {
   online: "ok",
   degraded: "warn",
   offline: "error",
