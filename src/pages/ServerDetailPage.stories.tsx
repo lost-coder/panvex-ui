@@ -3,12 +3,25 @@ import { AppShell } from "@/layout/AppShell";
 import { ServerDetailPage } from "./ServerDetailPage";
 import { navItems } from "./__fixtures__/navItems";
 
-const meta: Meta = {
+const meta: Meta<typeof ServerDetailPage> = {
   title: "Pages/ServerDetail",
+  component: ServerDetailPage,
   parameters: { layout: "fullscreen" },
+  decorators: [
+    (Story) => (
+      <AppShell
+        navItems={navItems}
+        activeId="nodes"
+        brand="PVX"
+        onLogout={() => console.log("Logout clicked")}
+      >
+        <Story />
+      </AppShell>
+    ),
+  ],
 };
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof ServerDetailPage>;
 
 const mockServer = {
   id: "srv-eu-fra-01",
@@ -373,120 +386,88 @@ const mockServer = {
 };
 
 export const WithComponent: Story = {
-  render: () => (
-    <AppShell
-      navItems={navItems}
-      activeId="nodes"
-      brand="PVX"
-      onLogout={() => console.log("Logout clicked")}
-    >
-      <ServerDetailPage
-        server={mockServer}
-        onBack={() => {}}
-        onReload={() => {}}
-        agentConnection={{
-          presenceState: "online",
-          lastSeenAt: "2 seconds ago",
-          agentId: "agent-7",
-          version: "v1.2.3",
-          fleetGroup: "europe",
-          certificate: {
-            issuedAt: "Mar 9, 2026",
-            expiresAt: "Apr 8, 2026",
-            remainingDays: 25,
-          },
-        }}
-        onAllowReEnrollment={() => alert("Allow re-enrollment")}
-        onRevokeGrant={() => alert("Revoke grant")}
-        onBoostDetail={() => alert("Boost detail")}
-        onRename={(name) => alert(`Rename to: ${name}`)}
-        onDeregister={() => alert("Deregister server")}
-      />
-    </AppShell>
-  ),
+  args: {
+    server: mockServer,
+    onBack: () => {},
+    onReload: () => {},
+    agentConnection: {
+      presenceState: "online",
+      lastSeenAt: "2 seconds ago",
+      agentId: "agent-7",
+      version: "v1.2.3",
+      fleetGroup: "europe",
+      certificate: {
+        issuedAt: "Mar 9, 2026",
+        expiresAt: "Apr 8, 2026",
+        remainingDays: 25,
+      },
+    },
+    onAllowReEnrollment: () => alert("Allow re-enrollment"),
+    onRevokeGrant: () => alert("Revoke grant"),
+    onBoostDetail: () => alert("Boost detail"),
+    onRename: (name: string) => alert(`Rename to: ${name}`),
+    onDeregister: () => alert("Deregister server"),
+  },
 };
 
 export const WithoutAgentConnection: Story = {
-  render: () => (
-    <AppShell
-      navItems={navItems}
-      activeId="nodes"
-      brand="PVX"
-      onLogout={() => console.log("Logout clicked")}
-    >
-      <ServerDetailPage server={mockServer} onBack={() => {}} onReload={() => {}} />
-    </AppShell>
-  ),
+  args: {
+    server: mockServer,
+    onBack: () => {},
+    onReload: () => {},
+  },
 };
 
 export const WithRecoveryGrant: Story = {
-  render: () => (
-    <AppShell
-      navItems={navItems}
-      activeId="nodes"
-      brand="PVX"
-      onLogout={() => console.log("Logout clicked")}
-    >
-      <ServerDetailPage
-        server={mockServer}
-        onBack={() => {}}
-        onReload={() => {}}
-        agentConnection={{
-          presenceState: "offline",
-          lastSeenAt: "3 hours ago",
-          agentId: "agent-5",
-          version: "v1.1.0",
-          fleetGroup: "us-east",
-          certificate: {
-            issuedAt: "Mar 1, 2026",
-            expiresAt: "Mar 31, 2026",
-            remainingDays: 0,
-          },
-          recoveryGrant: {
-            status: "allowed",
-            expiresAtUnix: Math.floor(Date.now() / 1000) + 900,
-          },
-        }}
-        onAllowReEnrollment={() => alert("Allow re-enrollment")}
-        onRevokeGrant={() => alert("Revoke grant")}
-        onBoostDetail={() => alert("Boost detail")}
-        onRename={(name) => alert(`Rename to: ${name}`)}
-        onDeregister={() => alert("Deregister server")}
-      />
-    </AppShell>
-  ),
+  args: {
+    server: mockServer,
+    onBack: () => {},
+    onReload: () => {},
+    agentConnection: {
+      presenceState: "offline",
+      lastSeenAt: "3 hours ago",
+      agentId: "agent-5",
+      version: "v1.1.0",
+      fleetGroup: "us-east",
+      certificate: {
+        issuedAt: "Mar 1, 2026",
+        expiresAt: "Mar 31, 2026",
+        remainingDays: 0,
+      },
+      recoveryGrant: {
+        status: "allowed",
+        expiresAtUnix: Math.floor(Date.now() / 1000) + 900,
+      },
+    },
+    onAllowReEnrollment: () => alert("Allow re-enrollment"),
+    onRevokeGrant: () => alert("Revoke grant"),
+    onBoostDetail: () => alert("Boost detail"),
+    onRename: (name: string) => alert(`Rename to: ${name}`),
+    onDeregister: () => alert("Deregister server"),
+  },
 };
 
 export const WithCertExpiring: Story = {
-  render: () => (
-    <AppShell
-      navItems={navItems}
-      activeId="nodes"
-      brand="PVX"
-      onLogout={() => console.log("Logout clicked")}
-    >
-      <ServerDetailPage
-        server={mockServer}
-        onBack={() => {}}
-        onReload={() => {}}
-        agentConnection={{
-          presenceState: "online",
-          lastSeenAt: "5 seconds ago",
-          agentId: "agent-3",
-          version: "v1.2.3",
-          fleetGroup: "default",
-          certificate: {
-            issuedAt: "Mar 4, 2026",
-            expiresAt: "Apr 3, 2026",
-            remainingDays: 1,
-          },
-        }}
-        onAllowReEnrollment={() => alert("Allow re-enrollment")}
-        onRevokeGrant={() => alert("Revoke grant")}
-        onBoostDetail={() => alert("Boost detail")}
-        onRename={(name) => alert(`Rename to: ${name}`)}
-        onDeregister={() => alert("Deregister server")}
-      />
-    </AppShell>
-  ),
+  args: {
+    server: mockServer,
+    onBack: () => {},
+    onReload: () => {},
+    agentConnection: {
+      presenceState: "online",
+      lastSeenAt: "5 seconds ago",
+      agentId: "agent-3",
+      version: "v1.2.3",
+      fleetGroup: "default",
+      certificate: {
+        issuedAt: "Mar 4, 2026",
+        expiresAt: "Apr 3, 2026",
+        remainingDays: 1,
+      },
+    },
+    onAllowReEnrollment: () => alert("Allow re-enrollment"),
+    onRevokeGrant: () => alert("Revoke grant"),
+    onBoostDetail: () => alert("Boost detail"),
+    onRename: (name: string) => alert(`Rename to: ${name}`),
+    onDeregister: () => alert("Deregister server"),
+  },
 };
