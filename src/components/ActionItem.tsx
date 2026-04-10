@@ -47,7 +47,7 @@ export function ActionItem({
         >
           {label}
         </span>
-        <span className="text-[11px] text-fg-muted mt-0.5 leading-snug truncate">
+        <span className="text-caption mt-0.5 leading-snug truncate">
           {description}
         </span>
       </div>

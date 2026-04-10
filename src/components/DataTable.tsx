@@ -50,7 +50,7 @@ export function DataTable<T>({
                 <th
                   key={col.key}
                   className={cn(
-                    "text-left text-[11px] text-fg-muted uppercase tracking-wider font-medium px-3 py-2",
+                    "text-left text-caption uppercase tracking-wider font-medium px-3 py-2",
                     col.sortable && "cursor-pointer select-none hover:text-fg",
                     col.className,
                   )}

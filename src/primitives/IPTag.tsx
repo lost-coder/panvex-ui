@@ -21,7 +21,7 @@ export function IPTag({ address, className }: IPTagProps) {
       type="button"
       onClick={handleCopy}
       className={cn(
-        "inline-flex items-center gap-1 rounded bg-fg-faint px-1.5 py-0.5 font-mono text-[11px] text-fg-muted transition-colors",
+        "inline-flex items-center gap-1 rounded bg-fg-faint px-1.5 py-0.5 font-mono text-caption transition-colors",
         "hover:bg-bg-hover hover:text-fg",
         "active:scale-[0.97]",
         className,

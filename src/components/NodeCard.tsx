@@ -41,7 +41,7 @@ export function NodeCard({
       <div className="flex items-center gap-2">
         <StatusDot status={status} size="md" />
         <span className="font-mono font-semibold text-sm text-fg flex-1 truncate">{name}</span>
-        <span className="text-[11px] text-fg-muted">{region}</span>
+        <span className="text-caption">{region}</span>
       </div>
 
       <div className="grid grid-cols-4 gap-2">

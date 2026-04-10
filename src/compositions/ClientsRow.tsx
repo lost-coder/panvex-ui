@@ -13,13 +13,13 @@ export function ClientsRow({ total, active, className }: ClientsRowProps) {
         <span className="text-2xl font-mono font-bold text-fg leading-none">
           {total.toLocaleString()}
         </span>
-        <span className="text-[11px] text-fg-muted uppercase tracking-wider">Total clients</span>
+        <span className="text-caption uppercase tracking-wider">Total clients</span>
       </div>
       <div className="flex items-baseline gap-2">
         <span className="text-2xl font-mono font-bold text-status-ok leading-none">
           {active.toLocaleString()}
         </span>
-        <span className="text-[11px] text-fg-muted uppercase tracking-wider">Active</span>
+        <span className="text-caption uppercase tracking-wider">Active</span>
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ export function AlertItem({ severity, message, source, timestamp, className }: A
       {(source || timestamp) && (
         <div className="flex items-center gap-2 mt-1.5 ml-[38px]">
           {source && <span className="text-[11px] font-mono text-fg-muted">{source}</span>}
-          {timestamp && <span className="text-[11px] text-fg-muted/60">{timestamp}</span>}
+          {timestamp && <span className="text-caption/60">{timestamp}</span>}
         </div>
       )}
     </div>

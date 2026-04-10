@@ -28,7 +28,7 @@ export function DCCard({ code, city, latency, load, status, onClick, className }
         <StatusDot status={status} size="md" animated={status === "error"} />
         <span className="font-mono font-semibold text-sm text-fg">{code}</span>
       </div>
-      <span className="text-[11px] text-fg-muted leading-none">{city}</span>
+      <span className="text-caption leading-none">{city}</span>
       <div className="flex items-center gap-3 mt-auto">
         <span className="text-xs font-mono text-fg-muted">
           {latency}

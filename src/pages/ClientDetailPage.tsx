@@ -47,7 +47,7 @@ function ConnectionLinksContent({
         <div className="flex flex-col divide-y divide-border">
           {activeLinks.map((d) => (
             <div key={d.agentId} className="px-4 py-3 flex flex-col gap-1.5">
-              <span className="text-[11px] text-fg-muted uppercase tracking-wider">
+              <span className="text-caption uppercase tracking-wider">
                 {d.agentId}
               </span>
               {d.links.tls.length > 0 && (

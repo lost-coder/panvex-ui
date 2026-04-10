@@ -23,7 +23,7 @@ export interface TrendItem {
 }
 
 export interface TimelineEventData {
-  status: Severity | "info";
+  status: Status | "info";
   time: string;
   message: string;
 }
@@ -48,7 +48,7 @@ export interface DashboardOverviewData {
 export interface DashboardNodeData {
   id: string;
   name: string;
-  status: Severity;
+  status: Status;
   connections: number;
   trafficBytes: number;
   cpuPct: number;
@@ -77,7 +77,7 @@ export interface DashboardPageProps {
 export interface ServerListItem {
   id: string;
   name: string;
-  status: Severity;
+  status: Status;
   ip?: string;
   connections: number;
   usersOnline?: number;
@@ -373,7 +373,7 @@ export interface ServerDetailPageProps {
     id: string;
     name: string;
     ip?: string;
-    status: Severity;
+    status: Status;
 
     // /v1/system/info
     systemInfo: ServerSystemInfoData;
@@ -712,7 +712,7 @@ export interface InitCardProps {
 export interface NodeOption {
   id: string;
   name: string;
-  status: Severity;
+  status: Status;
   fleetGroup: string;
 }
 

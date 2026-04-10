@@ -356,7 +356,7 @@ function ConnectStep({
               >
                 {s.label}
               </div>
-              <div className="text-[11px] text-fg-muted">{s.sub}</div>
+              <div className="text-caption">{s.sub}</div>
             </div>
           </div>
         ))}
