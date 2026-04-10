@@ -10,7 +10,7 @@ export interface LEDGridProps {
 
 export function LEDGrid({ items, activeCode, onSelect, className }: LEDGridProps) {
   return (
-    <div className={cn("grid grid-cols-4 gap-1", "md:grid-cols-6", className)}>
+    <div role="group" aria-label="Data center status indicators" className={cn("grid grid-cols-4 gap-1", "md:grid-cols-6", className)}>
       {items.map((item) => (
         <LEDIndicator
           key={item.label}

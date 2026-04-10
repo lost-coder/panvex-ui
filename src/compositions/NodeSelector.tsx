@@ -35,7 +35,11 @@ export function NodeSelector({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div className="max-h-[240px] overflow-y-auto rounded-xs border border-border divide-y divide-border">
+      <div
+        role="group"
+        aria-label={`Node selection — ${selectedNodeIds.length} of ${nodes.length} selected`}
+        className="max-h-[240px] overflow-y-auto rounded-xs border border-border divide-y divide-border"
+      >
         {filtered.length === 0 && (
           <div className="px-3 py-4 text-sm text-fg-muted text-center">No nodes found</div>
         )}
@@ -49,6 +53,7 @@ export function NodeSelector({
               checked={selectedNodeIds.includes(node.id)}
               onChange={() => toggle(node.id)}
               className="rounded border-border"
+              aria-label={`${node.name} (${node.fleetGroup})`}
             />
             <span className="text-sm text-fg flex-1">{node.name}</span>
             <StatusDot status={node.status} />

@@ -56,7 +56,7 @@ function ConfigureStep({
       </FormField>
 
       <FormField label="Token Lifetime" variant="uppercase">
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {TTL_PRESETS.map((p) => (
             <button
               key={p.value}
@@ -291,7 +291,7 @@ function ConnectStep({
           <h3 className="text-title">Node Connected</h3>
           <p className="text-sm text-fg-muted mt-1">Online and reporting data.</p>
         </div>
-        <div className="w-full rounded-xs bg-bg-card border border-border p-3 grid grid-cols-2 gap-2 text-xs">
+        <div className="w-full rounded-xs bg-bg-card border border-border p-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
           <div>
             <span className="text-fg-muted">Agent ID:</span>{" "}
             <span className="font-mono">{connectedAgent.id}</span>

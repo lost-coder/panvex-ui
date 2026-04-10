@@ -38,6 +38,7 @@ function ToggleBtn({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       className={cn(
         "h-7 w-7 flex items-center justify-center rounded text-xs transition-colors",
         active ? "bg-accent/20 text-accent" : "text-fg-muted hover:text-fg hover:bg-bg-hover",

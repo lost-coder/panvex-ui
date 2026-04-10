@@ -56,12 +56,15 @@ export function SwipeTabView({
   return (
     <div className={cn("flex flex-col overflow-hidden", className)}>
       {/* Tab bar */}
-      <div className="flex border-b border-border" role="tablist">
+      <div className="flex border-b border-border" role="tablist" aria-label="Content tabs">
         {tabs.map((tab, i) => (
           <button
             key={tab.id}
             role="tab"
             aria-selected={i === activeIndex}
+            tabIndex={i === activeIndex ? 0 : -1}
+            id={`tab-${tab.id}`}
+            aria-controls={`tabpanel-${tab.id}`}
             className={cn(
               "flex-1 px-3 py-2.5 text-xs font-medium tracking-wide uppercase transition-colors",
               i === activeIndex
@@ -71,6 +74,19 @@ export function SwipeTabView({
             onClick={() => {
               setActiveIndex(i);
               onTabChange?.(tab.id);
+            }}
+            onKeyDown={(e) => {
+              let next = -1;
+              if (e.key === "ArrowRight") next = i < tabs.length - 1 ? i + 1 : 0;
+              else if (e.key === "ArrowLeft") next = i > 0 ? i - 1 : tabs.length - 1;
+              else if (e.key === "Home") next = 0;
+              else if (e.key === "End") next = tabs.length - 1;
+              if (next >= 0) {
+                e.preventDefault();
+                setActiveIndex(next);
+                onTabChange?.(tabs[next].id);
+                document.getElementById(`tab-${tabs[next].id}`)?.focus();
+              }
             }}
           >
             {tab.label}
@@ -92,6 +108,9 @@ export function SwipeTabView({
             dragElastic={0.2}
             onDragEnd={handleDragEnd}
             className="w-full"
+            role="tabpanel"
+            id={`tabpanel-${tabs[activeIndex].id}`}
+            aria-labelledby={`tab-${tabs[activeIndex].id}`}
           >
             {tabs[activeIndex].content}
           </motion.div>
