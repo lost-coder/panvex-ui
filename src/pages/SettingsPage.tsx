@@ -5,27 +5,8 @@ import { SettingsRow } from "@/components/SettingsRow";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { secondsToDisplay, displayToSeconds } from "./_shared";
 import type { SettingsPageProps } from "@/types/pages";
-
-function secondsToDisplay(seconds: number): { value: number; unit: string } {
-  if (seconds >= 86400 && seconds % 86400 === 0) return { value: seconds / 86400, unit: "days" };
-  if (seconds >= 3600 && seconds % 3600 === 0) return { value: seconds / 3600, unit: "hours" };
-  if (seconds >= 60 && seconds % 60 === 0) return { value: seconds / 60, unit: "minutes" };
-  return { value: seconds, unit: "seconds" };
-}
-
-function displayToSeconds(value: number, unit: string): number {
-  switch (unit) {
-    case "days":
-      return value * 86400;
-    case "hours":
-      return value * 3600;
-    case "minutes":
-      return value * 60;
-    default:
-      return value;
-  }
-}
 
 export function SettingsPage({
   panelSettings,

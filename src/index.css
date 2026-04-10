@@ -4,6 +4,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Typography tokens ──────────────────────────────────────────────────── */
+@layer components {
+  /* Sheet / wizard titles — "Set Up 2FA", "New Client", etc. */
+  .text-title {
+    @apply text-lg font-semibold text-fg;
+  }
+  /* Section headings inside cards / pages */
+  .text-section {
+    @apply text-sm font-semibold text-fg;
+  }
+  /* Small uppercase labels (outside FormField context) */
+  .text-label-upper {
+    @apply text-xs font-medium text-fg-muted uppercase tracking-wider;
+  }
+  /* Compact uppercase labels for dense grids */
+  .text-label-compact {
+    @apply text-[10px] font-medium text-fg-muted uppercase tracking-wider;
+  }
+  /* Secondary descriptions and hints */
+  .text-caption {
+    @apply text-[11px] text-fg-muted;
+  }
+  /* Inline muted body text */
+  .text-muted {
+    @apply text-sm text-fg-muted;
+  }
+}
+
 @layer base {
   :root {
     /* Dark theme (default) */

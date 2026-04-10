@@ -2,15 +2,9 @@
 import { Badge } from "@/primitives/Badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
+import { tokenStatusVariant } from "@/lib/status";
 import type { TokenListProps, EnrollmentTokenData } from "@/types/pages";
 import { formatTime } from "@/pages/_shared";
-
-const statusVariant: Record<string, "ok" | "warn" | "error" | "default"> = {
-  active: "ok",
-  consumed: "default",
-  expired: "warn",
-  revoked: "error",
-};
 
 export function TokenList({ tokens, onRevoke }: TokenListProps) {
   const columns = [
@@ -30,7 +24,7 @@ export function TokenList({ tokens, onRevoke }: TokenListProps) {
       key: "status",
       header: "Status",
       render: (t: EnrollmentTokenData) => (
-        <Badge variant={statusVariant[t.status] ?? "default"}>{t.status}</Badge>
+        <Badge variant={tokenStatusVariant[t.status] ?? "default"}>{t.status}</Badge>
       ),
     },
     {

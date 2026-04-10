@@ -2,13 +2,8 @@ import { SectionHeader } from "@/layout/SectionHeader";
 import { Badge } from "@/primitives/Badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/DataTable";
+import { roleVariant } from "@/lib/status";
 import type { UsersSectionProps, UserListItem } from "@/types/pages";
-
-const roleVariant: Record<string, "ok" | "warn" | "default"> = {
-  admin: "ok",
-  operator: "warn",
-  viewer: "default",
-};
 
 export function UsersSection({ users, onAdd, onEdit, onResetTotp, onDelete }: UsersSectionProps) {
   const columns = [

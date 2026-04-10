@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetBody } from "@/compo
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { FormField } from "@/components/ui/form-field";
 import type { UserFormSheetProps } from "@/types/pages";
 
 export function UserFormSheet({
@@ -32,10 +33,7 @@ export function UserFormSheet({
           <div className="flex flex-col gap-4">
             <p className="text-sm text-fg-muted">Panel administrator account.</p>
 
-            <div>
-              <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-                Username *
-              </label>
+            <FormField label="Username" variant="uppercase" required>
               <Input
                 value={data.username}
                 onChange={(e) => update("username", e.target.value)}
@@ -43,12 +41,13 @@ export function UserFormSheet({
                 disabled={loading || mode === "edit"}
                 autoComplete="off"
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-                Password {mode === "create" ? "*" : "(leave blank to keep)"}
-              </label>
+            <FormField
+              label={mode === "create" ? "Password" : "Password (leave blank to keep)"}
+              variant="uppercase"
+              required={mode === "create"}
+            >
               <Input
                 type="password"
                 value={data.password}
@@ -57,12 +56,9 @@ export function UserFormSheet({
                 disabled={loading}
                 autoComplete="new-password"
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-                Role *
-              </label>
+            <FormField label="Role" variant="uppercase" required>
               <Select
                 value={data.role}
                 options={[
@@ -72,7 +68,7 @@ export function UserFormSheet({
                 ]}
                 onChange={(v) => update("role", v as typeof data.role)}
               />
-            </div>
+            </FormField>
 
             {error && <div className="text-xs text-status-error">{error}</div>}
 

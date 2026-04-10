@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FormField } from "@/components/ui/form-field";
 
 interface TotpDisableSheetProps {
   onDisable: (password: string, totpCode: string) => Promise<void>;
@@ -16,16 +17,13 @@ export function TotpDisableSheet({ onDisable, onCancel, loading, error }: TotpDi
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h3 className="text-lg font-semibold text-fg">Disable Two-Factor Authentication</h3>
+        <h3 className="text-title">Disable Two-Factor Authentication</h3>
         <p className="text-sm text-fg-muted mt-0.5">
           Enter your password and current authenticator code to disable 2FA.
         </p>
       </div>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Password *
-        </label>
+      <FormField label="Password" variant="uppercase" required>
         <Input
           type="password"
           value={password}
@@ -33,12 +31,9 @@ export function TotpDisableSheet({ onDisable, onCancel, loading, error }: TotpDi
           placeholder="Your current password"
           disabled={loading}
         />
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Authenticator Code *
-        </label>
+      <FormField label="Authenticator Code" variant="uppercase" required>
         <Input
           value={totpCode}
           onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ""))}
@@ -49,7 +44,7 @@ export function TotpDisableSheet({ onDisable, onCancel, loading, error }: TotpDi
           disabled={loading}
           className="font-mono tracking-widest"
         />
-      </div>
+      </FormField>
 
       {error && <div className="text-xs text-status-error">{error}</div>}
 

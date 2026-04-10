@@ -9,8 +9,8 @@ export interface TimelineProps {
 export function Timeline({ events, className }: TimelineProps) {
   return (
     <div className={cn("flex flex-col", className)}>
-      {events.map((event, i) => (
-        <TimelineEvent key={i} {...event} />
+      {events.map((event) => (
+        <TimelineEvent key={`${event.time}-${event.message}`} {...event} />
       ))}
     </div>
   );

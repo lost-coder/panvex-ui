@@ -1,5 +1,6 @@
 // src/compositions/AgentConnectionSection.tsx
 import { cn } from "@/lib/utils";
+import { presenceSeverity } from "@/lib/status";
 import { SectionHeader } from "@/layout/SectionHeader";
 import { Badge } from "@/primitives/Badge";
 import { StatusBeacon } from "@/primitives/StatusBeacon";
@@ -21,12 +22,7 @@ export function AgentConnectionSection({
         ? "text-status-warn"
         : "text-status-error";
 
-  // StatusBeacon only accepts "ok" | "warn" | "error" — map "degraded" to "warn"
-  const presenceBeacon: "ok" | "warn" | "error" =
-    data.presenceState === "online" ? "ok" : data.presenceState === "degraded" ? "warn" : "error";
-
-  const presenceVariant: "ok" | "warn" | "error" =
-    data.presenceState === "online" ? "ok" : data.presenceState === "degraded" ? "warn" : "error";
+  const presenceStatus = presenceSeverity[data.presenceState] ?? "error";
 
   return (
     <div className="flex flex-col gap-4">
@@ -36,7 +32,7 @@ export function AgentConnectionSection({
       <div className="rounded-xs bg-bg-card border border-border p-4 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <StatusBeacon status={presenceBeacon} />
+            <StatusBeacon status={presenceStatus} />
             <span className="text-sm font-medium text-fg capitalize">{data.presenceState}</span>
           </div>
           <span className="text-xs text-fg-muted">Last seen: {data.lastSeenAt}</span>

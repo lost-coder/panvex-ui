@@ -5,6 +5,7 @@ import { CopyButton } from "@/primitives/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { FormField } from "@/components/ui/form-field";
 import type { EnrollmentWizardProps } from "@/types/pages";
 
 const TTL_PRESETS = [
@@ -33,10 +34,7 @@ function ConfigureStep({
 
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Node Name *
-        </label>
+      <FormField label="Node Name" variant="uppercase" required>
         <Input
           type="text"
           placeholder="e.g. prod-eu-west-1"
@@ -44,12 +42,9 @@ function ConfigureStep({
           onChange={(e) => onNodeNameChange(e.target.value)}
           disabled={loading}
         />
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Fleet Group
-        </label>
+      <FormField label="Fleet Group" variant="uppercase">
         <Select
           value={selectedFleetGroup}
           options={fleetGroups.map((g) => ({
@@ -58,12 +53,9 @@ function ConfigureStep({
           }))}
           onChange={onFleetGroupChange}
         />
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Token Lifetime
-        </label>
+      <FormField label="Token Lifetime" variant="uppercase">
         <div className="flex gap-2">
           {TTL_PRESETS.map((p) => (
             <button
@@ -105,7 +97,7 @@ function ConfigureStep({
             className="mt-2 w-32"
           />
         )}
-      </div>
+      </FormField>
 
       <div className="rounded-xs bg-accent/8 border border-accent/20 p-3 text-xs text-accent">
         <strong>Note:</strong> Telemt (mtproto-proxy) must already be running on the target server.
@@ -163,7 +155,7 @@ function InstallStep({
           </label>
           <CopyButton text={installCommand} />
         </div>
-        <pre className="rounded-xs bg-[#0a0a0a] border border-border p-3 text-xs font-mono text-fg leading-relaxed whitespace-pre-wrap break-all overflow-x-auto">
+        <pre className="rounded-xs bg-bg border border-border p-3 text-xs font-mono text-fg leading-relaxed whitespace-pre-wrap break-all overflow-x-auto">
           {installCommand}
         </pre>
       </div>
@@ -177,10 +169,7 @@ function InstallStep({
       </button>
       {showAdvanced && advancedOptions && onAdvancedOptionsChange && (
         <div className="rounded-xs border border-border p-3 flex flex-col gap-3">
-          <div>
-            <label className="text-[10px] font-medium text-fg-muted block mb-1">
-              Telemt API URL
-            </label>
+          <FormField label="Telemt API URL" variant="compact">
             <Input
               value={advancedOptions.telemtUrl}
               onChange={(e) =>
@@ -188,11 +177,8 @@ function InstallStep({
               }
               className="font-mono text-xs"
             />
-          </div>
-          <div>
-            <label className="text-[10px] font-medium text-fg-muted block mb-1">
-              Telemt Auth Header
-            </label>
+          </FormField>
+          <FormField label="Telemt Auth Header" variant="compact">
             <Input
               value={advancedOptions.telemtAuth}
               onChange={(e) =>
@@ -201,7 +187,7 @@ function InstallStep({
               placeholder="optional"
               className="font-mono text-xs"
             />
-          </div>
+          </FormField>
         </div>
       )}
 
@@ -302,7 +288,7 @@ function ConnectStep({
           <span className="text-3xl text-status-ok">✓</span>
         </div>
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-fg">Node Connected</h3>
+          <h3 className="text-title">Node Connected</h3>
           <p className="text-sm text-fg-muted mt-1">Online and reporting data.</p>
         </div>
         <div className="w-full rounded-xs bg-bg-card border border-border p-3 grid grid-cols-2 gap-2 text-xs">
@@ -398,7 +384,7 @@ export function EnrollmentWizard(props: EnrollmentWizardProps) {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h3 className="text-lg font-semibold text-fg">Add Server Node</h3>
+        <h3 className="text-title">Add Server Node</h3>
         <p className="text-sm text-fg-muted mt-0.5">
           {props.step === 1 && "Generate an enrollment token for a new Telemt server."}
           {props.step === 2 && "Run this command on your Linux server as root."}

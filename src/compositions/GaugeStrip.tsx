@@ -9,8 +9,8 @@ export interface GaugeStripProps {
 export function GaugeStrip({ items, className }: GaugeStripProps) {
   return (
     <div className={cn("grid grid-cols-2 gap-2", "md:grid-cols-4", className)}>
-      {items.map((item, i) => (
-        <GaugeCell key={i} {...item} />
+      {items.map((item) => (
+        <GaugeCell key={item.label} {...item} />
       ))}
     </div>
   );

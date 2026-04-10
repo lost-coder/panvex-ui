@@ -11,8 +11,8 @@ export function SettingsGroup({ title, description, children, className }: Setti
   return (
     <section className={cn("flex flex-col gap-1", className)}>
       <div className="flex flex-col gap-0.5 mb-2">
-        <h3 className="text-sm font-semibold text-fg">{title}</h3>
-        {description && <p className="text-[11px] text-fg-muted leading-snug">{description}</p>}
+        <h3 className="text-section">{title}</h3>
+        {description && <p className="text-caption leading-snug">{description}</p>}
       </div>
       <div className="rounded-xs bg-bg-card border border-border divide-y divide-border">
         {children}

@@ -9,8 +9,8 @@ export interface AlertStripProps {
 export function AlertStrip({ alerts, className }: AlertStripProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      {alerts.map((alert, i) => (
-        <AlertItem key={i} {...alert} />
+      {alerts.map((alert) => (
+        <AlertItem key={`${alert.severity}-${alert.message}`} {...alert} />
       ))}
     </div>
   );

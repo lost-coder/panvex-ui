@@ -2,6 +2,7 @@ import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FormField } from "@/components/ui/form-field";
 import { MonoValue } from "@/primitives/MonoValue";
 import { CopyButton } from "@/primitives/CopyButton";
 import { FieldLabel } from "@/primitives/FieldLabel";
@@ -29,7 +30,7 @@ export function TotpSetupSheet({
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h3 className="text-lg font-semibold text-fg">Set Up Two-Factor Authentication</h3>
+        <h3 className="text-title">Set Up Two-Factor Authentication</h3>
         <p className="text-sm text-fg-muted mt-0.5">
           Scan the QR code with your authenticator app, then enter your password and the generated
           code to verify.
@@ -51,10 +52,7 @@ export function TotpSetupSheet({
       </div>
 
       {/* Verification */}
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Password *
-        </label>
+      <FormField label="Password" variant="uppercase" required>
         <Input
           type="password"
           value={password}
@@ -62,12 +60,9 @@ export function TotpSetupSheet({
           placeholder="Your current password"
           disabled={loading}
         />
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Authenticator Code *
-        </label>
+      <FormField label="Authenticator Code" variant="uppercase" required>
         <Input
           value={totpCode}
           onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ""))}
@@ -78,7 +73,7 @@ export function TotpSetupSheet({
           disabled={loading}
           className="font-mono tracking-widest"
         />
-      </div>
+      </FormField>
 
       {error && <div className="text-xs text-status-error">{error}</div>}
 

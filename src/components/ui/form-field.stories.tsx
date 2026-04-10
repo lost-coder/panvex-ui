@@ -57,3 +57,40 @@ export const WithToggle: Story = {
     </div>
   ),
 };
+
+export const UppercaseVariant: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 w-[300px]">
+      <FormField label="Client Name" variant="uppercase" required>
+        <Input placeholder="e.g. premium-users" />
+      </FormField>
+      <FormField label="Ad Tag" variant="uppercase" description="Promotional channel displayed to users">
+        <Input placeholder="Telegram ad channel tag" />
+      </FormField>
+    </div>
+  ),
+};
+
+export const CompactVariant: Story = {
+  render: () => (
+    <div className="grid grid-cols-3 gap-3 w-[400px]">
+      <FormField label="Max TCP Conns" variant="compact">
+        <Input type="number" placeholder="0" className="font-mono text-xs" />
+      </FormField>
+      <FormField label="Max Unique IPs" variant="compact">
+        <Input type="number" placeholder="0" className="font-mono text-xs" />
+      </FormField>
+      <FormField label="Data Quota" variant="compact">
+        <Input type="number" placeholder="0" className="font-mono text-xs" />
+      </FormField>
+    </div>
+  ),
+};
+
+export const RequiredWithError: Story = {
+  render: () => (
+    <FormField label="Username" variant="uppercase" required error="Username is already taken" className="w-[300px]">
+      <Input value="admin" />
+    </FormField>
+  ),
+};

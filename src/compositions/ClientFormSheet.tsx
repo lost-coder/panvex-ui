@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FormField } from "@/components/ui/form-field";
 import type { ClientFormSheetProps } from "@/types/pages";
 
 export function ClientFormSheet({
@@ -23,7 +24,7 @@ export function ClientFormSheet({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h3 className="text-lg font-semibold text-fg">
+        <h3 className="text-title">
           {mode === "create" ? "New Client" : "Edit Client"}
         </h3>
         <p className="text-sm text-fg-muted mt-0.5">
@@ -31,35 +32,25 @@ export function ClientFormSheet({
         </p>
       </div>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Client Name *
-        </label>
+      <FormField label="Client Name" variant="uppercase" required>
         <Input
           value={data.name}
           onChange={(e) => update("name", e.target.value)}
           placeholder="e.g. premium-users"
           disabled={loading}
         />
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Ad Tag
-        </label>
+      <FormField label="Ad Tag" variant="uppercase" description="Promotional channel displayed to users">
         <Input
           value={data.userAdTag}
           onChange={(e) => update("userAdTag", e.target.value)}
           placeholder="Telegram ad channel tag"
           disabled={loading}
         />
-        <p className="text-[11px] text-fg-muted mt-1">Promotional channel displayed to users</p>
-      </div>
+      </FormField>
 
-      <div>
-        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider block mb-1.5">
-          Expiration
-        </label>
+      <FormField label="Expiration" variant="uppercase">
         <div className="flex gap-2">
           <Input
             type="date"
@@ -81,7 +72,7 @@ export function ClientFormSheet({
             Never
           </Button>
         </div>
-      </div>
+      </FormField>
 
       <button
         type="button"
@@ -92,10 +83,7 @@ export function ClientFormSheet({
       </button>
       {showLimits && (
         <div className="grid grid-cols-3 gap-3">
-          <div>
-            <label className="text-[10px] font-medium text-fg-muted uppercase block mb-1">
-              Max TCP Conns
-            </label>
+          <FormField label="Max TCP Conns" variant="compact">
             <Input
               type="number"
               value={data.maxTcpConns}
@@ -104,11 +92,8 @@ export function ClientFormSheet({
               className="font-mono text-xs"
               disabled={loading}
             />
-          </div>
-          <div>
-            <label className="text-[10px] font-medium text-fg-muted uppercase block mb-1">
-              Max Unique IPs
-            </label>
+          </FormField>
+          <FormField label="Max Unique IPs" variant="compact">
             <Input
               type="number"
               value={data.maxUniqueIps}
@@ -117,11 +102,8 @@ export function ClientFormSheet({
               className="font-mono text-xs"
               disabled={loading}
             />
-          </div>
-          <div>
-            <label className="text-[10px] font-medium text-fg-muted uppercase block mb-1">
-              Data Quota (bytes)
-            </label>
+          </FormField>
+          <FormField label="Data Quota (bytes)" variant="compact">
             <Input
               type="number"
               value={data.dataQuotaBytes}
@@ -130,7 +112,7 @@ export function ClientFormSheet({
               className="font-mono text-xs"
               disabled={loading}
             />
-          </div>
+          </FormField>
         </div>
       )}
 

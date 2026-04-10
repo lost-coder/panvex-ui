@@ -27,7 +27,7 @@ export function ClientAccessSheet({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h3 className="text-lg font-semibold text-fg">Manage Access</h3>
+        <h3 className="text-title">Manage Access</h3>
         <p className="text-sm text-fg-muted mt-0.5">Select which nodes this client can access.</p>
       </div>
 
