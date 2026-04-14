@@ -1,9 +1,15 @@
-import type { UserLinks } from "./api";
 import type { Status } from "@/tokens/colors";
 
 // Page data contract types for panvex-web integration
 
 // --- Shared ---
+
+/** Proxy link URLs grouped by protocol variant. */
+export interface UserLinks {
+  classic: string[];
+  secure: string[];
+  tls: string[];
+}
 
 /** @deprecated Use `Status` from `@/tokens/colors` instead */
 export type Severity = Status;
