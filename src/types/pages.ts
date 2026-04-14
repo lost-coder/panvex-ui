@@ -570,6 +570,8 @@ export interface SettingsPageProps {
     event_history_seconds: number;
   };
   onRetentionChange?: (settings: NonNullable<SettingsPageProps["retentionSettings"]>) => void;
+  /** Content injected into the "Updates" tab (e.g. UpdatesSettingsSection from core/web). */
+  children?: React.ReactNode;
 }
 
 // --- Profile ---
@@ -693,6 +695,10 @@ export interface AgentConnectionData {
     status: "allowed" | "used" | "revoked";
     expiresAtUnix: number;
   };
+  /** Latest available agent version. When set and differs from `version`, shows an update indicator. */
+  latestAgentVersion?: string;
+  /** Called when the user clicks the "Update" button. */
+  onUpdate?: () => void;
 }
 
 export interface AgentConnectionSectionProps {

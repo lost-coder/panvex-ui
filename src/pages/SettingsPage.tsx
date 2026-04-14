@@ -5,8 +5,14 @@ import { SettingsRow } from "@/components/SettingsRow";
 import { Input } from "@/base/input";
 import { Select } from "@/base/select";
 import { Button } from "@/base/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/base/tabs";
 import { secondsToDisplay, displayToSeconds } from "./_shared";
 import type { SettingsPageProps } from "@/types/pages";
+
+// Whether the Administration tab should be visible (admin-only sections present)
+function hasAdminContent(props: SettingsPageProps) {
+  return !!(props.onManageUsers || (props.retentionSettings && props.onRetentionChange) || props.onRestart);
+}
 
 export function SettingsPage({
   panelSettings,
@@ -17,142 +23,179 @@ export function SettingsPage({
   onManageUsers,
   retentionSettings,
   onRetentionChange,
+  children,
 }: SettingsPageProps) {
+  const showAdmin = hasAdminContent({
+    panelSettings,
+    appearanceSettings,
+    onManageUsers,
+    onRestart,
+    retentionSettings,
+    onRetentionChange,
+  });
+
   return (
     <div className="flex flex-col">
       <PageHeader title="Settings" subtitle="Configure your control plane" />
 
-      <div className="px-4 md:px-8 flex flex-col gap-6 pb-8">
-        {/* Panel */}
-        <SettingsGroup title="Panel">
-          <SettingsRow
-            label="HTTP Public URL"
-            description="Public-facing URL for this control plane"
-          >
-            <Input
-              className="w-64"
-              value={panelSettings.httpPublicUrl}
-              placeholder="https://panvex.example.com"
-              onChange={(e) =>
-                onPanelSettingsChange?.({
-                  ...panelSettings,
-                  httpPublicUrl: e.target.value,
-                })
-              }
-            />
-          </SettingsRow>
-          <SettingsRow label="gRPC Endpoint" description="Agent connection endpoint">
-            <Input
-              className="w-64"
-              value={panelSettings.grpcPublicEndpoint}
-              placeholder="panvex.example.com:443"
-              onChange={(e) =>
-                onPanelSettingsChange?.({
-                  ...panelSettings,
-                  grpcPublicEndpoint: e.target.value,
-                })
-              }
-            />
-          </SettingsRow>
-        </SettingsGroup>
+      <div className="px-4 md:px-8 pb-8">
+        <Tabs defaultValue="general">
+          <TabsList className="w-full overflow-x-auto">
+            <TabsTrigger value="general">General</TabsTrigger>
+            {showAdmin && <TabsTrigger value="updates">Updates</TabsTrigger>}
+            {showAdmin && <TabsTrigger value="administration">Administration</TabsTrigger>}
+          </TabsList>
 
-        {/* Appearance */}
-        <SettingsGroup title="Appearance">
-          <SettingsRow label="Theme">
-            <Select
-              className="w-36"
-              value={appearanceSettings.theme}
-              options={[
-                { value: "system", label: "System" },
-                { value: "light", label: "Light" },
-                { value: "dark", label: "Dark" },
-              ]}
-              onChange={(v) =>
-                onAppearanceChange?.({
-                  ...appearanceSettings,
-                  theme: v as typeof appearanceSettings.theme,
-                })
-              }
-            />
-          </SettingsRow>
-          <SettingsRow label="Density">
-            <Select
-              className="w-36"
-              value={appearanceSettings.density}
-              options={[
-                { value: "comfortable", label: "Comfortable" },
-                { value: "compact", label: "Compact" },
-              ]}
-              onChange={(v) =>
-                onAppearanceChange?.({
-                  ...appearanceSettings,
-                  density: v as typeof appearanceSettings.density,
-                })
-              }
-            />
-          </SettingsRow>
-          <SettingsRow label="Help Mode">
-            <Select
-              className="w-36"
-              value={appearanceSettings.helpMode}
-              options={[
-                { value: "off", label: "Off" },
-                { value: "basic", label: "Basic" },
-                { value: "full", label: "Full" },
-              ]}
-              onChange={(v) =>
-                onAppearanceChange?.({
-                  ...appearanceSettings,
-                  helpMode: v as typeof appearanceSettings.helpMode,
-                })
-              }
-            />
-          </SettingsRow>
-          <SettingsRow label="Swipe Navigation" description="Swipe between pages on mobile">
-            <input
-              type="checkbox"
-              className="h-4 w-4 accent-[var(--color-accent)] cursor-pointer"
-              checked={appearanceSettings.swipeNavigation}
-              onChange={(e) =>
-                onAppearanceChange?.({
-                  ...appearanceSettings,
-                  swipeNavigation: e.target.checked,
-                })
-              }
-            />
-          </SettingsRow>
-        </SettingsGroup>
+          {/* General tab */}
+          <TabsContent value="general">
+            <div className="flex flex-col gap-6">
+              {/* Panel */}
+              <SettingsGroup title="Panel">
+                <SettingsRow
+                  label="HTTP Public URL"
+                  description="Public-facing URL for this control plane"
+                >
+                  <Input
+                    className="w-64"
+                    value={panelSettings.httpPublicUrl}
+                    placeholder="https://panvex.example.com"
+                    onChange={(e) =>
+                      onPanelSettingsChange?.({
+                        ...panelSettings,
+                        httpPublicUrl: e.target.value,
+                      })
+                    }
+                  />
+                </SettingsRow>
+                <SettingsRow label="gRPC Endpoint" description="Agent connection endpoint">
+                  <Input
+                    className="w-64"
+                    value={panelSettings.grpcPublicEndpoint}
+                    placeholder="panvex.example.com:443"
+                    onChange={(e) =>
+                      onPanelSettingsChange?.({
+                        ...panelSettings,
+                        grpcPublicEndpoint: e.target.value,
+                      })
+                    }
+                  />
+                </SettingsRow>
+              </SettingsGroup>
 
-        {/* Administration */}
-        {onManageUsers && (
-          <SettingsGroup title="Administration">
-            <SettingsRow
-              label="User Management"
-              description="Create, edit, and manage user accounts"
-            >
-              <Button size="sm" onClick={onManageUsers}>
-                Manage Users
-              </Button>
-            </SettingsRow>
-          </SettingsGroup>
-        )}
+              {/* Appearance */}
+              <SettingsGroup title="Appearance">
+                <SettingsRow label="Theme">
+                  <Select
+                    className="w-36"
+                    value={appearanceSettings.theme}
+                    options={[
+                      { value: "system", label: "System" },
+                      { value: "light", label: "Light" },
+                      { value: "dark", label: "Dark" },
+                    ]}
+                    onChange={(v) =>
+                      onAppearanceChange?.({
+                        ...appearanceSettings,
+                        theme: v as typeof appearanceSettings.theme,
+                      })
+                    }
+                  />
+                </SettingsRow>
+                <SettingsRow label="Density">
+                  <Select
+                    className="w-36"
+                    value={appearanceSettings.density}
+                    options={[
+                      { value: "comfortable", label: "Comfortable" },
+                      { value: "compact", label: "Compact" },
+                    ]}
+                    onChange={(v) =>
+                      onAppearanceChange?.({
+                        ...appearanceSettings,
+                        density: v as typeof appearanceSettings.density,
+                      })
+                    }
+                  />
+                </SettingsRow>
+                <SettingsRow label="Help Mode">
+                  <Select
+                    className="w-36"
+                    value={appearanceSettings.helpMode}
+                    options={[
+                      { value: "off", label: "Off" },
+                      { value: "basic", label: "Basic" },
+                      { value: "full", label: "Full" },
+                    ]}
+                    onChange={(v) =>
+                      onAppearanceChange?.({
+                        ...appearanceSettings,
+                        helpMode: v as typeof appearanceSettings.helpMode,
+                      })
+                    }
+                  />
+                </SettingsRow>
+                <SettingsRow label="Swipe Navigation" description="Swipe between pages on mobile">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 accent-[var(--color-accent)] cursor-pointer"
+                    checked={appearanceSettings.swipeNavigation}
+                    onChange={(e) =>
+                      onAppearanceChange?.({
+                        ...appearanceSettings,
+                        swipeNavigation: e.target.checked,
+                      })
+                    }
+                  />
+                </SettingsRow>
+              </SettingsGroup>
+            </div>
+          </TabsContent>
 
-        {/* Data Retention */}
-        {retentionSettings && onRetentionChange && (
-          <RetentionSection settings={retentionSettings} onChange={onRetentionChange} />
-        )}
+          {/* Updates tab — content injected by parent container (admin only) */}
+          {showAdmin && (
+            <TabsContent value="updates">
+              {children}
+            </TabsContent>
+          )}
 
-        {/* System */}
-        <SettingsGroup title="System">
-          <SettingsRow
-            label="Restart Control Plane"
-            description="Gracefully restart the control-plane process"
-          >
-            <Button variant="danger" size="sm" onClick={onRestart}>
-              Restart
-            </Button>
-          </SettingsRow>
-        </SettingsGroup>
+          {/* Administration tab — only rendered for admins */}
+          {showAdmin && (
+            <TabsContent value="administration">
+              <div className="flex flex-col gap-6">
+                {/* User Management */}
+                {onManageUsers && (
+                  <SettingsGroup title="User Management">
+                    <SettingsRow
+                      label="User Management"
+                      description="Create, edit, and manage user accounts"
+                    >
+                      <Button size="sm" onClick={onManageUsers}>
+                        Manage Users
+                      </Button>
+                    </SettingsRow>
+                  </SettingsGroup>
+                )}
+
+                {/* Data Retention */}
+                {retentionSettings && onRetentionChange && (
+                  <RetentionSection settings={retentionSettings} onChange={onRetentionChange} />
+                )}
+
+                {/* System */}
+                <SettingsGroup title="System">
+                  <SettingsRow
+                    label="Restart Control Plane"
+                    description="Gracefully restart the control-plane process"
+                  >
+                    <Button variant="danger" size="sm" onClick={onRestart}>
+                      Restart
+                    </Button>
+                  </SettingsRow>
+                </SettingsGroup>
+              </div>
+            </TabsContent>
+          )}
+        </Tabs>
       </div>
     </div>
   );

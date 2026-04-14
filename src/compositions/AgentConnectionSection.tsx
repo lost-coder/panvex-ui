@@ -41,10 +41,25 @@ export function AgentConnectionSection({
         <KvGrid
           rows={[
             { label: "Agent ID", value: <MonoValue>{data.agentId}</MonoValue> },
-            { label: "Version", value: <MonoValue>{data.version}</MonoValue> },
+            {
+              label: "Version",
+              value: (
+                <span className="inline-flex items-center gap-2">
+                  <MonoValue>{data.version}</MonoValue>
+                  {data.latestAgentVersion && data.latestAgentVersion !== data.version && (
+                    <Badge variant="accent">Update available</Badge>
+                  )}
+                </span>
+              ),
+            },
             { label: "Fleet Group", value: data.fleetGroup },
           ]}
         />
+        {data.latestAgentVersion && data.latestAgentVersion !== data.version && data.onUpdate && (
+          <Button size="sm" onClick={data.onUpdate} className="self-start mt-1">
+            Update to {data.latestAgentVersion}
+          </Button>
+        )}
       </div>
 
       {/* Certificate */}

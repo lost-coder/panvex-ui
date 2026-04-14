@@ -24,6 +24,23 @@ export const Online: Story = {
   },
 };
 
+export const UpdateAvailable: Story = {
+  args: {
+    data: {
+      presenceState: "online",
+      lastSeenAt: "2 seconds ago",
+      agentId: "agent-7",
+      version: "v1.2.3",
+      fleetGroup: "europe",
+      certificate: { issuedAt: "Apr 3, 2026", expiresAt: "May 3, 2026", remainingDays: 30 },
+      latestAgentVersion: "v1.3.0",
+      onUpdate: () => alert("Updating agent to v1.3.0"),
+    },
+    onAllowReEnrollment: () => {},
+    onRevokeGrant: () => {},
+  },
+};
+
 export const CertExpiring: Story = {
   args: {
     data: {

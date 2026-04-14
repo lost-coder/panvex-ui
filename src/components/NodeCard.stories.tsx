@@ -37,6 +37,19 @@ export const WithAlert: Story = {
   },
 };
 
+export const UpdateAvailable: Story = {
+  args: {
+    name: "node-eu-fra-01",
+    status: "ok",
+    health: 99,
+    cpu: 42,
+    mem: 61,
+    clients: 1240,
+    region: "EU-West",
+    updateAvailable: true,
+  },
+};
+
 export const List: Story = {
   render: () => (
     <div className="flex flex-col gap-2 w-[375px]">

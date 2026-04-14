@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { Status } from "@/tokens/colors";
 import { StatusDot } from "@/primitives/StatusDot";
+import { ArrowUpCircle } from "lucide-react";
 
 export interface NodeCardProps {
   name: string;
@@ -11,6 +12,8 @@ export interface NodeCardProps {
   clients: number;
   region: string;
   alert?: string;
+  /** When true, shows an update-available icon in the top-right corner. */
+  updateAvailable?: boolean;
   onClick?: () => void;
   className?: string;
 }
@@ -24,6 +27,7 @@ export function NodeCard({
   clients,
   region,
   alert,
+  updateAvailable,
   onClick,
   className,
 }: NodeCardProps) {
@@ -32,12 +36,15 @@ export function NodeCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex flex-col gap-2 rounded-xs bg-bg-card p-3 text-left w-full",
+        "relative flex flex-col gap-2 rounded-xs bg-bg-card p-3 text-left w-full",
         "border border-transparent hover:border-border-hi hover:bg-bg-card-hi transition-colors",
         alert && "border-l-[3px] border-l-status-error",
         className,
       )}
     >
+      {updateAvailable && (
+        <ArrowUpCircle className="absolute top-2 right-2 w-4 h-4 text-accent" aria-label="Update available" />
+      )}
       <div className="flex items-center gap-2">
         <StatusDot status={status} size="md" />
         <span className="font-mono font-semibold text-sm text-fg flex-1 truncate">{name}</span>
