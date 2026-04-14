@@ -1,4 +1,4 @@
-# @panvex/ui
+# @lost-coder/panvex-ui
 
 Operational UI Kit for **Panvex** — MTProto proxy management panel.  
 Dark-first, mobile-first, responsive component library built with React, TypeScript, Tailwind CSS and Radix UI.
@@ -6,7 +6,7 @@ Dark-first, mobile-first, responsive component library built with React, TypeScr
 ## Install
 
 ```bash
-npm install @panvex/ui
+npm install @lost-coder/panvex-ui
 ```
 
 Peer dependencies: `react >= 18`, `react-dom >= 18`.
@@ -18,7 +18,7 @@ Peer dependencies: `react >= 18`, `react-dom >= 18`.
 In your app entry point:
 
 ```ts
-import "@panvex/ui/styles.css";
+import "@lost-coder/panvex-ui/styles.css";
 ```
 
 ### 2. Tailwind preset
@@ -29,10 +29,10 @@ In your `tailwind.config.ts`:
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  presets: [require("@panvex/ui/tailwind-preset")],
+  presets: [require("@lost-coder/panvex-ui/tailwind-preset")],
   content: [
     "./src/**/*.{ts,tsx}",
-    "./node_modules/@panvex/ui/dist/**/*.js",
+    "./node_modules/@lost-coder/panvex-ui/dist/**/*.js",
   ],
   // your overrides...
 };
@@ -54,13 +54,13 @@ Add to your HTML `<head>` or CSS:
 ## Usage
 
 ```tsx
-import { AppShell, PageHeader, NodeSummaryCard, Badge } from "@panvex/ui";
+import { AppShell, PageHeader, NodeSummaryCard, Badge } from "@lost-coder/panvex-ui";
 ```
 
 All types are exported:
 
 ```ts
-import type { NodeDcInfo, DcStatus, UserInfo } from "@panvex/ui";
+import type { NodeDcInfo, DcStatus, UserInfo } from "@lost-coder/panvex-ui";
 ```
 
 ## Theming
@@ -74,7 +74,7 @@ document.documentElement.classList.toggle("light", isLight);
 Or use the built-in toggle:
 
 ```tsx
-import { ThemeToggle } from "@panvex/ui";
+import { ThemeToggle } from "@lost-coder/panvex-ui";
 ```
 
 ## Structure
@@ -122,7 +122,7 @@ Your Tailwind v4 app must map these to `@theme` tokens:
 
 ```css
 /* your app's styles.css */
-@import "@panvex/ui/styles.css";   /* UI kit styles (TW3 output) */
+@import "@lost-coder/panvex-ui/styles.css";   /* UI kit styles (TW3 output) */
 @import "tailwindcss";              /* Tailwind v4 */
 
 @theme {

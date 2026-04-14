@@ -1,9 +1,16 @@
 {
-  "name": "@panvex/ui",
+  "name": "@lost-coder/panvex-ui",
   "version": "0.1.0",
   "type": "module",
   "license": "MIT",
   "description": "Panvex UI Kit — operational control panel components for MTProto proxy management",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lost-coder/panvex-ui.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "sideEffects": [
     "**/*.css"
   ],
@@ -35,6 +42,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "prepare": "npm run build",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "size": "size-limit",

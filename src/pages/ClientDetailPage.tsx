@@ -312,33 +312,39 @@ export function ClientDetailPage({
     { id: "overview", label: "Overview", content: overviewContent },
     { id: "deployments", label: "Deployments", content: deploymentsContent },
     ...(ipHistory && ipHistory.ips.length > 0
-      ? [{ id: "ips", label: "IP History", content: (
-          <div>
-            <SectionHeader title="IP Address History" badge={ipHistory.totalUnique} />
-            <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
-              <DataTable
-                columns={[
-                  {
-                    key: "ip",
-                    header: "IP Address",
-                    render: (row: { ip: string }) => <MonoValue>{row.ip}</MonoValue>,
-                  },
-                  {
-                    key: "lastSeen",
-                    header: "Last Seen",
-                    render: (row: { lastSeen: string }) => (
-                      <span className="text-sm text-fg-muted">
-                        {new Date(row.lastSeen).toLocaleString()}
-                      </span>
-                    ),
-                  },
-                ]}
-                data={ipHistory.ips}
-                keyExtractor={(row) => `${row.agentId}-${row.ip}`}
-              />
-            </div>
-          </div>
-        ) }]
+      ? [
+          {
+            id: "ips",
+            label: "IP History",
+            content: (
+              <div>
+                <SectionHeader title="IP Address History" badge={ipHistory.totalUnique} />
+                <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
+                  <DataTable
+                    columns={[
+                      {
+                        key: "ip",
+                        header: "IP Address",
+                        render: (row: { ip: string }) => <MonoValue>{row.ip}</MonoValue>,
+                      },
+                      {
+                        key: "lastSeen",
+                        header: "Last Seen",
+                        render: (row: { lastSeen: string }) => (
+                          <span className="text-sm text-fg-muted">
+                            {new Date(row.lastSeen).toLocaleString()}
+                          </span>
+                        ),
+                      },
+                    ]}
+                    data={ipHistory.ips}
+                    keyExtractor={(row) => `${row.agentId}-${row.ip}`}
+                  />
+                </div>
+              </div>
+            ),
+          },
+        ]
       : []),
   ];
 
