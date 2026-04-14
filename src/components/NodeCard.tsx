@@ -43,7 +43,10 @@ export function NodeCard({
       )}
     >
       {updateAvailable && (
-        <ArrowUpCircle className="absolute top-2 right-2 w-4 h-4 text-accent" aria-label="Update available" />
+        <ArrowUpCircle
+          className="absolute top-2 right-2 w-4 h-4 text-accent"
+          aria-label="Update available"
+        />
       )}
       <div className="flex items-center gap-2">
         <StatusDot status={status} size="md" />

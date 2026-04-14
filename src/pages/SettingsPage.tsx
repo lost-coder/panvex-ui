@@ -11,7 +11,11 @@ import type { SettingsPageProps } from "@/types/pages";
 
 // Whether the Administration tab should be visible (admin-only sections present)
 function hasAdminContent(props: SettingsPageProps) {
-  return !!(props.onManageUsers || (props.retentionSettings && props.onRetentionChange) || props.onRestart);
+  return !!(
+    props.onManageUsers ||
+    (props.retentionSettings && props.onRetentionChange) ||
+    props.onRestart
+  );
 }
 
 export function SettingsPage({
@@ -152,11 +156,7 @@ export function SettingsPage({
           </TabsContent>
 
           {/* Updates tab — content injected by parent container (admin only) */}
-          {showAdmin && (
-            <TabsContent value="updates">
-              {children}
-            </TabsContent>
-          )}
+          {showAdmin && <TabsContent value="updates">{children}</TabsContent>}
 
           {/* Administration tab — only rendered for admins */}
           {showAdmin && (
