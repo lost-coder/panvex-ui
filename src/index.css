@@ -34,6 +34,7 @@
 
 @layer base {
   :root {
+    color-scheme: dark;
     /* Dark theme (default) */
     --color-bg: #0b0d12;
     --color-bg-card: #141820;
@@ -48,6 +49,7 @@
   }
 
   .light {
+    color-scheme: light;
     --color-bg: #f5f6f8;
     --color-bg-card: #ffffff;
     --color-bg-card-hi: #f0f1f4;

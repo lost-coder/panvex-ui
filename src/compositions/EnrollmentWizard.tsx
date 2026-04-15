@@ -133,7 +133,7 @@ function InstallStep({
         <div className="text-[10px] font-medium text-fg-muted uppercase tracking-wider mb-2">
           Requirements
         </div>
-        <div className="flex flex-col gap-1 text-xs">
+        <div className="flex flex-col gap-1 text-xs text-fg">
           {[
             "Linux (amd64 / arm64)",
             "Root privileges (sudo)",

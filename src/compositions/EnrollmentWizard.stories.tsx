@@ -26,7 +26,7 @@ function InteractiveWizard() {
   const [advOpts, setAdvOpts] = useState({ telemtUrl: "http://127.0.0.1:9091", telemtAuth: "" });
 
   const token = "enr_a7f3b2c8d9e0f123";
-  const installCmd = `curl -fsSL https://github.com/panvex/panvex/releases/latest/download/install-agent.sh | \\
+  const installCmd = `curl -fsSL https://raw.githubusercontent.com/lost-coder/panvex/main/deploy/install-agent.sh | \\
   sudo sh -s -- \\
     --panel-url ${panelUrl} \\
     --enrollment-token ${token} \\
@@ -98,7 +98,7 @@ export const Step2Install: Story = {
     onFleetGroupChange: () => {},
     onTokenTtlChange: () => {},
     onGenerateToken: () => {},
-    installCommand: `curl -fsSL https://github.com/panvex/panvex/releases/latest/download/install-agent.sh | \\
+    installCommand: `curl -fsSL https://raw.githubusercontent.com/lost-coder/panvex/main/deploy/install-agent.sh | \\
   sudo sh -s -- \\
     --panel-url ${panelUrl} \\
     --enrollment-token enr_a7f3b2c8d9e0f123 \\
