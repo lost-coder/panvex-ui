@@ -1,3 +1,4 @@
+export { ErrorBoundary, type ErrorBoundaryProps } from "./ErrorBoundary";
 export { AlertItem, type AlertItemProps, type AlertSeverity } from "./AlertItem";
 export { TimelineEvent, type TimelineEventProps } from "./TimelineEvent";
 export { DCCard, type DCCardProps } from "./DCCard";

@@ -1,0 +1,163 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+import { ClientFormSheet } from "./ClientFormSheet";
+import type { ClientFormData } from "@/types/pages";
+
+const emptyForm: ClientFormData = {
+  name: "",
+  userAdTag: "",
+  expirationRfc3339: "",
+  maxTcpConns: 0,
+  maxUniqueIps: 0,
+  dataQuotaBytes: 0,
+};
+
+const filledForm: ClientFormData = {
+  name: "premium-users",
+  userAdTag: "promo-channel",
+  expirationRfc3339: "2026-12-31T00:00:00Z",
+  maxTcpConns: 4,
+  maxUniqueIps: 2,
+  dataQuotaBytes: 1073741824,
+};
+
+describe("ClientFormSheet", () => {
+  it("renders create mode title", () => {
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={emptyForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("New Client")).toBeInTheDocument();
+    expect(screen.getByText(/create client/i)).toBeInTheDocument();
+  });
+
+  it("renders edit mode title", () => {
+    render(
+      <ClientFormSheet
+        mode="edit"
+        data={filledForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("Edit Client")).toBeInTheDocument();
+    expect(screen.getByText(/save changes/i)).toBeInTheDocument();
+  });
+
+  it("disables submit button when name is empty", () => {
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={emptyForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+    const submitBtn = screen.getByRole("button", { name: /create client/i });
+    expect(submitBtn).toBeDisabled();
+  });
+
+  it("enables submit button when name is provided", () => {
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={filledForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+    const submitBtn = screen.getByRole("button", { name: /create client/i });
+    expect(submitBtn).toBeEnabled();
+  });
+
+  it("calls onChange when client name changes", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={emptyForm}
+        onChange={onChange}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+
+    const nameInput = screen.getByPlaceholderText("e.g. premium-users");
+    await user.type(nameInput, "a");
+    expect(onChange).toHaveBeenCalled();
+    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    expect(lastCall.name).toBe("a");
+  });
+
+  it("calls onCancel when cancel clicked", async () => {
+    const user = userEvent.setup();
+    const onCancel = vi.fn();
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={emptyForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={onCancel}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /cancel/i }));
+    expect(onCancel).toHaveBeenCalledOnce();
+  });
+
+  it("calls onSubmit when form is submitted", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={filledForm}
+        onChange={vi.fn()}
+        onSubmit={onSubmit}
+        onCancel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /create client/i }));
+    expect(onSubmit).toHaveBeenCalledOnce();
+  });
+
+  it("shows loading state", () => {
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={filledForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+        loading={true}
+      />,
+    );
+    expect(screen.getByText("Saving...")).toBeInTheDocument();
+  });
+
+  it("shows error message", () => {
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={filledForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+        error="Name already taken"
+      />,
+    );
+    expect(screen.getByText("Name already taken")).toBeInTheDocument();
+  });
+});
