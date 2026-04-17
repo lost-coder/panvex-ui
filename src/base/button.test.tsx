@@ -1,3 +1,4 @@
+import type React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Button } from "./button";
@@ -41,5 +42,31 @@ describe("Button", () => {
     const link = screen.getByRole("link", { name: "Link" });
     expect(link).toBeInTheDocument();
     expect(link.tagName).toBe("A");
+  });
+
+  it("defaults type to 'button' so it does not submit forms accidentally", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault());
+    render(
+      <form onSubmit={onSubmit}>
+        <Button>Inside form</Button>
+      </form>,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+    await user.click(screen.getByRole("button"));
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("honours an explicit type='submit' override", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault());
+    render(
+      <form onSubmit={onSubmit}>
+        <Button type="submit">Submit</Button>
+      </form>,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+    await user.click(screen.getByRole("button"));
+    expect(onSubmit).toHaveBeenCalledOnce();
   });
 });
