@@ -11,7 +11,13 @@ const SheetClose = DialogPrimitive.Close;
 interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   side?: "left" | "right" | "bottom";
   fullScreen?: boolean;
-  /** Accessible title announced to screen readers when no visible SheetTitle is rendered. */
+  /**
+   * Accessible title announced to screen readers when no visible SheetTitle
+   * is rendered inside `children`. P2-FE-07 / M-F6: required for a11y — the
+   * previous generic "Sheet" fallback produced a useless announcement.
+   * Either render a visible <SheetTitle> inside the sheet or pass a
+   * meaningful string here that describes the sheet's purpose.
+   */
   title?: string;
   /** Callback to close the sheet — thread from Sheet (DialogPrimitive.Root) onOpenChange. */
   onOpenChange?: (open: boolean) => void;
@@ -34,7 +40,26 @@ const SheetContent = React.forwardRef<
     ref,
   ) => {
     const useModalSheet = isMobileVariant(side, fullScreen);
-    const accessibleTitle = title ?? "Sheet";
+    // P2-FE-07 / M-F6: removed the generic "Sheet" default. If the caller
+    // renders a visible <SheetTitle> inside children, Radix picks that up
+    // and no hidden title is needed. Only fall back to a hidden title when
+    // the caller passes one explicitly — in dev, warn if neither path is
+    // taken so the missing accessible name surfaces during development.
+    const hasExplicitTitle = typeof title === "string" && title.length > 0;
+    // P2-FE-07 / M-F6: surface missing accessible-name mistakes early.
+    // `import.meta.env.DEV` is Vite's compile-time dev flag; it's `true`
+    // during `vite dev` / Storybook / vitest and `false` in production
+    // bundles, so the warn is free of runtime cost in consumers.
+    if (
+      !hasExplicitTitle &&
+      typeof import.meta !== "undefined" &&
+      (import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV
+    ) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[panvex-ui] <SheetContent> needs an accessible name — either render a <SheetTitle> inside children or pass the `title` prop. Radix Dialog will otherwise log a missing-title warning.",
+      );
+    }
 
     const requestClose = () => onOpenChange?.(false);
 
@@ -59,14 +84,18 @@ const SheetContent = React.forwardRef<
                   <ModalSheet.Header className="pt-2 pb-0 flex justify-center w-full">
                     <ModalSheet.DragIndicator className="!mt-2 !mx-auto" />
                   </ModalSheet.Header>
-                  <VisuallyHidden.Root asChild>
-                    <DialogPrimitive.Title>{accessibleTitle}</DialogPrimitive.Title>
-                  </VisuallyHidden.Root>
-                  <VisuallyHidden.Root asChild>
-                    <DialogPrimitive.Description>
-                      {accessibleTitle} content
-                    </DialogPrimitive.Description>
-                  </VisuallyHidden.Root>
+                  {hasExplicitTitle && (
+                    <>
+                      <VisuallyHidden.Root asChild>
+                        <DialogPrimitive.Title>{title}</DialogPrimitive.Title>
+                      </VisuallyHidden.Root>
+                      <VisuallyHidden.Root asChild>
+                        <DialogPrimitive.Description>
+                          {title} content
+                        </DialogPrimitive.Description>
+                      </VisuallyHidden.Root>
+                    </>
+                  )}
                   <ModalSheet.Content className={cn("flex flex-col", className)}>
                     {children}
                   </ModalSheet.Content>
@@ -94,12 +123,16 @@ const SheetContent = React.forwardRef<
           )}
           {...props}
         >
-          <VisuallyHidden.Root asChild>
-            <DialogPrimitive.Title>{accessibleTitle}</DialogPrimitive.Title>
-          </VisuallyHidden.Root>
-          <VisuallyHidden.Root asChild>
-            <DialogPrimitive.Description>{accessibleTitle} content</DialogPrimitive.Description>
-          </VisuallyHidden.Root>
+          {hasExplicitTitle && (
+            <>
+              <VisuallyHidden.Root asChild>
+                <DialogPrimitive.Title>{title}</DialogPrimitive.Title>
+              </VisuallyHidden.Root>
+              <VisuallyHidden.Root asChild>
+                <DialogPrimitive.Description>{title} content</DialogPrimitive.Description>
+              </VisuallyHidden.Root>
+            </>
+          )}
           {children}
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>

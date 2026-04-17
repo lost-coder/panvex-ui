@@ -186,6 +186,29 @@ describe("ClientFormSheet", () => {
     expect(parsed.getUTCDate()).toBe(15);
   });
 
+  it("exposes aria-expanded + aria-controls on the Limits toggle (P2-FE-07 / M-F6)", async () => {
+    const user = userEvent.setup();
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={emptyForm}
+        onChange={vi.fn()}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: /limits \(optional\)/i });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveAttribute("aria-controls", "client-form-limits-section");
+
+    await user.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+
+    const region = document.getElementById("client-form-limits-section");
+    expect(region).not.toBeNull();
+  });
+
   it("shows error message", () => {
     render(
       <ClientFormSheet

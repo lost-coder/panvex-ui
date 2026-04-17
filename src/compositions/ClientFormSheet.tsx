@@ -86,12 +86,14 @@ export function ClientFormSheet({
       <button
         type="button"
         onClick={() => setShowLimits(!showLimits)}
+        aria-expanded={showLimits}
+        aria-controls="client-form-limits-section"
         className="text-xs text-fg-muted hover:text-fg text-left border-t border-border pt-3 mt-1"
       >
         {showLimits ? "▾" : "▸"} Limits (optional)
       </button>
       {showLimits && (
-        <div className="grid grid-cols-3 gap-3">
+        <div id="client-form-limits-section" className="grid grid-cols-3 gap-3">
           <FormField label="Max TCP Conns" variant="compact">
             <Input
               type="number"

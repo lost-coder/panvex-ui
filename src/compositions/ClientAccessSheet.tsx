@@ -44,20 +44,24 @@ export function ClientAccessSheet({
       <button
         type="button"
         onClick={() => setShowFineTune(!showFineTune)}
+        aria-expanded={showFineTune}
+        aria-controls="client-access-finetune-section"
         className="text-xs text-fg-muted hover:text-fg text-left"
       >
         {showFineTune ? "▾" : "▸"} Fine-tune individual nodes
       </button>
 
       {showFineTune && (
-        <NodeSelector
-          nodes={nodes}
-          selectedNodeIds={allSelected}
-          onChange={(ids) => {
-            const individualOnly = ids.filter((id) => !groupNodeIds.includes(id));
-            onNodesChange(individualOnly);
-          }}
-        />
+        <div id="client-access-finetune-section">
+          <NodeSelector
+            nodes={nodes}
+            selectedNodeIds={allSelected}
+            onChange={(ids) => {
+              const individualOnly = ids.filter((id) => !groupNodeIds.includes(id));
+              onNodesChange(individualOnly);
+            }}
+          />
+        </div>
       )}
 
       <div className="text-xs text-fg-muted">
