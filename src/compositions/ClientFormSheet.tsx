@@ -60,7 +60,14 @@ export function ClientFormSheet({
             onChange={(e) =>
               update(
                 "expirationRfc3339",
-                e.target.value ? new Date(e.target.value).toISOString() : "",
+                // P2-FE-04 / M-C9: emit the picked calendar day as RFC3339
+                // anchored at noon UTC. `new Date("YYYY-MM-DD")` treats the
+                // string as UTC midnight — which, when re-rendered in any
+                // UTC-offset zone or compared against local time, can shift
+                // to the previous or next calendar day. Anchoring at 12:00Z
+                // keeps the ISO string's date component equal to the picked
+                // day for every timezone from UTC-11 through UTC+11.
+                e.target.value ? `${e.target.value}T12:00:00.000Z` : "",
               )
             }
             className="flex-1"

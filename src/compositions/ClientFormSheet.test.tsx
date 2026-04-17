@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ClientFormSheet } from "./ClientFormSheet";
@@ -145,6 +145,45 @@ describe("ClientFormSheet", () => {
       />,
     );
     expect(screen.getByText("Saving...")).toBeInTheDocument();
+  });
+
+  it("emits TZ-safe expiration when a date is picked (P2-FE-04 / M-C9)", () => {
+    // The prior impl called `new Date("YYYY-MM-DD").toISOString()`, which
+    // treats the picked date as UTC midnight and shifts the calendar day
+    // in any non-UTC timezone (e.g. in America/Los_Angeles 2024-03-15
+    // would surface as 2024-03-14 after a round trip). The fix anchors
+    // the picked day at noon UTC so the ISO string's date component
+    // equals the picked day regardless of the runtime timezone.
+    const onChange = vi.fn();
+    render(
+      <ClientFormSheet
+        mode="create"
+        data={{ ...emptyForm, name: "a" }}
+        onChange={onChange}
+        onSubmit={vi.fn()}
+        onCancel={vi.fn()}
+      />,
+    );
+
+    const dateInput = document.querySelector(
+      'input[type="date"]',
+    ) as HTMLInputElement;
+    expect(dateInput).not.toBeNull();
+
+    // fireEvent.change goes through React's synthetic event plumbing,
+    // which is what the component's onChange handler reads from.
+    fireEvent.change(dateInput, { target: { value: "2024-03-15" } });
+
+    expect(onChange).toHaveBeenCalled();
+    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    expect(typeof lastCall.expirationRfc3339).toBe("string");
+    // The ISO string's date portion must equal the picked day for every
+    // reasonable timezone, not just UTC.
+    expect(lastCall.expirationRfc3339.slice(0, 10)).toBe("2024-03-15");
+    const parsed = new Date(lastCall.expirationRfc3339);
+    expect(parsed.getUTCFullYear()).toBe(2024);
+    expect(parsed.getUTCMonth()).toBe(2); // March (0-indexed)
+    expect(parsed.getUTCDate()).toBe(15);
   });
 
   it("shows error message", () => {
