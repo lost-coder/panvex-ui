@@ -10,7 +10,7 @@ const fleetGroups: FleetGroupOption[] = [
 ];
 
 const nodes: NodeOption[] = [
-  { id: "n-1", name: "edge-01", fleetGroup: "fg-1", status: "online" },
+  { id: "n-1", name: "edge-01", fleetGroup: "fg-1", status: "ok" },
 ];
 
 describe("ClientAccessSheet a11y (P2-FE-07 / M-F6)", () => {

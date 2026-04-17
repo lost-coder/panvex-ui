@@ -58,7 +58,6 @@ const mockServer = {
   dcs: Array.from({ length: 12 }, (_, i) => {
     const dc = i + 1;
     const isBad = i === 2;
-    const endpointCount = dc === 4 ? 10 : isBad ? 2 : 2;
     const endpoints =
       dc === 4
         ? [

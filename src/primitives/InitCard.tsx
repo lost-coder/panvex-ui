@@ -10,7 +10,7 @@ export function InitCard({
   retryLimit,
   elapsedSecs,
   lastError,
-  degraded,
+  degraded: _degraded,
 }: InitCardProps) {
   const borderColor = lastError ? "border-status-error/30" : "border-status-warn/30";
   const bgColor = lastError ? "bg-status-error/5" : "bg-status-warn/5";

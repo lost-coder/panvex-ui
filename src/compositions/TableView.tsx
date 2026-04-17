@@ -45,7 +45,7 @@ export interface TableViewColumnsConfig {
   onChange: (key: string, visible: boolean) => void;
 }
 
-export interface TableViewProps<T = unknown> {
+export interface TableViewProps {
   search?: TableViewSearchConfig;
   filters?: TableViewFilter[];
   viewMode?: TableViewViewModeConfig;
@@ -59,7 +59,7 @@ function Divider() {
   return <div className="w-px self-stretch bg-border" />;
 }
 
-export function TableView<T = unknown>({
+export function TableView({
   search,
   filters,
   viewMode,
@@ -67,7 +67,7 @@ export function TableView<T = unknown>({
   pagination,
   children,
   className,
-}: TableViewProps<T>) {
+}: TableViewProps) {
   const hasFilters = filters && filters.length > 0;
   const hasViewMode = viewMode !== undefined;
   const hasColumnPicker = columns !== undefined && columns.available.length > 0;
@@ -105,7 +105,7 @@ export function TableView<T = unknown>({
           <div className="flex gap-2 items-center">
             {/* Filters */}
             {hasFilters &&
-              filters!.map((f, i) => (
+              filters!.map((f) => (
                 <Select
                   key={f.key}
                   value={f.value}

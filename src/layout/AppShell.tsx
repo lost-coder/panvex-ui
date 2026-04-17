@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Sidebar, type SidebarProps } from "./Sidebar";
-import { BottomNav, type BottomNavProps } from "./BottomNav";
+import { Sidebar } from "./Sidebar";
+import { BottomNav } from "./BottomNav";
 import type { NavItem } from "./types";
 
 export interface AppShellProps {

@@ -23,11 +23,6 @@ interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof Dialog
   onOpenChange?: (open: boolean) => void;
 }
 
-const sideStyles = {
-  right: "inset-y-0 right-0 h-full w-[320px] border-l",
-  left: "inset-y-0 left-0 h-full w-[320px] border-r",
-} as const;
-
 // react-modal-sheet handles bottom and fullScreen variants (native swipe physics)
 const isMobileVariant = (side: string, fullScreen: boolean) => fullScreen || side === "bottom";
 

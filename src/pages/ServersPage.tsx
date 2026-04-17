@@ -84,8 +84,8 @@ function ServerListView({
             <StatusDot status={s.status} />
             <span className="text-sm font-medium text-fg truncate">{s.name}</span>
           </div>
-          {(s as any).ip && (
-            <span className="pl-[14px] text-[10px] text-fg-muted font-mono">{(s as any).ip}</span>
+          {s.ip && (
+            <span className="pl-[14px] text-[10px] text-fg-muted font-mono">{s.ip}</span>
           )}
         </div>
       ),

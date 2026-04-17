@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { ServerDetailPageProps } from "@/types/pages";
 import { ServerActionsDropdown } from "./ServerActionsDropdown";
 import { DcTable } from "./DcTable";
 import { ConnectionsTab } from "./tabs/ConnectionsTab";
