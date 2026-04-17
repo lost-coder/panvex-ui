@@ -35,7 +35,15 @@ export function AppShell({
         onLogout={onLogout}
       />
 
-      <main className="md:ml-[60px] pb-16 md:pb-0 min-h-screen">{children}</main>
+      {/*
+        P2-FE-08 / M-F7: `id="main-content"` is the target for the skip-nav
+        link rendered in the host app's index.html. Keyboard users press
+        Tab once, focus the skip link, activate it, and land on this
+        landmark — bypassing the sidebar/nav on every page.
+      */}
+      <main id="main-content" className="md:ml-[60px] pb-16 md:pb-0 min-h-screen">
+        {children}
+      </main>
 
       <BottomNav items={navItems} activeId={activeId} onNavigate={onNavigate} />
     </div>
