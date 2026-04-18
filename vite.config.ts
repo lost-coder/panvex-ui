@@ -35,8 +35,7 @@ export default defineConfig({
         "pages/index": resolve(__dirname, "src/pages/index.ts"),
       },
       formats: ["es", "cjs"],
-      fileName: (format, entryName) =>
-        `${entryName}.${format === "es" ? "js" : "cjs"}`,
+      fileName: (format, entryName) => `${entryName}.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: (id) =>

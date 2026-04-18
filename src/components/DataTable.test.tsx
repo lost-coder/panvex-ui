@@ -137,8 +137,7 @@ describe("DataTable virtualization (P3-PERF-02)", () => {
     // Desktop table body rows only (excluding header + spacer rows).
     // With a 600px viewport and 48px rows that's ~13 visible rows +
     // overscan (6 on each side) => at most ~26 real data rows.
-    const bodyRows = document
-      .querySelectorAll<HTMLTableRowElement>("tbody tr[data-index]");
+    const bodyRows = document.querySelectorAll<HTMLTableRowElement>("tbody tr[data-index]");
     expect(bodyRows.length).toBeGreaterThan(0);
     expect(bodyRows.length).toBeLessThan(40);
   });
