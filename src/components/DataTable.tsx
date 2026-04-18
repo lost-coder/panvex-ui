@@ -162,18 +162,16 @@ export function DataTable<T>({
         </table>
       </div>
 
-      {/* Mobile card view */}
+      {/* Mobile card view. Only wrap the row in a <button> when a row-click
+          handler is supplied — otherwise any interactive element inside a
+          column (e.g. a Revoke button) would create invalid nested-button
+          DOM and swallow click events meant for the inner control. */}
       <div className={cn("flex flex-col gap-2 md:hidden", className)}>
         {data.length === 0 ? (
           <p className="text-center text-fg-muted py-8 text-sm">{emptyMessage}</p>
         ) : (
-          data.map((row) => (
-            <button
-              key={keyExtractor(row)}
-              type="button"
-              onClick={() => onRowClick?.(row)}
-              className="rounded-xs bg-bg-card p-3 text-left border border-transparent hover:border-border-hi transition-colors"
-            >
+          data.map((row) => {
+            const content = (
               <div className="flex flex-col gap-1.5">
                 {columns.map((col) => (
                   <div key={col.key} className="flex items-center justify-between gap-2">
@@ -184,8 +182,24 @@ export function DataTable<T>({
                   </div>
                 ))}
               </div>
-            </button>
-          ))
+            );
+            const baseCls =
+              "rounded-xs bg-bg-card p-3 text-left border border-transparent transition-colors";
+            return onRowClick ? (
+              <button
+                key={keyExtractor(row)}
+                type="button"
+                onClick={() => onRowClick(row)}
+                className={cn(baseCls, "hover:border-border-hi")}
+              >
+                {content}
+              </button>
+            ) : (
+              <div key={keyExtractor(row)} className={baseCls}>
+                {content}
+              </div>
+            );
+          })
         )}
       </div>
     </>
