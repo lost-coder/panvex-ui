@@ -36,16 +36,38 @@ describe("EnrollmentWizard", () => {
     expect(screen.getByPlaceholderText("e.g. prod-eu-west-1")).toBeInTheDocument();
   });
 
-  it("disables generate button when node name is empty", () => {
-    render(<EnrollmentWizard {...baseProps} step={1} nodeName="" />);
+  it("shows inline validation error when node name is empty and submit is attempted", async () => {
+    const user = userEvent.setup();
+    const onGenerateToken = vi.fn();
+    render(
+      <EnrollmentWizard
+        {...baseProps}
+        step={1}
+        nodeName=""
+        onGenerateToken={onGenerateToken}
+      />,
+    );
     const btn = screen.getByRole("button", { name: /generate token/i });
-    expect(btn).toBeDisabled();
+    // P2-UX-07: button stays enabled so screen-readers announce the form;
+    // validation is surfaced inline once submission is attempted.
+    expect(btn).toBeEnabled();
+    await user.click(btn);
+    expect(onGenerateToken).not.toHaveBeenCalled();
+    expect(screen.getByText(/node name is required/i)).toBeInTheDocument();
   });
 
   it("enables generate button when node name is set", () => {
     render(<EnrollmentWizard {...baseProps} step={1} nodeName="prod-eu" />);
     const btn = screen.getByRole("button", { name: /generate token/i });
     expect(btn).toBeEnabled();
+  });
+
+  it("applies aria-pressed to TTL preset toggle buttons (P2-UX-08)", () => {
+    render(<EnrollmentWizard {...baseProps} step={1} nodeName="x" tokenTtl={3600} />);
+    const oneHour = screen.getByRole("button", { name: /1 hour/i });
+    const sixHours = screen.getByRole("button", { name: /6 hours/i });
+    expect(oneHour).toHaveAttribute("aria-pressed", "true");
+    expect(sixHours).toHaveAttribute("aria-pressed", "false");
   });
 
   it("calls onGenerateToken when button clicked", async () => {

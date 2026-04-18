@@ -31,6 +31,24 @@ function ConfigureStep({
   error,
 }: EnrollmentWizardProps) {
   const [customTtl, setCustomTtl] = useState(false);
+  const [touched, setTouched] = useState<{ nodeName?: boolean; ttl?: boolean; fleet?: boolean }>({});
+
+  // P2-UX-07: inline validation messages. These do not block keystroke-by-keystroke
+  // — they only surface once a field has been touched (blurred) or on submit attempt,
+  // so operators don't see "required" while they are actively typing.
+  const nodeNameError = !nodeName.trim() ? "Node name is required." : undefined;
+  const ttlError = tokenTtl <= 0 ? "Token lifetime must be greater than zero." : undefined;
+  const fleetError = !selectedFleetGroup ? "Fleet group is required." : undefined;
+  const hasError = Boolean(nodeNameError || ttlError || fleetError);
+
+  const handleGenerate = () => {
+    if (hasError) {
+      // Force-reveal every validation message so the operator sees what's missing.
+      setTouched({ nodeName: true, ttl: true, fleet: true });
+      return;
+    }
+    onGenerateToken();
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -40,44 +58,71 @@ function ConfigureStep({
           placeholder="e.g. prod-eu-west-1"
           value={nodeName}
           onChange={(e) => onNodeNameChange(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, nodeName: true }))}
           disabled={loading}
+          aria-invalid={touched.nodeName && !!nodeNameError}
+          aria-describedby={touched.nodeName && nodeNameError ? "enroll-node-err" : undefined}
         />
+        {touched.nodeName && nodeNameError && (
+          <div id="enroll-node-err" className="text-xs text-status-error mt-1">
+            {nodeNameError}
+          </div>
+        )}
       </FormField>
 
-      <FormField label="Fleet Group" variant="uppercase">
+      <FormField label="Fleet Group" variant="uppercase" required>
         <Select
           value={selectedFleetGroup}
           options={fleetGroups.map((g) => ({
             value: g.id,
-            label: `${g.name} (${g.nodeCount} nodes)`,
+            label: `${g.name ?? g.label ?? g.id} (${g.nodeCount ?? g.agentCount ?? 0} nodes)`,
           }))}
-          onChange={onFleetGroupChange}
+          onChange={(v) => {
+            onFleetGroupChange(v);
+            setTouched((t) => ({ ...t, fleet: true }));
+          }}
         />
+        {touched.fleet && fleetError && (
+          <div className="text-xs text-status-error mt-1">{fleetError}</div>
+        )}
       </FormField>
 
       <FormField label="Token Lifetime" variant="uppercase">
-        <div className="flex flex-wrap gap-2">
-          {TTL_PRESETS.map((p) => (
-            <button
-              key={p.value}
-              type="button"
-              onClick={() => {
-                setCustomTtl(false);
-                onTokenTtlChange(p.value);
-              }}
-              className={cn(
-                "px-3 py-1.5 rounded-xs text-xs transition-colors",
-                !customTtl && tokenTtl === p.value
-                  ? "bg-accent text-white"
-                  : "border border-border text-fg-muted hover:text-fg",
-              )}
-            >
-              {p.label}
-            </button>
-          ))}
+        <div
+          className="flex flex-wrap gap-2"
+          role="group"
+          aria-label="Token lifetime presets"
+        >
+          {TTL_PRESETS.map((p) => {
+            const pressed = !customTtl && tokenTtl === p.value;
+            return (
+              <button
+                key={p.value}
+                type="button"
+                aria-pressed={pressed}
+                onClick={() => {
+                  setCustomTtl(false);
+                  onTokenTtlChange(p.value);
+                  setTouched((t) => ({ ...t, ttl: true }));
+                }}
+                className={cn(
+                  "px-3 py-1.5 rounded-xs text-xs transition-colors",
+                  pressed
+                    ? "bg-accent text-white"
+                    : "border border-border text-fg-muted hover:text-fg",
+                )}
+              >
+                {p.label}
+              </button>
+            );
+          })}
           <button
             type="button"
-            onClick={() => setCustomTtl(true)}
+            aria-pressed={customTtl}
+            onClick={() => {
+              setCustomTtl(true);
+              setTouched((t) => ({ ...t, ttl: true }));
+            }}
             className={cn(
               "px-3 py-1.5 rounded-xs text-xs transition-colors",
               customTtl
@@ -91,11 +136,17 @@ function ConfigureStep({
         {customTtl && (
           <Input
             type="number"
+            min={1}
             placeholder="Seconds"
             value={tokenTtl}
             onChange={(e) => onTokenTtlChange(Number(e.target.value))}
+            onBlur={() => setTouched((t) => ({ ...t, ttl: true }))}
+            aria-invalid={touched.ttl && !!ttlError}
             className="mt-2 w-32"
           />
+        )}
+        {touched.ttl && ttlError && (
+          <div className="text-xs text-status-error mt-1">{ttlError}</div>
         )}
       </FormField>
 
@@ -105,7 +156,7 @@ function ConfigureStep({
 
       {error && <div className="text-xs text-status-error">{error}</div>}
 
-      <Button onClick={onGenerateToken} disabled={loading || !nodeName}>
+      <Button onClick={handleGenerate} disabled={loading}>
         {loading ? "Generating..." : "Generate Token →"}
       </Button>
     </div>
