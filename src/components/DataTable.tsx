@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { cn } from "@/lib/utils";
 
 export interface DataTableColumn<T> {
@@ -16,6 +17,17 @@ export interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
   emptyMessage?: string;
   className?: string;
+  /**
+   * Row height in pixels used by the virtualizer to estimate the scroll
+   * range. Default: 48 (matches px-3 py-2.5 density used by callers).
+   * P3-PERF-02: virtualization avoids rendering thousands of DOM rows.
+   */
+  rowHeight?: number;
+  /**
+   * Maximum container height in pixels. The scroll parent is clamped to
+   * this value so the virtualizer has a bounded viewport. Default: 600.
+   */
+  maxHeight?: number;
 }
 
 type SortDir = "asc" | "desc";
@@ -27,9 +39,12 @@ export function DataTable<T>({
   onRowClick,
   emptyMessage = "No data",
   className,
+  rowHeight = 48,
+  maxHeight = 600,
 }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const parentRef = useRef<HTMLDivElement | null>(null);
 
   const handleSort = (key: string) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -39,12 +54,32 @@ export function DataTable<T>({
     }
   };
 
+  // P3-PERF-02: virtualize the desktop table body. With 5000 agents we
+  // previously emitted 5000 <tr> nodes; now only the rows intersecting the
+  // viewport (plus overscan) are rendered, keeping scroll at 60 FPS.
+  const rowVirtualizer = useVirtualizer({
+    count: data.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => rowHeight,
+    overscan: 6,
+  });
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  const totalSize = rowVirtualizer.getTotalSize();
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0;
+  const paddingBottom =
+    virtualItems.length > 0 ? totalSize - virtualItems[virtualItems.length - 1].end : 0;
+
   return (
     <>
-      {/* Desktop table */}
-      <div className={cn("hidden md:block overflow-x-auto", className)}>
+      {/* Desktop table — virtualized scroll container with sticky header. */}
+      <div
+        ref={parentRef}
+        className={cn("hidden md:block overflow-auto", className)}
+        style={{ maxHeight }}
+      >
         <table className="w-full table-fixed text-sm">
-          <thead>
+          <thead className="sticky top-0 z-10 bg-bg">
             <tr className="border-b border-border">
               {columns.map((col) => {
                 // P2-FE-07 / M-F6: sortable headers must expose sort state to
@@ -66,7 +101,7 @@ export function DataTable<T>({
                     scope="col"
                     aria-sort={ariaSort}
                     className={cn(
-                      "text-left text-caption uppercase tracking-wider font-medium px-3 py-2",
+                      "text-left text-caption uppercase tracking-wider font-medium px-3 py-2 bg-bg",
                       col.sortable && "cursor-pointer select-none hover:text-fg",
                       col.className,
                     )}
@@ -89,22 +124,39 @@ export function DataTable<T>({
                 </td>
               </tr>
             ) : (
-              data.map((row) => (
-                <tr
-                  key={keyExtractor(row)}
-                  onClick={() => onRowClick?.(row)}
-                  className={cn(
-                    "border-b border-border/50 transition-colors",
-                    onRowClick && "cursor-pointer hover:bg-bg-hover",
-                  )}
-                >
-                  {columns.map((col) => (
-                    <td key={col.key} className={cn("px-3 py-2.5", col.className)}>
-                      {col.render(row)}
-                    </td>
-                  ))}
-                </tr>
-              ))
+              <>
+                {paddingTop > 0 && (
+                  <tr aria-hidden="true" style={{ height: paddingTop }}>
+                    <td colSpan={columns.length} />
+                  </tr>
+                )}
+                {virtualItems.map((virtualRow) => {
+                  const row = data[virtualRow.index];
+                  return (
+                    <tr
+                      key={keyExtractor(row)}
+                      data-index={virtualRow.index}
+                      onClick={() => onRowClick?.(row)}
+                      style={{ height: rowHeight }}
+                      className={cn(
+                        "border-b border-border/50 transition-colors",
+                        onRowClick && "cursor-pointer hover:bg-bg-hover",
+                      )}
+                    >
+                      {columns.map((col) => (
+                        <td key={col.key} className={cn("px-3 py-2.5", col.className)}>
+                          {col.render(row)}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+                {paddingBottom > 0 && (
+                  <tr aria-hidden="true" style={{ height: paddingBottom }}>
+                    <td colSpan={columns.length} />
+                  </tr>
+                )}
+              </>
             )}
           </tbody>
         </table>

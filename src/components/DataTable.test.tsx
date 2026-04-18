@@ -93,3 +93,51 @@ describe("DataTable a11y (P2-FE-07 / M-F6)", () => {
     expect(onRowClick).toHaveBeenCalled();
   });
 });
+
+// P3-PERF-02: DataTable must virtualize the desktop <tbody> so that
+// rendering 5000 agents does not flood the DOM with 5000 <tr> nodes.
+// jsdom reports 0 for clientHeight by default, which would collapse the
+// virtualizer's viewport to zero rows. We stub the scroll parent's
+// bounding metrics to produce a plausible 600px viewport so the
+// virtualizer renders a realistic slice.
+describe("DataTable virtualization (P3-PERF-02)", () => {
+  function stubViewport(height: number) {
+    Object.defineProperty(HTMLElement.prototype, "clientHeight", {
+      configurable: true,
+      get() {
+        return height;
+      },
+    });
+    Object.defineProperty(HTMLElement.prototype, "offsetHeight", {
+      configurable: true,
+      get() {
+        return height;
+      },
+    });
+  }
+
+  it("renders only a viewport-sized slice for 5000 rows", () => {
+    stubViewport(600);
+    const bigData: Row[] = Array.from({ length: 5000 }, (_, i) => ({
+      id: String(i),
+      name: `row-${i}`,
+      count: i,
+    }));
+    render(
+      <DataTable
+        columns={columns}
+        data={bigData}
+        keyExtractor={(r) => r.id}
+        rowHeight={48}
+        maxHeight={600}
+      />,
+    );
+    // Desktop table body rows only (excluding header + spacer rows).
+    // With a 600px viewport and 48px rows that's ~13 visible rows +
+    // overscan (6 on each side) => at most ~26 real data rows.
+    const bodyRows = document
+      .querySelectorAll<HTMLTableRowElement>("tbody tr[data-index]");
+    expect(bodyRows.length).toBeGreaterThan(0);
+    expect(bodyRows.length).toBeLessThan(40);
+  });
+});
