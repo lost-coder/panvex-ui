@@ -31,7 +31,9 @@ function ConfigureStep({
   error,
 }: EnrollmentWizardProps) {
   const [customTtl, setCustomTtl] = useState(false);
-  const [touched, setTouched] = useState<{ nodeName?: boolean; ttl?: boolean; fleet?: boolean }>({});
+  const [touched, setTouched] = useState<{ nodeName?: boolean; ttl?: boolean; fleet?: boolean }>(
+    {},
+  );
 
   // P2-UX-07: inline validation messages. These do not block keystroke-by-keystroke
   // — they only surface once a field has been touched (blurred) or on submit attempt,
@@ -88,11 +90,7 @@ function ConfigureStep({
       </FormField>
 
       <FormField label="Token Lifetime" variant="uppercase">
-        <div
-          className="flex flex-wrap gap-2"
-          role="group"
-          aria-label="Token lifetime presets"
-        >
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Token lifetime presets">
           {TTL_PRESETS.map((p) => {
             const pressed = !customTtl && tokenTtl === p.value;
             return (

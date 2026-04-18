@@ -40,12 +40,7 @@ describe("EnrollmentWizard", () => {
     const user = userEvent.setup();
     const onGenerateToken = vi.fn();
     render(
-      <EnrollmentWizard
-        {...baseProps}
-        step={1}
-        nodeName=""
-        onGenerateToken={onGenerateToken}
-      />,
+      <EnrollmentWizard {...baseProps} step={1} nodeName="" onGenerateToken={onGenerateToken} />,
     );
     const btn = screen.getByRole("button", { name: /generate token/i });
     // P2-UX-07: button stays enabled so screen-readers announce the form;

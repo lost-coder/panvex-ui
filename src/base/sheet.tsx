@@ -85,9 +85,7 @@ const SheetContent = React.forwardRef<
                         <DialogPrimitive.Title>{title}</DialogPrimitive.Title>
                       </VisuallyHidden.Root>
                       <VisuallyHidden.Root asChild>
-                        <DialogPrimitive.Description>
-                          {title} content
-                        </DialogPrimitive.Description>
+                        <DialogPrimitive.Description>{title} content</DialogPrimitive.Description>
                       </VisuallyHidden.Root>
                     </>
                   )}

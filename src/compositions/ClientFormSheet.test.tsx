@@ -165,9 +165,7 @@ describe("ClientFormSheet", () => {
       />,
     );
 
-    const dateInput = document.querySelector(
-      'input[type="date"]',
-    ) as HTMLInputElement;
+    const dateInput = document.querySelector('input[type="date"]') as HTMLInputElement;
     expect(dateInput).not.toBeNull();
 
     // fireEvent.change goes through React's synthetic event plumbing,
