@@ -13,7 +13,11 @@ export default defineConfig({
     tailwindcss(),
     dts({
       tsconfigPath: "./tsconfig.build.json",
-      rollupTypes: true,
+      // P3-FE-09: rollupTypes was causing dist/index.d.ts to contain only one
+      // entry's rolled types when we added the pages/ sub-entry. Emitting the
+      // raw per-file declarations keeps both entries correctly typed at the
+      // cost of a slightly larger .d.ts footprint.
+      rollupTypes: false,
     }),
   ],
   resolve: {
@@ -23,9 +27,16 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      // P3-FE-09: multi-entry so consumers can import pages via a deep path
+      // (@lost-coder/panvex-ui/pages) as a transitional bridge until core/web
+      // recomposes page containers from primitives + compositions (P3-FE-01).
+      entry: {
+        index: resolve(__dirname, "src/index.ts"),
+        "pages/index": resolve(__dirname, "src/pages/index.ts"),
+      },
       formats: ["es", "cjs"],
-      fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
+      fileName: (format, entryName) =>
+        `${entryName}.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: (id) =>

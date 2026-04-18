@@ -23,6 +23,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./pages": {
+      "types": "./dist/pages/index.d.ts",
+      "import": "./dist/pages/index.js",
+      "require": "./dist/pages/index.cjs"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "files": [
