@@ -100,13 +100,13 @@ const MOCK_SERVERS_MANY = Array.from({ length: 25 }, (_, i) => {
         ? ("error" as const)
         : ("ok" as const);
   const usersOnline = Math.floor(Math.random() * 20000);
-  const groups = ["us", "eu", "ap"];
+  const groups = ["us", "eu", "ap"] as const;
   return {
     id: `srv-${i}`,
     name: `edge-node-${i.toString().padStart(3, "0")}`,
     ip: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
     status,
-    fleetGroupId: groups[Math.floor(Math.random() * groups.length)],
+    fleetGroupId: groups[Math.floor(Math.random() * groups.length)] ?? groups[0],
     connections: usersOnline,
     usersOnline,
     usersTotal: usersOnline + Math.floor(Math.random() * 15000),

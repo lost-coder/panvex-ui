@@ -75,8 +75,8 @@ const mockServer = {
             { endpoint: "91.108.4.224:8888", activeWriters: 2 },
           ]
         : [
-            { endpoint: endpoints[0], activeWriters: isBad ? 1 : 2 },
-            { endpoint: endpoints[1], activeWriters: 1 },
+            { endpoint: endpoints[0]!, activeWriters: isBad ? 1 : 2 },
+            { endpoint: endpoints[1]!, activeWriters: 1 },
           ];
     return {
       dc,

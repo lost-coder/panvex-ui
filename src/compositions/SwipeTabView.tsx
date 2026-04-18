@@ -40,9 +40,10 @@ export function SwipeTabView({
 
   function go(direction: number) {
     const next = activeIndex + direction;
-    if (next < 0 || next >= tabs.length) return;
+    const target = tabs[next];
+    if (!target) return;
     setActiveIndex(next);
-    onTabChange?.(tabs[next].id);
+    onTabChange?.(target.id);
   }
 
   function handleDragEnd(_: unknown, info: PanInfo) {
@@ -81,11 +82,12 @@ export function SwipeTabView({
               else if (e.key === "ArrowLeft") next = i > 0 ? i - 1 : tabs.length - 1;
               else if (e.key === "Home") next = 0;
               else if (e.key === "End") next = tabs.length - 1;
-              if (next >= 0) {
+              const nextTab = next >= 0 ? tabs[next] : undefined;
+              if (nextTab) {
                 e.preventDefault();
                 setActiveIndex(next);
-                onTabChange?.(tabs[next].id);
-                document.getElementById(`tab-${tabs[next].id}`)?.focus();
+                onTabChange?.(nextTab.id);
+                document.getElementById(`tab-${nextTab.id}`)?.focus();
               }
             }}
           >
@@ -97,23 +99,29 @@ export function SwipeTabView({
       {/* Swipeable content */}
       <div className="relative flex-1 overflow-hidden">
         <AnimatePresence mode="popLayout" initial={false}>
-          <motion.div
-            key={tabs[activeIndex].id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            drag={swipeEnabled ? "x" : false}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={handleDragEnd}
-            className="w-full"
-            role="tabpanel"
-            id={`tabpanel-${tabs[activeIndex].id}`}
-            aria-labelledby={`tab-${tabs[activeIndex].id}`}
-          >
-            {tabs[activeIndex].content}
-          </motion.div>
+          {(() => {
+            const active = tabs[activeIndex];
+            if (!active) return null;
+            return (
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                drag={swipeEnabled ? "x" : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
+                className="w-full"
+                role="tabpanel"
+                id={`tabpanel-${active.id}`}
+                aria-labelledby={`tab-${active.id}`}
+              >
+                {active.content}
+              </motion.div>
+            );
+          })()}
         </AnimatePresence>
       </div>
     </div>

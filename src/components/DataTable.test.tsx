@@ -89,7 +89,9 @@ describe("DataTable a11y (P2-FE-07 / M-F6)", () => {
       />,
     );
     // Click the desktop <tr> via the visible "alpha" cell.
-    await user.click(screen.getAllByText("alpha")[0]);
+    const alphaCells = screen.getAllByText("alpha");
+    expect(alphaCells.length).toBeGreaterThan(0);
+    await user.click(alphaCells[0]!);
     expect(onRowClick).toHaveBeenCalled();
   });
 });

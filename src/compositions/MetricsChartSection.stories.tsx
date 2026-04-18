@@ -42,12 +42,13 @@ const RANGE_HOURS: Record<string, number> = { "1h": 1, "6h": 6, "24h": 24, "7d":
 
 function InteractiveChart() {
   const [range, setRange] = useState("6h");
-  const points = generatePoints(RANGE_HOURS[range] ?? 6);
+  const rangeHours = RANGE_HOURS[range] ?? 6;
+  const points = generatePoints(rangeHours);
   return (
     <div className="max-w-4xl">
       <MetricsChartSection
         points={points}
-        resolution={RANGE_HOURS[range] > 24 ? "hourly" : "raw"}
+        resolution={rangeHours > 24 ? "hourly" : "raw"}
         timeRange={range}
         onTimeRangeChange={setRange}
       />

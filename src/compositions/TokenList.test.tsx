@@ -48,7 +48,8 @@ describe("TokenList", () => {
     render(<TokenList tokens={[activeToken]} onRevoke={onRevoke} />);
 
     const revokeButtons = screen.getAllByRole("button", { name: /revoke/i });
-    await user.click(revokeButtons[0]);
+    expect(revokeButtons.length).toBeGreaterThan(0);
+    await user.click(revokeButtons[0]!);
     expect(onRevoke).toHaveBeenCalledWith(activeToken.value);
   });
 });

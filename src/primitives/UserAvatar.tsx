@@ -33,7 +33,8 @@ const palette = [
 function colorFromName(name: string): string {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return palette[Math.abs(hash) % palette.length];
+  // palette is non-empty (constant above), so modulo indexing always resolves.
+  return palette[Math.abs(hash) % palette.length] ?? palette[0]!;
 }
 
 export function UserAvatar({ name, size = "md", online, className }: UserAvatarProps) {

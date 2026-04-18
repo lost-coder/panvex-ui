@@ -66,9 +66,10 @@ export function DataTable<T>({
 
   const virtualItems = rowVirtualizer.getVirtualItems();
   const totalSize = rowVirtualizer.getTotalSize();
-  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0;
-  const paddingBottom =
-    virtualItems.length > 0 ? totalSize - virtualItems[virtualItems.length - 1].end : 0;
+  const firstVirtual = virtualItems[0];
+  const lastVirtual = virtualItems[virtualItems.length - 1];
+  const paddingTop = firstVirtual ? firstVirtual.start : 0;
+  const paddingBottom = lastVirtual ? totalSize - lastVirtual.end : 0;
 
   return (
     <>
@@ -132,6 +133,11 @@ export function DataTable<T>({
                 )}
                 {virtualItems.map((virtualRow) => {
                   const row = data[virtualRow.index];
+                  // The virtualizer is driven by `count: data.length`, so
+                  // every rendered virtual index maps to a real row. The
+                  // guard satisfies noUncheckedIndexedAccess without
+                  // complicating the render path.
+                  if (!row) return null;
                   return (
                     <tr
                       key={keyExtractor(row)}

@@ -45,38 +45,41 @@ function ConnectionLinksContent({
         </div>
       ) : (
         <div className="flex flex-col divide-y divide-border">
-          {activeLinks.map((d) => (
-            <div key={d.agentId} className="px-4 py-3 flex flex-col gap-1.5">
-              <span className="text-caption uppercase tracking-wider">{d.agentId}</span>
-              {d.links.tls.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">TLS</span>
-                  <span className="text-xs font-mono text-fg truncate min-w-0">
-                    {d.links.tls[0]}
-                  </span>
-                  <CopyButton text={d.links.tls[0]} />
-                </div>
-              )}
-              {d.links.classic.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">t.me</span>
-                  <span className="text-xs font-mono text-fg truncate min-w-0">
-                    {d.links.classic[0]}
-                  </span>
-                  <CopyButton text={d.links.classic[0]} />
-                </div>
-              )}
-              {d.links.secure.length > 0 && d.links.classic.length === 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">Proxy</span>
-                  <span className="text-xs font-mono text-fg truncate min-w-0">
-                    {d.links.secure[0]}
-                  </span>
-                  <CopyButton text={d.links.secure[0]} />
-                </div>
-              )}
-            </div>
-          ))}
+          {activeLinks.map((d) => {
+            const tlsFirst = d.links.tls[0];
+            const classicFirst = d.links.classic[0];
+            const secureFirst = d.links.secure[0];
+            return (
+              <div key={d.agentId} className="px-4 py-3 flex flex-col gap-1.5">
+                <span className="text-caption uppercase tracking-wider">{d.agentId}</span>
+                {tlsFirst && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">TLS</span>
+                    <span className="text-xs font-mono text-fg truncate min-w-0">{tlsFirst}</span>
+                    <CopyButton text={tlsFirst} />
+                  </div>
+                )}
+                {classicFirst && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">t.me</span>
+                    <span className="text-xs font-mono text-fg truncate min-w-0">
+                      {classicFirst}
+                    </span>
+                    <CopyButton text={classicFirst} />
+                  </div>
+                )}
+                {secureFirst && !classicFirst && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-fg-muted uppercase w-8 shrink-0">Proxy</span>
+                    <span className="text-xs font-mono text-fg truncate min-w-0">
+                      {secureFirst}
+                    </span>
+                    <CopyButton text={secureFirst} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -223,21 +226,21 @@ function DeploymentsContent({ deployments }: { deployments: ClientDeploymentData
       key: "link",
       header: "Links",
       render: (row: ClientDeploymentData) => {
-        const hasTls = row.links.tls.length > 0;
-        const hasClassic = row.links.classic.length > 0;
-        if (!hasTls && !hasClassic) return <span className="text-fg-muted text-xs">—</span>;
+        const tlsFirst = row.links.tls[0];
+        const classicFirst = row.links.classic[0];
+        if (!tlsFirst && !classicFirst) return <span className="text-fg-muted text-xs">—</span>;
         return (
           <span className="flex items-center gap-1">
-            {hasTls && (
+            {tlsFirst && (
               <>
                 <span className="text-[10px] text-fg-muted">TLS</span>
-                <CopyButton text={row.links.tls[0]} />
+                <CopyButton text={tlsFirst} />
               </>
             )}
-            {hasClassic && (
+            {classicFirst && (
               <>
                 <span className="text-[10px] text-fg-muted">t.me</span>
-                <CopyButton text={row.links.classic[0]} />
+                <CopyButton text={classicFirst} />
               </>
             )}
           </span>

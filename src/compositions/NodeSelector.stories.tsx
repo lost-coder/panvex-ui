@@ -39,11 +39,12 @@ export const Empty: Story = {
 
 export const ManyNodes: Story = {
   render: () => {
+    const fleetGroups = ["europe", "us-east", "asia-pacific", "default"] as const;
     const nodes = Array.from({ length: 50 }, (_, i) => ({
       id: String(i),
       name: `node-${String(i).padStart(3, "0")}`,
       status: (i % 10 === 0 ? "error" : i % 5 === 0 ? "warn" : "ok") as "ok" | "warn" | "error",
-      fleetGroup: ["europe", "us-east", "asia-pacific", "default"][i % 4],
+      fleetGroup: fleetGroups[i % fleetGroups.length]!,
     }));
     const [selected, setSelected] = useState<string[]>([]);
     return <NodeSelector nodes={nodes} selectedNodeIds={selected} onChange={setSelected} />;

@@ -95,7 +95,7 @@ describe("ClientFormSheet", () => {
     const nameInput = screen.getByPlaceholderText("e.g. premium-users");
     await user.type(nameInput, "a");
     expect(onChange).toHaveBeenCalled();
-    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]![0];
     expect(lastCall.name).toBe("a");
   });
 
@@ -173,7 +173,7 @@ describe("ClientFormSheet", () => {
     fireEvent.change(dateInput, { target: { value: "2024-03-15" } });
 
     expect(onChange).toHaveBeenCalled();
-    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1][0];
+    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1]![0];
     expect(typeof lastCall.expirationRfc3339).toBe("string");
     // The ISO string's date portion must equal the picked day for every
     // reasonable timezone, not just UTC.
