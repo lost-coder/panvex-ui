@@ -34,7 +34,7 @@ src/
 ## Tech stack
 
 - React 18/19, TypeScript 5.7
-- Tailwind CSS 3 with custom preset (tailwind.preset.js)
+- Tailwind CSS 4 via `@tailwindcss/vite` plugin; theme tokens in `src/index.css` via `@theme` / `@theme inline`
 - Radix UI primitives (@radix-ui/react-*)
 - Framer Motion / Motion for animation
 - Recharts for data visualization

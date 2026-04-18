@@ -1,11 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 import dts from "vite-plugin-dts";
 import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
     react(),
+    // P2-STYLE-01: Tailwind CSS v4 via the first-party Vite plugin.
+    // Replaces the old PostCSS-based pipeline (postcss.config.js +
+    // tailwindcss@3) and aligns with core/web which is already on v4.
+    tailwindcss(),
     dts({
       tsconfigPath: "./tsconfig.build.json",
       rollupTypes: true,

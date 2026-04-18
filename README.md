@@ -21,24 +21,32 @@ In your app entry point:
 import "@lost-coder/panvex-ui/styles.css";
 ```
 
-### 2. Tailwind preset
+### 2. Tailwind CSS v4
 
-In your `tailwind.config.ts`:
+This kit targets **Tailwind CSS 4** via the first-party Vite plugin. No
+`tailwind.config.ts` or PostCSS config is required — theme tokens are
+declared via the `@theme` directive in `styles.css` (already imported in
+step 1) and ship pre-built in `dist/styles.css`.
+
+In your app's Vite config:
 
 ```ts
-import type { Config } from "tailwindcss";
+import tailwindcss from "@tailwindcss/vite";
 
-const config: Config = {
-  presets: [require("@lost-coder/panvex-ui/tailwind-preset")],
-  content: [
-    "./src/**/*.{ts,tsx}",
-    "./node_modules/@lost-coder/panvex-ui/dist/**/*.js",
-  ],
-  // your overrides...
-};
-
-export default config;
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});
 ```
+
+And in your main CSS entry, after importing the kit styles:
+
+```css
+@import "@lost-coder/panvex-ui/styles.css";
+@import "tailwindcss";
+```
+
+Any additional `@theme` overrides in your app's CSS will layer on top of
+the kit defaults.
 
 ### 3. Fonts
 
@@ -153,7 +161,7 @@ When the UI kit adds a new CSS variable to `src/index.css`, the consuming app mu
 | `--color-border` | `rgba(255,255,255,0.06)` | `rgba(0,0,0,0.08)` | Subtle borders |
 | `--color-border-hi` | `rgba(255,255,255,0.1)` | `rgba(0,0,0,0.14)` | Prominent borders |
 
-Status colors (`--status-ok`, `--status-warn`, `--status-error`) and accent (`--accent`) are defined in `tailwind.config.ts` as static values, not CSS variables.
+Status colors (`--color-status-ok`, `--color-status-warn`, `--color-status-error`) and accent (`--color-accent`) are declared in the static `@theme` block of `src/index.css` as fixed values — they don't switch with the `.light` class.
 
 ## Development
 
